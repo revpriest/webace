@@ -45,6 +45,7 @@ class CommentController extends Zend_Controller_Action
       $vals['path']=substr($vals['url'],$firstslash+1);
       $cookie = Application_Model_DbTable_Cookie::getUserCookie();
       $vals['cookie']=$cookie->getId();
+      $vals['cookieObject']=$cookie;
       $vals['nick']=$cookie->getNick();
       $vals['email']=$cookie->getEmail();
       $vals['ip']=$_SERVER['REMOTE_ADDR'];
@@ -64,9 +65,17 @@ class CommentController extends Zend_Controller_Action
                     print "Error: $initVals";
                     exit;
                 }
-                $comment = new Application_Model_Comment($initVals);
-                $mapper  = new Application_Model_CommentMapper();
-                $mapper->save($comment);
+
+                if(substr($initVals['content'],0,1)=="/"){
+                  //Oh, special command!
+                  print $this->processCommand($initVals);
+                  exit;         //Don't wanna send any actual page, just the quick-reply to AJAX 
+                }else{
+                  //Just submit the comment.
+                  $comment = new Application_Model_Comment($initVals);
+                  $mapper  = new Application_Model_CommentMapper();
+                  $mapper->save($comment);
+                }
                 return $this->_helper->redirector('index');
             }
         }
@@ -74,6 +83,28 @@ class CommentController extends Zend_Controller_Action
     }
 
 
+    public function processCommand($vals){
+      /*******************************************************
+      * Do things like allow the user to set a /nick.
+      * and other special commands.
+      *
+      * $vals['content'] is the command itself.
+      * $vals['cookieObject'] is the cookie.
+      */
+      $commandStr = substr($vals['content'],1);
+      $params = explode(" ",$commandStr);
+      $command = array_shift($params);
+      switch($command){
+         case "nick":
+           $cookie=$vals['cookieObject'];
+           $x=implode(" ",$params);
+           $cookie->setNick($x);
+           $mapper  = new Application_Model_CookieMapper();
+           $mapper->save($cookie);
+           return "Changed nick to $x";
+      }
+      return "Unknown Command $command";
+    }
 
 }
 

@@ -14,9 +14,7 @@ class Application_Model_DbTable_Cookie extends Zend_Db_Table_Abstract
       if(isset($_COOKIE['cookieKey'])){
         $cookieKey = $_COOKIE['cookieKey'];
       }
-      print "Found CookieKey: -->$cookieKey<--<br/>\n";
       if((is_string($cookieKey))&&(strlen($cookieKey)>10)){
-        print "It's stringy and long<br/>\n";
         //Look up a hopefully existing cookie.
         $cookie = new Application_Model_CookieMapper();
         $cookie=$cookie->find($cookieKey);
@@ -31,7 +29,7 @@ class Application_Model_DbTable_Cookie extends Zend_Db_Table_Abstract
       $mapper = new Application_Model_CookieMapper();
       $mapper->save($cookie);
       $cookieKey = $cookie->getId();
-      setcookie('cookieKey',$cookieKey,time()+(7*24*60*60));
+      setcookie('cookieKey',$cookieKey,time()+(7*24*60*60),"/");
       return $cookie;
     }
 

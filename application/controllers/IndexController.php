@@ -18,11 +18,13 @@ class IndexController extends Zend_Controller_Action
         /*****************************************************
         * Logout, just clear the cookie basically.
         */
-        setcookie('cookieKey',"",time()+(7*24*60*60));
+        setcookie('cookieKey',"Logout",time()+(7*24*60*60),"/");
     }
 
 
 }
+
+
 
 
 
