@@ -1,0 +1,41 @@
+Each post will need:
+  * ID
+  * Domain
+  * Path
+  * cookie_id
+  * Nick
+  * Email
+  * IP
+  * Created_at
+  * Updated_at
+  * Reply_to -> For future expansion!
+  * Content
+    * CAN include img links and some formatting HTML
+
+* URLCache
+  * Domain
+  * Path
+  * Title
+  * Number of posts
+
+Cookies can be attached to:
+  * ID (Randstring NOT autoincrement)
+  * Nick
+  * Email
+  * Password (Crypted and salted of course)
+  * Show or hide images
+  * Show messages from Domain/Page
+  * Show or hide Anon/Semi-Anon
+  * Show or hide avatars
+
+Can reclaim a cookie using a password and email.
+
+Website needs comments by:
+  * Firehose
+  * All By This-Nick
+  * All By This-Email
+  * All By This-Domain
+  * All By This-URL
+All sortable by date and thread, all with calendar-widgets.
+  
+

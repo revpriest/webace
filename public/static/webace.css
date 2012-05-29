@@ -1,0 +1,42 @@
+#webace{
+  position: fixed;
+  top: 2000px;
+  left: 0px;
+  width: 400px;
+  margin-left: 20px;
+  background: #def;
+  border: 1px solid;
+  border-bottom: none;
+  z-index: 5000000000;
+  border-radius: 10px 10px 0 0 ;
+  -webkit-border-radius: 10px 10px 0 0;
+  -moz-border-radius: 10px 10px 0 0;
+  -khtml-border-radius: 10px 10px 0 0 
+}
+
+#webaceContent{
+  background: #def;
+  height: 20000px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+#webaceHandle h1{
+  border-bottom: 1px solid;
+  font-family: 'Arial', 'sans-serif';
+  font-size: 32px;
+  margin: 0;
+  text-align: center;
+  background: #def;
+  border-radius: 10px 10px 0 0;
+  -webkit-border-radius: 10px 10px 0 0 ;
+  -moz-border-radius: 10px 10px 0 0;
+  -khtml-border-radius: 10px 10px 0 0;
+}
+
+#webaceTextInput{
+  border-top: 1px solid;
+  text-align: center;
+}
