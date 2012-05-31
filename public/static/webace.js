@@ -221,6 +221,8 @@ function webaceSendNewMessage(){
   var text = dom.val();
   var done=false;
 
+  if(text==""){return;}		//Never send empty string, pointless.
+
   if(text[0]=="/"){
     done = webaceDoCommand(text.substr(1));
   }
@@ -287,15 +289,17 @@ function webaceSendMessage(params){
     cache: false,
     data: data,
     error:function(a,b,c){
-            webaceOutput("Poll Error:"+a+":"+b+":"+c+":"+params['domid']+":"+params['min']);
+	    //The CSRF seems to fail sometimes? Maybe? Try repeating it...
+            webaceOutput("Server Error, likely CSRF issue:"+a+":"+b+":"+c+":"+params['domid']+":"+params['min']);
           },
     success: function(json) {
       //Got the submit form, need to update our CSRF
+      webaceTicksSincePoll=0;
       if(json['success']=='true'){
         if(json['csrf']){webaceCSRF=json['csrf']};
         if(json['comments']){webaceAddComments(json['comments'],params['domid']);}
         if(json['command']){
-           webaceOutput("<i>System</i>: "+data['content']);
+           webaceOutput("<i>System</i>: "+json['content']);
 	}
       }else{ 
         webaceOutput("ERROR:"+json);
