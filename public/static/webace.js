@@ -148,10 +148,10 @@ function webaceFormatReply(data){
 * Fetch earlier comments, called when there's more
 * than will fit.
 */
-function webaceLoadEarlier(max,domid){
+function webaceLoadEarlier(min,domid){
   dom = $('#'+domid);
   dom.replaceWith('<div id="'+domid+'"></div>');
-  webaceSendMessage({max:max,domid:domid});
+  webaceSendMessage({min:min,domid:domid});
 }
 
 
