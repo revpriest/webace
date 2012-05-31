@@ -148,6 +148,7 @@ class CommentController extends Zend_Controller_Action
 
        $url = addslashes($this->getRequest()->getParam('url'));
        $max = (int)($this->getRequest()->getParam('maxCommentId'));
+       $min = (int)($this->getRequest()->getParam('minCommentId'));
 
        //Get all the comments for this URL that are higher in ID than $max.
        $comments = array();
@@ -156,7 +157,12 @@ class CommentController extends Zend_Controller_Action
          $mapper = new Application_Model_CommentMapper();
          $dom = addslashes($dp['domain']);
          $path = addslashes($dp['path']);
-         $rows = $mapper->findWhere("domain='".$dom."' and path='".$path."' and id>$max");
+	 if($min==null){
+	   $minmax="id > $max";
+	 }else{
+	   $minmax="id < $min";
+	 }
+         $rows = $mapper->findWhere("domain='".$dom."' and path='".$path."' and ".$minmax);
          foreach($rows as $r){
            $comments[]=$mapper->convertRowToArray($r);
          }

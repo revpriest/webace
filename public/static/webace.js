@@ -9,6 +9,7 @@ var webaceHandleHeight=38;
 var webaceTextEnterHeight=25;
 var webaceCSRF = "";
 var webaceMaxCommentID = 0;
+var webaceFirstPoll=true;
 
 var webaceHelpText = "Commands:<br/><dl><dt>/help</dt><dd>Show this text</dd>"+
                                        "<dt>/nick X</dt><dd>Change nickname to X</li>"+
@@ -114,8 +115,13 @@ function webaceCheckForEnterKey(e,command){
 /*********************************************
 * Output some text to the webAce console
 */
-function webaceOutput(text){
-  var dom = $("#webaceContent");
+function webaceOutput(text,domid){
+  var dom;
+  if(domid==null){
+    dom = $("#webaceContent");
+  }else{
+    dom=$('#'+domid)
+  }
   dom.append(text+"<hr/>");
   dom.animate({scrollTop: dom.attr("scrollHeight")},500);
 }
@@ -135,13 +141,33 @@ function webaceFormatReply(data){
 }
 
 
-/************************************************
-* Add some comments into the main chat pane
+
+/******************************************************
+* Fetch earlier comments, called when there's more
+* than will fit.
 */
-function webaceAddComments(comments){
+function webaceLoadEarlier(max,domid){
+  dom = $('#'+domid);
+  dom.replaceWith('<div id="'+domid+'"></div>');
+  webaceSendPoll(max,domid);
+}
+
+
+
+/************************************************
+* Add some comments into the main chat pane. 
+*/
+function webaceAddComments(comments,domid){
+  if((webaceFirstPoll)||(domid!=null)){
+    webaceFirstPoll=false;
+    if(comments.length>=5){
+      rid = webaceGetRandomString();
+      webaceOutput('<a class="webaceActionLink" href="javascript:webaceLoadEarlier('+comments[comments.length-1]['id']+',\''+rid+'\')" id="'+rid+'">[Load Earlier Comments]</a>',domid);
+    }
+  }
   for(var n=comments.length-1;n>=0;n--){
     var c = comments[n];
-    webaceOutput(webaceFormatReply(c));
+    webaceOutput(webaceFormatReply(c),domid);
     if(c['id']>webaceMaxCommentID){webaceMaxCommentID=c['id'];}
   }
 }
@@ -253,21 +279,26 @@ function webaceMoveOffBottom(){
 /***************************************************
 * Function to poll the server and check for new messages
 */
-function webaceSendPoll(){
-  webaceTicksSincePoll=0;
+function webaceSendPoll(min,domid){
+  var data;
+  if(min!=null){
+     data = "minCommentId="+min;
+  }else{
+     data = "maxCommentId="+webaceMaxCommentID;
+  }
   $.ajax({
     type: "POST",
     url: "/Comment/poll",
     dataType: "json",
     cache: false,
-    data: "maxCommentId="+webaceMaxCommentID+"&url="+encodeURIComponent($(location).attr('href')),
+    data: data+"&url="+encodeURIComponent($(location).attr('href')),
     error:function(a,b,c){
-            webaceOutput("Poll Error:"+a+":"+b+":"+c);
+            webaceOutput("Poll Error:"+a+":"+b+":"+c+":"+domid+":"+min);
           },
     success: function(json) {
       //Got the submit form, need to update our CSRF
       if(json['csrf']){webaceCSRF=json['csrf']};
-      if(json['comments']){webaceAddComments(json['comments']);}
+      if(json['comments']){webaceAddComments(json['comments'],domid);}
     }
   });
 }

@@ -1,3 +1,5 @@
+
+
 #webace{
   position: fixed;
   top: 2000px;
@@ -12,7 +14,10 @@
   -webkit-border-radius: 10px 10px 0 0;
   -moz-border-radius: 10px 10px 0 0;
   -khtml-border-radius: 10px 10px 0 0 
+   font-size: 20px;
 }
+
+
 
 #webaceContent{
   background: #def;
@@ -39,4 +44,17 @@
 #webaceTextInput{
   border-top: 1px solid;
   text-align: center;
+}
+
+.webaceActionLink{
+  text-align: center;
+  display: block;
+}
+.webaceActionLink::before{
+  content: "\21D1"; /*Hexadecimal for Unicode down arrow (&dArr;)*/
+  display: inline;
+}
+.webaceActionLink::after{
+  content: "\21D1"; /*Hexadecimal for Unicode down arrow (&dArr;)*/
+  display: inline;
 }
