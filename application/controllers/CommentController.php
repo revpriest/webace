@@ -66,7 +66,9 @@ class CommentController extends Zend_Controller_Action
       require '../library/htmlpurifier-4.4.0-lite/library/HTMLPurifier.auto.php';
       $config = HTMLPurifier_Config::createDefault();
       $purifier = new HTMLPurifier($config);
-      $config->set('HTML.Allowed', "b,i,strike,br,img[src]");
+      $config->set('HTML.Allowed', "a[href],b,i,strike,br,img[src|width|height]");
+      $config->set('HTML.MaxImgLength' , 250);
+      $config->set('CSS.MaxImgLength',"250px");
       $content = $purifier->purify( $content );
 
       $vals['content']=$content;
