@@ -132,13 +132,14 @@ function webaceOutput(text,domid){
 * markup and whatnot here.
 */
 function webaceFormatReply(data){
-  var reply = '<div id="webaceComment"'+data['id']+'">';
-  reply += "<b>"+data['nick'];
-  if((data['email'])&&(data['email']!="")){
-    reply+=" <"+data['email']+">";
+  var reply = '<div id="webaceComment"'+data['id']+'"><div class="webaceAvatar">';
+  if((data['email']!=null)&&(data['email']!="")){
+    reply+=" <img class=\"webaceAvatarImg\" src=\"http://www.gravatar.com/avatar/"+data['emailmd5']+"\" width=\"80\" height=\"80\" alt=\"Avatar\" /><br/>";
   }
-  reply+="</b>: "+data['content'];
-  reply+=' <span class="webaceDate">('+data['id']+" - "+data['created']+")</span>";
+  reply += "<b>"+data['nick']+"</b><br/>";
+  reply+=' <span class="webaceDate">('+data['created']+')</span>';
+  reply+="</div>";
+  reply+=data['content'];
   return reply;
 }
 

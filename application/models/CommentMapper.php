@@ -151,6 +151,9 @@ class Application_Model_CommentMapper{
       $entry['replyto']=$row->reply_to;
       $entry['created']=$row->created;
       $entry['updated']=$row->updated;
+      if($entry['email']){
+        $entry['emailmd5']=md5(strtolower($entry['email']));
+      }
        return $entry;
     }
 }
