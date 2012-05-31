@@ -1,5 +1,4 @@
 TODO
-* HTML escaping in nick email etc.
 * Dates on comments
 * Remove HTML from comments (save for allowed)
 * Stop comment dupe when returns comments you posted

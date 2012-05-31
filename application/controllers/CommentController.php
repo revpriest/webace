@@ -125,7 +125,8 @@ class CommentController extends Zend_Controller_Action
       switch($command){
          case "nick":
            $cookie=$vals['cookieObject'];
-           $x=implode(" ",$params);
+           $x=(implode(" ",$params));
+ 	   $x=preg_replace("/[^A-Za-z0-9\ \_\-]/","",$x);
            $cookie->setNick($x);
            $mapper  = new Application_Model_CookieMapper();
            $mapper->save($cookie);
