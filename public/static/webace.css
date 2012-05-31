@@ -46,6 +46,12 @@
   text-align: center;
 }
 
+.webaceDate{
+  font-size: 0.3em;
+  font-style: italic;
+}
+
+
 .webaceActionLink{
   text-align: center;
   display: block;

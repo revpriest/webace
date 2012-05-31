@@ -1,6 +1,4 @@
 TODO
-* Dates on comments
-* Remove HTML from comments (save for allowed)
 * Stop comment dupe when returns comments you posted
 * Add ability to attach email address (confirmed with email sent)
 * Add ability to set password

@@ -132,11 +132,13 @@ function webaceOutput(text,domid){
 * markup and whatnot here.
 */
 function webaceFormatReply(data){
-  var reply = "<b>"+data['nick'];
+  var reply = '<div id="webaceComment"'+data['id']+'">';
+  reply += "<b>"+data['nick'];
   if((data['email'])&&(data['email']!="")){
     reply+=" <"+data['email']+">";
   }
   reply+="</b>: "+data['content'];
+  reply+=' <span class="webaceDate">('+data['id']+" - "+data['created']+")</span>";
   return reply;
 }
 
@@ -149,7 +151,7 @@ function webaceFormatReply(data){
 function webaceLoadEarlier(max,domid){
   dom = $('#'+domid);
   dom.replaceWith('<div id="'+domid+'"></div>');
-  webaceSendPoll(max,domid);
+  webaceSendMessage({max:max,domid:domid});
 }
 
 
@@ -179,25 +181,7 @@ function webaceAddComments(comments,domid){
 * get it
 */
 function webacePostToServer(text){
-  $.ajax({
-    type: "POST",
-    url: "/Comment/submit",
-    dataType: "json",
-    cache: false,
-    data: "url="+encodeURIComponent($(location).attr('href'))+"&content="+text+"&csrf="+webaceCSRF,
-    error:function(a,b,c){
-            webaceOutput("ERROR:"+a+":"+b+":"+c);
-          },
-    success: function(data) {
-      if(data['success']=='true'){
-        webaceOutput(webaceFormatReply(data));
-      }else if(data['success']=='command'){
-        webaceOutput("<i>System</i>: "+data['content']);
-      }else{ 
-        webaceOutput("ERROR:"+data);
-      }
-    }
-  });
+  webaceSendMessage({url:"/Comment/submit",data:'&content='+text});
 }
 
 
@@ -277,28 +261,45 @@ function webaceMoveOffBottom(){
 
 
 /***************************************************
-* Function to poll the server and check for new messages
+* Function to send a message to the server, we
+* always include a poll to check for new messages
+* coz, why not? And we also always update the CSRF
+* for the posting form..
 */
-function webaceSendPoll(min,domid){
-  var data;
-  if(min!=null){
-     data = "minCommentId="+min;
+function webaceSendMessage(params){ 
+  if(params==null){params={};}
+  if(params['url']==null){params['url']="/Comment/poll";}
+  var data="url="+encodeURIComponent($(location).attr('href'))+"&csrf="+webaceCSRF;
+  if(params['data']!=null){
+    data+=params['data'];
+  }
+
+  //Always add data for a poll to a message and parse any replies.
+  if(params['min']!=null){
+     data += "&minCommentId="+params['min'];
   }else{
-     data = "maxCommentId="+webaceMaxCommentID;
+     data += "&maxCommentId="+webaceMaxCommentID;
   }
   $.ajax({
     type: "POST",
-    url: "/Comment/poll",
+    url: params['url'],
     dataType: "json",
     cache: false,
-    data: data+"&url="+encodeURIComponent($(location).attr('href')),
+    data: data,
     error:function(a,b,c){
-            webaceOutput("Poll Error:"+a+":"+b+":"+c+":"+domid+":"+min);
+            webaceOutput("Poll Error:"+a+":"+b+":"+c+":"+params['domid']+":"+params['min']);
           },
     success: function(json) {
       //Got the submit form, need to update our CSRF
-      if(json['csrf']){webaceCSRF=json['csrf']};
-      if(json['comments']){webaceAddComments(json['comments'],domid);}
+      if(json['success']=='true'){
+        if(json['csrf']){webaceCSRF=json['csrf']};
+        if(json['comments']){webaceAddComments(json['comments'],params['domid']);}
+        if(json['command']){
+           webaceOutput("<i>System</i>: "+data['content']);
+	}
+      }else{ 
+        webaceOutput("ERROR:"+json);
+      }
     }
   });
 }
@@ -313,7 +314,7 @@ var webaceTicksSincePoll=10000;  //Poll ASAP!
 function commsInterval(){
   //Poll the server? Once every 5 seconds for now. Something more dynamic soon.
   if(webaceTicksSincePoll++>5){
-    webaceSendPoll();
+    webaceSendMessage();
   }
 }
 

@@ -78,6 +78,12 @@ class CommentController extends Zend_Controller_Action
 
     public function submitAction()
     {
+        /*****************************************************
+        * Add a new comment to the database from a form,
+	* or if there's none supplied return the form.
+	* We then do a poll and send back the whole lot
+	* as JSON.
+	*/
         $request = $this->getRequest();
         $form    = new Application_Form_Comment();
  
@@ -93,15 +99,15 @@ class CommentController extends Zend_Controller_Action
                 if(substr($initVals['content'],0,1)=="/"){
                   //Oh, special command!
                   $reply = $this->processCommand($initVals);
-                  $this->getHelper('json')->sendJSON(array("success"=>"command","command"=>$initVals['content'],"content"=>$reply));
+                  $this->doPollingStuffAndOutputJSON(array("command"=>$initVals['content'],
+						           "content"=>$reply));
                 }else{
                   //Just submit the comment.
                   $comment = new Application_Model_Comment($initVals);
                   $mapper  = new Application_Model_CommentMapper();
                   $mapper->save($comment);
                 }
-                $this->getHelper('json')->sendJSON(array("success"=>"true",
-                                                         "content"=>$comment->getContent(),
+                $this->doPollingStuffAndOutputJSON(array("content"=>$comment->getContent(),
                                                          "nick"=>$comment->getNick(),
                                                          "email"=>$comment->getEmail(),
                                                         ));
@@ -135,15 +141,19 @@ class CommentController extends Zend_Controller_Action
       return "Unknown Command $command";
     }
 
-    public function pollAction()
+
+
+    public function doPollingStuffAndOutputJSON($jsonArray=array())
     {
-       /************************************************************
-       * The poll action. We return a JSON object with data like
-       * a lovely CSRF token and any new messages that popped up.
+       /***************************************************************
+       * Every actions wants to return the polling data I reckon,
+       * say if there's any new posts, update the CSRF etc.
+       * so they all call this. Even the pollAction, which does
+       * very little lese.
        */
-       $form    = new Application_Form_Comment();
-       $e = $form->getElement('csrf');
-       foreach($form as $n=>$v){        //Only seems to give us the value when we inspect it first.
+       $this->pollForm    = new Application_Form_Comment();
+       $e = $this->pollForm->getElement('csrf');
+       foreach($this->pollForm as $n=>$v){        //Only seems to give us the value when we inspect it first.
          $a = "$n $v\n";
        }
 
@@ -152,7 +162,7 @@ class CommentController extends Zend_Controller_Action
        $min = (int)($this->getRequest()->getParam('minCommentId'));
 
        //Get all the comments for this URL that are higher in ID than $max.
-       $comments = array();
+       $this->comments = array();
        $dp = $this->convertUrlToDP($url);
        if(is_array($dp)){
          $mapper = new Application_Model_CommentMapper();
@@ -165,14 +175,23 @@ class CommentController extends Zend_Controller_Action
 	 }
          $rows = $mapper->findWhere("domain='".$dom."' and path='".$path."' and ".$minmax);
          foreach($rows as $r){
-           $comments[]=$mapper->convertRowToArray($r);
+           $this->comments[]=$mapper->convertRowToArray($r);
          }
        }
+       $this->getHelper('json')->sendJSON(array_merge($jsonArray,array("success"=>"true",
+                                          "comments"=>$this->comments,
+                                          "success"=>"true",
+                                          "csrf"=>$this->pollForm->getValue('csrf'))));
 
-       $this->getHelper('json')->sendJSON(array("success"=>"true",
-                                          "comments"=>$comments,
-                                          "csrf"=>$form->getValue('csrf'))
-                                          );
+    }
+
+    public function pollAction()
+    {
+       /************************************************************
+       * The poll action. We return a JSON object with data like
+       * a lovely CSRF token and any new messages that popped up.
+       */
+       $this->doPollingStuffAndOutputJSON();
     }
 
 
