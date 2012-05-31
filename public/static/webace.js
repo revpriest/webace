@@ -139,7 +139,7 @@ function webaceFormatReply(data){
 * Add some comments into the main chat pane
 */
 function webaceAddComments(comments){
-  for(var n in comments){
+  for(var n=comments.length-1;n>=0;n--){
     var c = comments[n];
     webaceOutput(webaceFormatReply(c));
     if(c['id']>webaceMaxCommentID){webaceMaxCommentID=c['id'];}

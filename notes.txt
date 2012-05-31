@@ -1,6 +1,5 @@
 TODO
 * Limit initial number of comments
-* Limit size of allowed embedded img
 * "Fetch earlier" comments at the top
 * Dates on comments
 * Remove HTML from comments (save for allowed)
@@ -19,6 +18,18 @@ Blog Post Stuff:
  * CSRF system won't allow two-window operation
    * May need to custom roll one
  * zend_db_Select for fetching rows
+ * htmlpurifier
+    * This is how we include it:
+      $config = HTMLPurifier_Config::createDefault();
+      $purifier = new HTMLPurifier($config);
+      $config->set('HTML.Allowed', "a[href],b,i,strike,br,img[src|width|height]");
+      $config->set('HTML.MaxImgLength' , 250);
+      $config->set('CSS.MaxImgLength',"250px");
+      $content = $purifier->purify( $content );
+    * We allow links, CR etc, and images with max sizes.
+      * Takes care of href=script attacks, images too
+	large are removed in CSS, image-tag widths and
+	heights are limited. 
 
 
 Each post will need:
