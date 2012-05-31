@@ -7,6 +7,8 @@ var webaceTopZ = 5500;
 var webacePaneHeight = 20000;       //WAY off bottom
 var webaceHandleHeight=38;
 var webaceTextEnterHeight=25;
+var webaceCSRF = "";
+var webaceMaxCommentID = 0;
 
 var webaceHelpText = "Commands:<br/><dl><dt>/help</dt><dd>Show this text</dd>"+
                                        "<dt>/nick X</dt><dd>Change nickname to X</li>"+
@@ -113,9 +115,36 @@ function webaceCheckForEnterKey(e,command){
 * Output some text to the webAce console
 */
 function webaceOutput(text){
-  $("#webaceContent").append(text+"<hr/>");
+  var dom = $("#webaceContent");
+  dom.append(text+"<hr/>");
+  dom.animate({scrollTop: dom.attr("scrollHeight")},500);
 }
 
+
+/*************************************************
+* Format a reply read for printing. We add HTML
+* markup and whatnot here.
+*/
+function webaceFormatReply(data){
+  var reply = "<b>"+data['nick'];
+  if((data['email'])&&(data['email']!="")){
+    reply+=" <"+data['email']+">";
+  }
+  reply+="</b>: "+data['content'];
+  return reply;
+}
+
+
+/************************************************
+* Add some comments into the main chat pane
+*/
+function webaceAddComments(comments){
+  for(var n in comments){
+    var c = comments[n];
+    webaceOutput(webaceFormatReply(c));
+    if(c['id']>webaceMaxCommentID){webaceMaxCommentID=c['id'];}
+  }
+}
 
 /*************************************************
 * Post To Server - Send a string to the server,
@@ -124,13 +153,33 @@ function webaceOutput(text){
 * get it
 */
 function webacePostToServer(text){
-  webaceOutput("You: "+text);
+  $.ajax({
+    type: "POST",
+    url: "/Comment/submit",
+    dataType: "json",
+    cache: false,
+    data: "url="+encodeURIComponent($(location).attr('href'))+"&content="+text+"&csrf="+webaceCSRF,
+    error:function(a,b,c){
+            webaceOutput("ERROR:"+a+":"+b+":"+c);
+          },
+    success: function(data) {
+      if(data['success']=='true'){
+        webaceOutput(webaceFormatReply(data));
+      }else if(data['success']=='command'){
+        webaceOutput("<i>System</i>: "+data['content']);
+      }else{ 
+        webaceOutput("ERROR:"+data);
+      }
+    }
+  });
 }
 
 
 /***************************************************
 * Execute a command - change nick, show help, 
-* anything else that ends up here.
+* anything else that ends up here. Return true
+* if this was completed here, false will send
+* it to the server for completing there.
 */
 function webaceDoCommand(wholeCommand){
   var command = wholeCommand;
@@ -142,11 +191,14 @@ function webaceDoCommand(wholeCommand){
       case "help":
         webaceOutput(webaceHelpText);
         break;
+      case "csrf":
+        webaceOutput("Current CSRF: "+webaceCSRF);
+        break;
       default:
-        webaceOutput("Unknown command: "+command);
-        
+        return false;
     }
   }
+  return true;
 }
 
 
@@ -157,13 +209,14 @@ function webaceDoCommand(wholeCommand){
 function webaceSendNewMessage(){
   var dom=$("#webaceTextInputField");
   var text = dom.val();
+  var done=false;
 
   if(text[0]=="/"){
-    webaceDoCommand(text.substr(1));
-  }else{
+    done = webaceDoCommand(text.substr(1));
+  }
+  if(!done){
     webacePostToServer(text);
   }
-
   dom.val("");
   dom.focus();
 }
@@ -172,13 +225,6 @@ function webaceSendNewMessage(){
 
 
 
-/*********************************************
-* Success of the poll brings us here. We update
-* the CSRF and pop out any new chat messages
-* and stuff like that
-*/
-function webacePollDone(c){
-}
 
 
 /*******************************************
@@ -209,6 +255,21 @@ function webaceMoveOffBottom(){
 */
 function webaceSendPoll(){
   webaceTicksSincePoll=0;
+  $.ajax({
+    type: "POST",
+    url: "/Comment/poll",
+    dataType: "json",
+    cache: false,
+    data: "maxCommentId="+webaceMaxCommentID+"&url="+encodeURIComponent($(location).attr('href')),
+    error:function(a,b,c){
+            webaceOutput("Poll Error:"+a+":"+b+":"+c);
+          },
+    success: function(json) {
+      //Got the submit form, need to update our CSRF
+      if(json['csrf']){webaceCSRF=json['csrf']};
+      if(json['comments']){webaceAddComments(json['comments']);}
+    }
+  });
 }
 
 

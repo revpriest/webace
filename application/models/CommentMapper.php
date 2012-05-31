@@ -86,33 +86,71 @@ class Application_Model_CommentMapper{
                 ->setUpdated($row->updated);
     }
 
+
+    /*************************************************
+    * Find a bunch of rows based on a where clause
+    */
+    public function findWhere($where){
+      $select=$this->getDbTable()->select()->where($where);
+      return $this->getDbTable()->fetchAll($select);
+    }
+
     /***************************************************
     * Grab everything from the DB table and put it into
     * an array of model objects. This has a lot of
     * ->setX($row->X) lines which are duplicated above.
-    * Maybe they sould be taken into a function of their
+    * Maybe they sould be taken in
+        $comment = to a function of their
     * own?
     */ 
     public function fetchAll() {
         $resultSet = $this->getDbTable()->fetchAll();
         $entries   = array();
         foreach ($resultSet as $row) {
-            $entry = new Application_Model_Comment();
-            $entry->setId($row->id)
-                  ->setDomain($row->domain)
-                  ->setPath($row->path)
-                  ->setCookie($row->cookie)
-                  ->setNick($row->nick)
-                  ->setEmail($row->email)
-                  ->setIp($row->ip)
-                  ->setContent($row->content)
-                  ->setReplyTo($row->reply_to)
-                  ->setCreated($row->created)
-                  ->setUpdated($row->updated);
+            $entry = $this->convertRowToObject($row);
             $entries[] = $entry;
         }
         return $entries;
     }
 
+
+    /************************************************
+    * Convert a database row into a proper object to
+    * return
+    */
+    public function convertRowToObject($row){
+      $entry = new Application_Model_Comment();
+      $entry->setId($row->id)
+            ->setDomain($row->domain)
+            ->setPath($row->path)
+            ->setCookie($row->cookie)
+            ->setNick($row->nick)
+            ->setEmail($row->email)
+            ->setIp($row->ip)
+            ->setContent($row->content)
+            ->setReplyTo($row->reply_to)
+            ->setCreated($row->created)
+            ->setUpdated($row->updated);
+       return $entry;
+    }
+
+    /************************************************
+    * Convert a database row into an array
+    */
+    public function convertRowToArray($row){
+      $entry = array();
+      $entry['id']     =$row->id;
+      $entry['domain'] =$row->domain;
+      $entry['path']   =$row->path;
+      $entry['cookie'] =$row->cookie;
+      $entry['nick']   =$row->nick;
+      $entry['email']  =$row->email;
+      $entry['ip']     =$row->ip;
+      $entry['content']=$row->content;
+      $entry['replyto']=$row->reply_to;
+      $entry['created']=$row->created;
+      $entry['updated']=$row->updated;
+       return $entry;
+    }
 }
 

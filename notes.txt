@@ -1,3 +1,26 @@
+TODO
+* Limit initial number of comments
+* Limit size of allowed embedded img
+* "Fetch earlier" comments at the top
+* Dates on comments
+* Remove HTML from comments (save for allowed)
+* Stop comment dupe when returns comments you posted
+* Add ability to attach email address (confirmed with email sent)
+* Add ability to set password
+* Add avatar for those with email address
+* Add avatar for those with certain nicks??
+* Add auto-post-to-twitter
+* Add auto-post-to-facebook
+
+
+
+Blog Post Stuff:
+ * Creating a new action with "zf create action" zapps all my out-of-function comments!
+ * CSRF system won't allow two-window operation
+   * May need to custom roll one
+ * zend_db_Select for fetching rows
+
+
 Each post will need:
   * ID
   * Domain

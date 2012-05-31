@@ -27,28 +27,50 @@ class CommentController extends Zend_Controller_Action
         $this->view->comments = $comment->fetchAll();
     }
 
-    public function formDataToObjectData($vals){
+
+    public function convertUrlToDP($url){
+      if(substr($url,0,7)!="http://"){
+        return "Comment can't be attached to invalid URL: ".$url;
+      }
+      $firstslash=strpos($url,'/',7);
+      if($firstslash===false){
+        return "Comment can't be attached to this invalid URL: ".$url;
+      }
+      $ret = array();
+      $ret['domain']=substr($url,7,$firstslash-7);
+      $ret['path']=substr($url,$firstslash+1);
+      return $ret;
+    }
+
+    public function formDataToObjectData($vals)
+    {
       /*****************************************************************
       * A form has a single 'url' field, and a comment object
       * has separate 'domain' and 'path' fields. There are doubtless
       * other differences too. Here we convert that form data into
       * something that'll instantiate a comment model object.
       */
-      if(substr($vals['url'],0,7)!="http://"){
-        return "Comment can't be attached to invalid URL";
-      }
-      $firstslash=strpos($vals['url'],'/',7);
-      if($firstslash===false){
-        return "Comment can't be attached to invalid URL.";
-      }
-      $vals['domain']=substr($vals['url'],7,$firstslash-7);
-      $vals['path']=substr($vals['url'],$firstslash+1);
+      $dp = $this->convertUrlToDP($vals['url']);
+      if(is_string($dp)){return $dp;}
+      $vals['domain']=$dp['domain'];
+      $vals['path']=$dp['path'];
       $cookie = Application_Model_DbTable_Cookie::getUserCookie();
       $vals['cookie']=$cookie->getId();
       $vals['cookieObject']=$cookie;
       $vals['nick']=$cookie->getNick();
       $vals['email']=$cookie->getEmail();
       $vals['ip']=$_SERVER['REMOTE_ADDR'];
+      $content = $vals['content'];
+
+      #Purify the HTML with a lovely library...
+      require '../library/htmlpurifier-4.4.0-lite/library/HTMLPurifier.auto.php';
+      $config = HTMLPurifier_Config::createDefault();
+      $purifier = new HTMLPurifier($config);
+      $config->set('HTML.Allowed', "b,i,strike,br,img[src]");
+      $content = $purifier->purify( $content );
+
+      $vals['content']=$content;
+
       return $vals;
     }
 
@@ -68,22 +90,26 @@ class CommentController extends Zend_Controller_Action
 
                 if(substr($initVals['content'],0,1)=="/"){
                   //Oh, special command!
-                  print $this->processCommand($initVals);
-                  exit;         //Don't wanna send any actual page, just the quick-reply to AJAX 
+                  $reply = $this->processCommand($initVals);
+                  $this->getHelper('json')->sendJSON(array("success"=>"command","command"=>$initVals['content'],"content"=>$reply));
                 }else{
                   //Just submit the comment.
                   $comment = new Application_Model_Comment($initVals);
                   $mapper  = new Application_Model_CommentMapper();
                   $mapper->save($comment);
                 }
-                return $this->_helper->redirector('index');
+                $this->getHelper('json')->sendJSON(array("success"=>"true",
+                                                         "content"=>$comment->getContent(),
+                                                         "nick"=>$comment->getNick(),
+                                                         "email"=>$comment->getEmail(),
+                                                        ));
             }
         }
         $this->view->form = $form;
     }
 
-
-    public function processCommand($vals){
+    public function processCommand($vals)
+    {
       /*******************************************************
       * Do things like allow the user to set a /nick.
       * and other special commands.
@@ -106,6 +132,43 @@ class CommentController extends Zend_Controller_Action
       return "Unknown Command $command";
     }
 
+    public function pollAction()
+    {
+       /************************************************************
+       * The poll action. We return a JSON object with data like
+       * a lovely CSRF token and any new messages that popped up.
+       */
+       $form    = new Application_Form_Comment();
+       $e = $form->getElement('csrf');
+       foreach($form as $n=>$v){        //Only seems to give us the value when we inspect it first.
+         $a = "$n $v\n";
+       }
+
+       $url = addslashes($this->getRequest()->getParam('url'));
+       $max = (int)($this->getRequest()->getParam('maxCommentId'));
+
+       //Get all the comments for this URL that are higher in ID than $max.
+       $comments = array();
+       $dp = $this->convertUrlToDP($url);
+       if(is_array($dp)){
+         $mapper = new Application_Model_CommentMapper();
+         $dom = addslashes($dp['domain']);
+         $path = addslashes($dp['path']);
+         $rows = $mapper->findWhere("domain='".$dom."' and path='".$path."' and id>$max");
+         foreach($rows as $r){
+           $comments[]=$mapper->convertRowToArray($r);
+         }
+       }
+
+       $this->getHelper('json')->sendJSON(array("success"=>"true",
+                                          "comments"=>$comments,
+                                          "csrf"=>$form->getValue('csrf'))
+                                          );
+    }
+
+
 }
+
+
 
 

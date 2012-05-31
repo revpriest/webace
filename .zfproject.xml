@@ -16,6 +16,7 @@
         <controllerFile controllerName="Comment">
           <actionMethod actionName="index"/>
           <actionMethod actionName="submit"/>
+          <actionMethod actionName="poll"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false">
@@ -55,7 +56,8 @@
           <viewControllerScriptsDirectory forControllerName="Index">
             <viewScriptFile forActionName="logout"/>
           </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Index">
+          <viewControllerScriptsDirectory forControllerName="Comment">
+            <viewScriptFile forActionName="poll"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
@@ -98,6 +100,7 @@
           <testApplicationControllerFile forControllerName="Comment">
             <testApplicationActionMethod forActionName="index"/>
             <testApplicationActionMethod forActionName="submit"/>
+            <testApplicationActionMethod forActionName="poll"/>
           </testApplicationControllerFile>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
