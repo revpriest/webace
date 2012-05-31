@@ -28,6 +28,7 @@
           <dbTableFile dbTableName="Comment"/>
           <dbTableFile dbTableName="Cookie"/>
           <dbTableFile dbTableName="Urlcache"/>
+          <dbTableFile dbTableName="EmailHash"/>
         </dbTableDirectory>
         <modelFile modelName="CommentMapper"/>
         <modelFile modelName="CookieMapper"/>
@@ -36,6 +37,8 @@
         <modelFile modelName="Coookie"/>
         <modelFile modelName="Urlcache"/>
         <modelFile modelName="Cookie"/>
+        <modelFile modelName="EmailHashMapper"/>
+        <modelFile modelName="EmailHash"/>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <viewsDirectory>

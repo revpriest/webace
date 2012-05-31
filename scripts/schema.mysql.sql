@@ -1,3 +1,15 @@
+CREATE TABLE IF NOT EXISTS `emailhash` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cookie` varchar(64) NOT NULL,
+  `email` varchar(64) NOT NULL,
+  `hash` varchar(64) NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (id),
+  KEY `emailhash_index` (`hash`),
+  KEY `emailhash_created_index` (`created`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+
 CREATE TABLE IF NOT EXISTS `urlcache` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `domain` varchar(255) NOT NULL,

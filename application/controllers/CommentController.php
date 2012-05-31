@@ -128,15 +128,51 @@ class CommentController extends Zend_Controller_Action
       $commandStr = substr($vals['content'],1);
       $params = explode(" ",$commandStr);
       $command = array_shift($params);
+      $cookie=$vals['cookieObject'];
       switch($command){
+
+	 /**************************************************
+         * change Nickname command.
+  	 */
          case "nick":
-           $cookie=$vals['cookieObject'];
            $x=(implode(" ",$params));
  	   $x=preg_replace("/[^A-Za-z0-9\ \_\-]/","",$x);
            $cookie->setNick($x);
            $mapper  = new Application_Model_CookieMapper();
            $mapper->save($cookie);
            return "Changed nick to $x";
+
+	 /**************************************************
+         * Attach email address command.
+  	 */ 
+         case "email":
+	   $x=$params[0];
+	   $validator = new Zend_Validate_EmailAddress();
+	   if ($validator->isValid($x)) {
+	      // email appears to be valid
+	      $nick=$cookie->getNick();
+
+	      //Create the confirmation hash
+	      $hash = new Application_Model_EmailHash();
+	      $hash->setCookie($cookie->getId());
+	      $hash->setEmail($x);
+	      $mapper = new Application_Model_EmailHashMapper();
+	      $mapper->save($hash);
+
+	      //What's the email look like?
+	      $emailBody = "Hi there!\n\nYou (or someone pretending to be you) asked webace to confirm your email. Click here to confirm this is really you: http://webace.dalliance.net/Email/confirm?hash=".$hash->getHash()."\n\nIf it was't you, sorry. Ignore this.";
+	      
+	      //Send off the confirmation
+	      $mail = new Zend_Mail();
+              $mail->setBodyText($emailBody)
+                   ->setFrom('pre@dalliance.net', 'WebAce')
+                   ->addTo($x, $nick)
+                   ->setSubject("Confirm your email address for webace $nick");
+              $mail->send();
+	      return "Sent confirmation email to ".htmlentities($x)." -> It'll probably be in your <b>spam folder</b> soon.";
+           }else{
+	      return htmlentities($x)." isn't a valid email address.";
+	   }
       }
       return "Unknown Command $command";
     }
