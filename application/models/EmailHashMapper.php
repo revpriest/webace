@@ -39,8 +39,8 @@ class Application_Model_EmailHashMapper {
  
     public function find($hash, Application_Model_EmailHash $emailhash) {
       $select=$this->getDbTable()->select()->where("hash='".$hash."'");
-      $result = $this->getDbTable()->fetchOne($select);
-      if($result==null){return;}
+      $result = $this->getDbTable()->fetchAll($select);
+      if(sizeof($result)<=0){return;}
       $row = $result->current();
       $emailhash->setId($row->id)
                 ->setHash($row->hash)

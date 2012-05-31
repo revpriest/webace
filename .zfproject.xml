@@ -18,6 +18,9 @@
           <actionMethod actionName="submit"/>
           <actionMethod actionName="poll"/>
         </controllerFile>
+        <controllerFile controllerName="Email">
+          <actionMethod actionName="confirm"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false">
         <formFile formName="Comment"/>
@@ -62,6 +65,9 @@
           <viewControllerScriptsDirectory forControllerName="Comment">
             <viewScriptFile forActionName="poll"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Email">
+            <viewScriptFile forActionName="confirm"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -104,6 +110,9 @@
             <testApplicationActionMethod forActionName="index"/>
             <testApplicationActionMethod forActionName="submit"/>
             <testApplicationActionMethod forActionName="poll"/>
+          </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Email">
+            <testApplicationActionMethod forActionName="confirm"/>
           </testApplicationControllerFile>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>

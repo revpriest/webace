@@ -7,6 +7,7 @@ class Application_Model_EmailHash
   protected $_hash;
   protected $_cookie;
   protected $_created;
+  protected $_cookieObj=null;
 
     public function __construct(array $options = null) {
         if (is_array($options)) {
@@ -81,6 +82,15 @@ class Application_Model_EmailHash
  
     public function getCookie() {
         return $this->_cookie;
+    }
+    public function fetchCookieObject() {
+        if($this->_cookieObj!=null){
+          return $this->_cookieObj;
+        }else{
+          $mapper = new Application_Model_CookieMapper();
+          $this->_cookieObj=$mapper->find($this->_cookie);
+          return $this->_cookieObj;
+        }
     }
  
     public function setCreated($ts)
