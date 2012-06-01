@@ -1,6 +1,7 @@
 
 
 #webace{
+  font: 13px/1.231 arial,helvetica,clean,sans-serif;
   position: fixed;
   top: 2000px;
   left: 0px;
@@ -19,8 +20,6 @@
 }
 
 
-
-
 #webaceContent{
   background: #def;
   height: 20000px;
@@ -30,10 +29,11 @@
   padding-right: 1em;
 }
 
-#webaceHandle h1{
+#webace h1{
+  font: 30px/1.231 arial,helvetica,clean,sans-serif;
+  color: black;
   border-bottom: 1px solid;
   font-family: 'Arial', 'sans-serif';
-  font-size: 32px;
   margin: 0;
   text-align: center;
   background: #def;
@@ -45,6 +45,10 @@
 
 #webace hr{
   clear: both;
+  color: black;
+  background-color: black;
+  height: 1px;
+  width: 100%;
 }
 
 #webaceTextInput{

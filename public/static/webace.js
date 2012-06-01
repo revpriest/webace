@@ -123,7 +123,7 @@ function webaceOutput(text,domid){
     dom=$('#'+domid)
   }
   dom.append(text+"<hr/>");
-  dom.animate({scrollTop: dom.outerHeight()},500);
+  dom.animate({scrollTop: dom.prop("scrollHeight")},500);
 }
 
 

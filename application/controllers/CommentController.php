@@ -29,6 +29,9 @@ class CommentController extends Zend_Controller_Action
 
 
     public function convertUrlToDP($url){
+      if(substr($url,0,8)=="https://"){
+        $url="http://".substr($url,8);
+      }
       if(substr($url,0,7)!="http://"){
         return "Comment can't be attached to invalid URL: ".$url;
       }
