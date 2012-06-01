@@ -1,7 +1,4 @@
 
-#webace hr{
-  clear: both;
-}
 
 #webace{
   position: fixed;
@@ -17,9 +14,10 @@
   -webkit-border-radius: 10px 10px 0 0;
   -moz-border-radius: 10px 10px 0 0;
   -khtml-border-radius: 10px 10px 0 0 
-   font-size: 20px;
+  font-size: 100%:
   box-shadow: -6px 3px rgba(0,0,0,0.3);
 }
+
 
 
 
@@ -43,6 +41,10 @@
   -webkit-border-radius: 10px 10px 0 0 ;
   -moz-border-radius: 10px 10px 0 0;
   -khtml-border-radius: 10px 10px 0 0;
+}
+
+#webace hr{
+  clear: both;
 }
 
 #webaceTextInput{

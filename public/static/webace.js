@@ -123,7 +123,7 @@ function webaceOutput(text,domid){
     dom=$('#'+domid)
   }
   dom.append(text+"<hr/>");
-  dom.animate({scrollTop: dom.attr("scrollHeight")},500);
+  dom.animate({scrollTop: dom.outerHeight()},500);
 }
 
 
@@ -287,9 +287,10 @@ function webaceSendMessage(params){
   $.ajax({
     type: "POST",
     url: params['url'],
-    beforeSend: function(xhr) {
-        xhr.withCredentials=true;
+    xhrFields: {
+       withCredentials: true
     },
+    crossDomain: true,
     dataType: "json",
     cache: false,
     data: data,
@@ -297,18 +298,9 @@ function webaceSendMessage(params){
             webaceTicksSincePoll=0;
             var error = "";
             for(i in a){
-                try{
-                  error+=i+"=>"+a[i]+"<br/>\n";
-                }catch(e){
-                }
+                try{ error+="<b>"+i+"</b> => "+a[i]+"<br/>\n"; }catch(e){ }
             }
-            for(i in a['upload']){
-                try{
-                  error+=i+"=>"+a['upload'][i]+"<br/>\n";
-                }catch(e){
-                }
-            }
-            webaceOutput("Server Error, likely CSRF Issue:"+b+":"+c+":<br/>"+error+"\n"+params['url']+":"+data);
+            webaceOutput("Server communication error:<br/><b>"+b+"</b><br/>"+error+"\n"+params['url']+":"+data);
     },
     success: function(json) {
       //Got the submit form, need to update our CSRF
@@ -374,7 +366,7 @@ function webaceStart() {
 */
 function webaceIncludeJquery() {
   //Check for and include the lovely jQuery....
-  var v = "1.3.2"; // Jquery Version
+  var v = "1.7.2"; // Jquery Version
   if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
     var done = false;
     var script = document.createElement("script");
