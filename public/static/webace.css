@@ -58,13 +58,12 @@
 
 .webaceAvatarImg{
   width: 80px;
-  margin-left: 6px;
 }
 
 .webaceAvatar{
   float: left;
   padding: 2px;
-  width: 95px;
+  width: 100px;
   overflow: hidden;
   border: 1px solid;
   margin: 2px;
@@ -79,7 +78,7 @@
 }
 
 .webaceDate{
-  font-size: 0.3em;
+  font: 8px/1.231 arial,helvetica,clean,sans-serif;
   font-style: italic;
 }
 
@@ -95,4 +94,9 @@
 .webaceActionLink::after{
   content: "\21D1"; /*Hexadecimal for Unicode down arrow (&dArr;)*/
   display: inline;
+}
+
+#webace dt{
+  color: red;
+  font-weight: bold;
 }

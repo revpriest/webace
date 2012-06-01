@@ -16,6 +16,8 @@ class Application_Model_Cookie {
     protected $_id;
     protected $_nick;
     protected $_email;
+    protected $_displaymode;
+    protected $_savename;
     protected $_password;
     protected $_twitter;
     protected $_facebook;
@@ -81,6 +83,14 @@ class Application_Model_Cookie {
         $this->_nick = (string) $text;
         return $this;
     }
+    public function setDisplayMode($dm) {
+        $this->_displaymode = (int)$dm;
+        return $this;
+    }
+    public function setSaveName($text) {
+        $this->_savename = (string) $text;
+        return $this;
+    }
     public function setEmail($text) {
         $this->_email = (string) $text;
         return $this;
@@ -116,6 +126,12 @@ class Application_Model_Cookie {
     }
     public function getNick() {
         return $this->_nick;
+    }
+    public function getDisplayMode() {
+        return $this->_displaymode;
+    }
+    public function getSaveName() {
+        return $this->_savename;
     }
     public function getEmail() {
         return $this->_email;

@@ -14,8 +14,13 @@ var webaceFirstPoll=true;
 var webaceHelpText = "Commands:<br/><dl><dt>/help</dt><dd>Show this text</dd>"+
                                        "<dt>/nick X</dt><dd>Change nickname to X</li>"+
                                        "<dt>/email X@Y</dt><dd>Change your email to X@Y. "+
-                                                      "You will need to confirm it, your "+
-                                                       "avatar will be from gravatar.com</dd>"+
+                                            "You will need to confirm it with an emailed link.<br/>"+
+                                             "users with email get avatars from "+
+                                             "<a href=\"http://gravatar.com\">Gravatar.com</a></dd>"+
+                                       "<dt>/mode X</dt><dd>Change display mode to X, X is:<br/>"+
+                                             "0 = Show new comments to this single page.<br/>"+
+                                             "1 = Show new comments to this whole site.<br/>"+
+                                             "2 = Show all comments everywhere in the internet.</li>"+
                                         "</ul>";
 
 /**************************************************

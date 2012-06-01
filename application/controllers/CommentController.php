@@ -181,6 +181,21 @@ class CommentController extends Zend_Controller_Action
              }else{
                return htmlentities($x)." isn't a valid email address.";
          	 }
+
+
+         /**************************************************
+         * Set display mode command.
+         */
+         case "mode":
+           if(sizeof($params)==0){
+             return "Current displaymode is ".$cookie->getDisplayMode();
+           }
+           $x=(int)($params[0]);
+           $cookie->setDisplayMode($x);
+           $mapper  = new Application_Model_CookieMapper();
+           $mapper->save($cookie);
+           return "Changed displaymode changed to $x";
+
       }/*endSwitch*/
       return "Unknown Command $command";
     }

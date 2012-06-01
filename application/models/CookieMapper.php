@@ -41,6 +41,8 @@ class Application_Model_CookieMapper{
         $data = array(
             'id'       => $cookie->getId(),
             'nick'     => $cookie->getNick(),
+            'displaymode' => $cookie->getDisplayMode(),
+            'savename' => $cookie->getSaveName(),
             'email'    => $cookie->getEmail(),
             'password' => $cookie->getPassword(),
             'twitter'  => $cookie->getTwitter(),
@@ -77,6 +79,8 @@ class Application_Model_CookieMapper{
         $cookie->setId($row->id)
                ->setNick($row->nick)
                ->setEmail($row->email)
+               ->setDisplayMode($row->displaymode)
+               ->setSaveName($row->savename)
                ->setPassword($row->password)
                ->setTwitter($row->twitter)
                ->setFacebook($row->facebook)
@@ -102,6 +106,8 @@ class Application_Model_CookieMapper{
                   ->setNick($row->nick)
                   ->setEmail($row->email)
                   ->setPassword($row->password)
+                  ->setDisplayMode($row->displaymode)
+                  ->setSaveName($row->savename)
                   ->setTwitter($row->twitter)
                   ->setFacebook($row->facebook)
                   ->setCCEmail($row->ccemail)

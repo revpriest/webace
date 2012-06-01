@@ -28,8 +28,10 @@ CREATE TABLE IF NOT EXISTS `urlcache` (
 CREATE TABLE IF NOT EXISTS `cookie` (
   `id` varchar(64) NOT NULL,
   `nick` varchar(64),
+  `displaymode` int(11),
   `email` varchar(255),
   `password` varchar(255),
+  `savename` varchar(255),
   `twitter` text,
   `facebook` text,
   `ccemail` text,

@@ -1,12 +1,41 @@
 
-
-
-TODO
 * Option to display and post to WholeDomain or JustThis Page
+  * How should this work? 
+    * Posting: 
+      * On page: Posts to this page
+      * On domain: Need to click a 'reply-to' radio-button (including "this page" in header)
+    * Reading:
+      * On page: Only shows things posted to this page
+      * On domain: Shows things posted to entire domain.
+                   All posts have reply-to radio-button.
+      * All: Shows things posted to the entire web
+                   All posts have reply-to radio-button.
+
+
+    
+
+
+TODO:
+* Website needs comments by:
+  * Firehose
+  * All By This-Nick
+  * All By This-Email
+  * All By This-Domain
+  * All By This-URL
 * Add avatar for those with certain nicks??
 * Add ability to set password
 * Add auto-post-to-twitter
 * Add auto-post-to-facebook
+* Post on help pages some code to auto-embed it to your website
+* Spam filters, inevitably
+* User-lists: view all stuff by this list of users
+* View all stuff by top-rated?
+  * Implies some rating stuff
+* Clean up "commands" stuff, it needs a proper parser
+  most likely, certainly at least each case calling a
+  different function.
+
+
 
 
 
@@ -34,45 +63,4 @@ Blog Post Stuff:
     * Also need to add "WithCredentials" to the Ajax post.
 
 
-
-Each post will need:
-  * ID
-  * Domain
-  * Path
-  * cookie_id
-  * Nick
-  * Email
-  * IP
-  * Created_at
-  * Updated_at
-  * Reply_to -> For future expansion!
-  * Content
-    * CAN include img links and some formatting HTML
-
-* URLCache
-  * Domain
-  * Path
-  * Title
-  * Number of posts
-
-Cookies can be attached to:
-  * ID (Randstring NOT autoincrement)
-  * Nick
-  * Email
-  * Password (Crypted and salted of course)
-  * Show or hide images
-  * Show messages from Domain/Page
-  * Show or hide Anon/Semi-Anon
-  * Show or hide avatars
-
-Can reclaim a cookie using a password and email.
-
-Website needs comments by:
-  * Firehose
-  * All By This-Nick
-  * All By This-Email
-  * All By This-Domain
-  * All By This-URL
-All sortable by date and thread, all with calendar-widgets.
-  
 
