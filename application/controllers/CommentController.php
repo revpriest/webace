@@ -78,12 +78,13 @@ class CommentController extends Zend_Controller_Action
 
     public function submitAction()
     {
-        /*****************************************************
-        * Add a new comment to the database from a form,
-	* or if there's none supplied return the form.
-	* We then do a poll and send back the whole lot
-	* as JSON.
-	*/
+       /*****************************************************
+       * Add a new comment to the database from a form,
+       * or if there's none supplied return the form.
+       * We then do a poll and send back the whole lot
+       * as JSON.
+       */
+        $this->allowAccessControl();
         $request = $this->getRequest();
         $form    = new Application_Form_Comment();
  
@@ -116,6 +117,8 @@ class CommentController extends Zend_Controller_Action
         $this->view->form = $form;
     }
 
+
+
     public function processCommand($vals)
     {
       /*******************************************************
@@ -131,52 +134,71 @@ class CommentController extends Zend_Controller_Action
       $cookie=$vals['cookieObject'];
       switch($command){
 
-	 /**************************************************
+         /**************************************************
          * change Nickname command.
-  	 */
+         */
          case "nick":
            $x=(implode(" ",$params));
- 	   $x=preg_replace("/[^A-Za-z0-9\ \_\-]/","",$x);
+           $x=preg_replace("/[^A-Za-z0-9\ \_\-]/","",$x);
            $cookie->setNick($x);
            $mapper  = new Application_Model_CookieMapper();
            $mapper->save($cookie);
            return "Changed nick to $x";
 
-	 /**************************************************
+         /**************************************************
          * Attach email address command.
-  	 */ 
+         */ 
          case "email":
-	   $x=$params[0];
-	   $validator = new Zend_Validate_EmailAddress();
-	   if ($validator->isValid($x)) {
-	      // email appears to be valid
-	      $nick=$cookie->getNick();
+            $x=$params[0];
+            $validator = new Zend_Validate_EmailAddress();
+            if ($validator->isValid($x)) {
+              // email appears to be valid
+              $nick=$cookie->getNick();
 
-	      //Create the confirmation hash
-	      $hash = new Application_Model_EmailHash();
-	      $hash->setCookie($cookie->getId());
-	      $hash->setEmail($x);
-	      $mapper = new Application_Model_EmailHashMapper();
-	      $mapper->save($hash);
+              //Create the confirmation hash
+              $hash = new Application_Model_EmailHash();
+              $hash->setCookie($cookie->getId());
+              $hash->setEmail($x);
+              $mapper = new Application_Model_EmailHashMapper();
+              $mapper->save($hash);
 
-	      //What's the email look like?
-	      $emailBody = "Hi there!\n\nYou (or someone pretending to be you) asked webace to confirm your email. Click here to confirm this is really you: http://webace.dalliance.net/Email/confirm?hash=".$hash->getHash()."\n\nIf it was't you, sorry. Ignore this.";
-	      
-	      //Send off the confirmation
-	      $mail = new Zend_Mail();
+              //What's the email look like?
+              $emailBody = "Hi there!\n\nYou (or someone pretending to be you) asked webace to confirm your email. Click here to confirm this is really you: http://webace.dalliance.net/Email/confirm?hash=".$hash->getHash()."\n\nIf it was't you, sorry. Ignore this.";
+
+              //Send off the confirmation
+              $mail = new Zend_Mail();
               $mail->setBodyText($emailBody)
                    ->setFrom('pre@dalliance.net', 'WebAce')
                    ->addTo($x, $nick)
                    ->setSubject("Confirm your email address for webace $nick");
               $mail->send();
-	      return "Sent confirmation email to ".htmlentities($x)." -> It'll probably be in your <b>spam folder</b> soon.";
-           }else{
-	      return htmlentities($x)." isn't a valid email address.";
-	   }
-      }
+              return "Sent confirmation email to ".htmlentities($x)." -> It'll probably be in your <b>spam folder</b> soon.";
+             }else{
+               return htmlentities($x)." isn't a valid email address.";
+         	 }
+      }/*endSwitch*/
       return "Unknown Command $command";
     }
 
+
+    private function allowAccessControl(){ 
+      /*******************************************************************
+      * Check if this is from a non-local source, and add the
+      * headers to say we're okay with that if it is.
+      */
+       $origin = $this->getRequest()->getHeader('Origin');
+       //$logWriter = new Zend_Log_Writer_Stream('../log.txt');
+       //$logger = new Zend_Log($logWriter);
+       //$logger->log("Checking AccessControl from $origin",Zend_Log::INFO);
+       if(($origin!=null)&&($origin!="")){
+          //$logger->log("From $origin, allowing access",Zend_Log::INFO);
+          $this->getResponse()->setHeader("Access-Control-Max-Age","1728000",true)
+                              ->setHeader("Access-Control-Allow-Origin",$origin,true)
+                              ->setHeader("Access-Control-Allow-Credentials", "true",true)
+                              ->setHeader("Access-Control-Allow-Methods","POST, GET, OPTIONS",true)
+                              ->setHeader("Access-Control-Allow-Headers", "Authorization, Origin, Accept, Content-Type, X-Requested-With, X-HTTP-Method-Override,Set-Cookie,Cookie",true);
+       }
+    }
 
 
     public function doPollingStuffAndOutputJSON($jsonArray=array())
@@ -187,15 +209,18 @@ class CommentController extends Zend_Controller_Action
        * so they all call this. Even the pollAction, which does
        * very little lese.
        */
+
        $this->pollForm    = new Application_Form_Comment();
        $e = $this->pollForm->getElement('csrf');
        foreach($this->pollForm as $n=>$v){        //Only seems to give us the value when we inspect it first.
          $a = "$n $v\n";
        }
+     
 
        $url = addslashes($this->getRequest()->getParam('url'));
        $max = (int)($this->getRequest()->getParam('maxCommentId'));
        $min = (int)($this->getRequest()->getParam('minCommentId'));
+
 
        //Get all the comments for this URL that are higher in ID than $max.
        $this->comments = array();
@@ -204,21 +229,21 @@ class CommentController extends Zend_Controller_Action
          $mapper = new Application_Model_CommentMapper();
          $dom = addslashes($dp['domain']);
          $path = addslashes($dp['path']);
-	 if($min==null){
-	   $minmax="id > $max";
-	 }else{
-	   $minmax="id < $min";
-	 }
+         if($min==null){
+           $minmax="id > $max";
+         }else{
+           $minmax="id < $min";
+         }
          $rows = $mapper->findWhere("domain='".$dom."' and path='".$path."' and ".$minmax);
          foreach($rows as $r){
            $this->comments[]=$mapper->convertRowToArray($r);
          }
        }
-       $this->getHelper('json')->sendJSON(array_merge($jsonArray,array("success"=>"true",
+       $sendArray = array_merge($jsonArray,array(
                                           "comments"=>$this->comments,
                                           "success"=>"true",
-                                          "csrf"=>$this->pollForm->getValue('csrf'))));
-
+                                          "csrf"=>$this->pollForm->getValue('csrf')));
+       $this->getHelper('json')->sendJSON($sendArray);
     }
 
     public function pollAction()
@@ -227,6 +252,7 @@ class CommentController extends Zend_Controller_Action
        * The poll action. We return a JSON object with data like
        * a lovely CSRF token and any new messages that popped up.
        */
+       $this->allowAccessControl();
        $this->doPollingStuffAndOutputJSON();
     }
 

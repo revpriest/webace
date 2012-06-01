@@ -1,8 +1,10 @@
+
+
+
 TODO
-* Add ability to attach email address (confirmed with email sent)
-* Add ability to set password
-* Add avatar for those with email address
+* Option to display and post to WholeDomain or JustThis Page
 * Add avatar for those with certain nicks??
+* Add ability to set password
 * Add auto-post-to-twitter
 * Add auto-post-to-facebook
 
@@ -25,6 +27,12 @@ Blog Post Stuff:
       * Takes care of href=script attacks, images too
 	large are removed in CSS, image-tag widths and
 	heights are limited. 
+  * Cross Origin Resource Sharing.
+    When you launch webace from another domain, all the requests are send
+    with Origin: headers, which we need to echo back with "Access-Control-Allow-Origin" headers
+    There's a OPTIONS call before the POST call too.
+    * Also need to add "WithCredentials" to the Ajax post.
+
 
 
 Each post will need:

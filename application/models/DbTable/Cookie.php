@@ -25,7 +25,7 @@ class Application_Model_DbTable_Cookie extends Zend_Db_Table_Abstract
       //For one reason or another we can't trace their
       //Cookie. Best make a new one, so we send 'null' to
       //let the model make one up.
-      $cookie = new Application_Model_Cookie(array('id'=>null,'ip'=>$_SERVER['REMOTE_ADDR'],'nick'=>"anonymous_".self::generateRandomKey(3)));
+      $cookie = new Application_Model_Cookie(array('id'=>null,'ip'=>$_SERVER['REMOTE_ADDR'],'nick'=>"Anon_".self::generateRandomKey(6)));
       $mapper = new Application_Model_CookieMapper();
       $mapper->save($cookie);
       $cookieKey = $cookie->getId();

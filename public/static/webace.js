@@ -182,7 +182,7 @@ function webaceAddComments(comments,domid){
 * get it
 */
 function webacePostToServer(text){
-  webaceSendMessage({url:"/Comment/submit",data:'&content='+text});
+  webaceSendMessage({url:"http://webace.dalliance.net/Comment/submit",data:'&content='+text});
 }
 
 
@@ -271,8 +271,9 @@ function webaceMoveOffBottom(){
 */
 function webaceSendMessage(params){ 
   if(params==null){params={};}
-  if(params['url']==null){params['url']="/Comment/poll";}
-  var data="url="+encodeURIComponent($(location).attr('href'))+"&csrf="+webaceCSRF;
+  if(params['url']==null){params['url']="http://webace.dalliance.net/Comment/poll";}
+  var myurl=encodeURIComponent($(location).attr('href'));
+  var data="url="+myurl+"&csrf="+webaceCSRF;
   if(params['data']!=null){
     data+=params['data'];
   }
@@ -286,13 +287,29 @@ function webaceSendMessage(params){
   $.ajax({
     type: "POST",
     url: params['url'],
+    beforeSend: function(xhr) {
+        xhr.withCredentials=true;
+    },
     dataType: "json",
     cache: false,
     data: data,
     error:function(a,b,c){
-	    //The CSRF seems to fail sometimes? Maybe? Try repeating it...
-            webaceOutput("Server Error, likely CSRF issue:"+a+":"+b+":"+c+":"+params['domid']+":"+params['min']);
-          },
+            webaceTicksSincePoll=0;
+            var error = "";
+            for(i in a){
+                try{
+                  error+=i+"=>"+a[i]+"<br/>\n";
+                }catch(e){
+                }
+            }
+            for(i in a['upload']){
+                try{
+                  error+=i+"=>"+a['upload'][i]+"<br/>\n";
+                }catch(e){
+                }
+            }
+            webaceOutput("Server Error, likely CSRF Issue:"+b+":"+c+":<br/>"+error+"\n"+params['url']+":"+data);
+    },
     success: function(json) {
       //Got the submit form, need to update our CSRF
       webaceTicksSincePoll=0;
@@ -301,7 +318,7 @@ function webaceSendMessage(params){
         if(json['comments']){webaceAddComments(json['comments'],params['domid']);}
         if(json['command']){
            webaceOutput("<i>System</i>: "+json['content']);
-	}
+	    }
       }else{ 
         webaceOutput("ERROR:"+json);
       }

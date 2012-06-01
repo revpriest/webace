@@ -18,6 +18,7 @@
   -moz-border-radius: 10px 10px 0 0;
   -khtml-border-radius: 10px 10px 0 0 
    font-size: 20px;
+  box-shadow: -6px 3px rgba(0,0,0,0.3);
 }
 
 
@@ -67,6 +68,7 @@
   -webkit-border-radius: 50px
   -moz-border-radius: 5px;
   -khtml-border-radius: 5px;
+  box-shadow: -4px 4px #abc;
 }
 
 .webaceDate{
