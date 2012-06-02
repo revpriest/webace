@@ -8,6 +8,8 @@ TODO:
   * All By This-Email
   * All By This-Domain
   * All By This-URL
+* Launch webace-on-a-page type links?
+* Redo CSRF for multiple-windows.
 * Add ability to set save state, with password protection
 * Add auto-post-to-email
 * Add auto-post-to-twitter
