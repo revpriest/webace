@@ -136,13 +136,17 @@ class Application_Model_CommentMapper{
     }
 
     /************************************************
-    * Convert a database row into an array
+    * Convert a database row into an array. If there's
+    * a cookie, include a 'url' too.
     */
-    public function convertRowToArray($row){
+    public function convertRowToArray($row,$cookie){
       $entry = array();
       $entry['id']     =$row->id;
       $entry['domain'] =$row->domain;
       $entry['path']   =$row->path;
+      if(($cookie->getDisplayMode()!=null)&&($cookie->getDisplayMode()>0)){
+        $entry['url'] = $row->domain.$row->path;
+      }
       $entry['cookie'] =$row->cookie;
       $entry['nick']   =$row->nick;
       $entry['email']  =$row->email;

@@ -1,33 +1,20 @@
 
-* Option to display and post to WholeDomain or JustThis Page
-  * How should this work? 
-    * Posting: 
-      * On page: Posts to this page
-      * On domain: Need to click a 'reply-to' radio-button (including "this page" in header)
-    * Reading:
-      * On page: Only shows things posted to this page
-      * On domain: Shows things posted to entire domain.
-                   All posts have reply-to radio-button.
-      * All: Shows things posted to the entire web
-                   All posts have reply-to radio-button.
-
-
-    
-
 
 TODO:
+* Set display-modes by name.
 * Website needs comments by:
   * Firehose
   * All By This-Nick
   * All By This-Email
   * All By This-Domain
   * All By This-URL
-* Add avatar for those with certain nicks??
-* Add ability to set password
+* Add ability to set save state, with password protection
+* Add auto-post-to-email
 * Add auto-post-to-twitter
 * Add auto-post-to-facebook
+* Add avatar for those with certain nicks??
 * Post on help pages some code to auto-embed it to your website
-* Spam filters, inevitably
+* Spam filters, inevitably, eventually.
 * User-lists: view all stuff by this list of users
 * View all stuff by top-rated?
   * Implies some rating stuff

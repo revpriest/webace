@@ -1,32 +1,33 @@
 //Set up some systems to allow dragging the pane
 //up and down. We can't just use draggable() coz
 //it goes all wonky with position:fixed divs :(
-var webaceDragging = false;  //Is the pane being moved?
+var webaceDragging = false;
 var webaceDragY = -1;
 var webaceTopZ = 5500;
-var webacePaneHeight = 20000;       //WAY off bottom
+var webacePaneHeight = 20000;
 var webaceHandleHeight=38;
 var webaceTextEnterHeight=25;
 var webaceCSRF = "";
 var webaceMaxCommentID = 0;
 var webaceFirstPoll=true;
+var webaceReplyUrl=null;
 
 var webaceHelpText = "Commands:<br/><dl><dt>/help</dt><dd>Show this text</dd>"+
                                        "<dt>/nick X</dt><dd>Change nickname to X</li>"+
                                        "<dt>/email X@Y</dt><dd>Change your email to X@Y. "+
                                             "You will need to confirm it with an emailed link.<br/>"+
-                                             "users with email get avatars from "+
+                                             "Users with email get avatars from "+
                                              "<a href=\"http://gravatar.com\">Gravatar.com</a></dd>"+
                                        "<dt>/mode X</dt><dd>Change display mode to X, X is:<br/>"+
                                              "0 = Show new comments to this single page.<br/>"+
                                              "1 = Show new comments to this whole site.<br/>"+
                                              "2 = Show all comments everywhere in the internet.</li>"+
-                                        "</ul>";
+                                        "</dl>";
 
 /**************************************************
 * Some HTML chunks
 */
-var webaceMainDiv = '<div id="webace"><div id="webaceHandle"><h1>&uarr; webAce &uarr;</h1></div><div id="webaceContent"><br/>Type /help for help<hr/></div><div id="webaceTextInput"><input id="webaceTextInputField" onKeyPress="javascript:webaceCheckForEnterKey(event,\'webaceSendNewMessage()\')" size="40"/><input id="webaceTextInputSend" type="submit" onclick="javascript:webaceSendNewMessage()" value="Send" /></div></div>';
+var webaceMainDiv = '<div id="webace"><div title="Click or drag handle" id="webaceHandle"><h1><a href="http://webace.dalliance.net.">webAce</a></h1></div><div id="webaceContent"><br/>Type /help for help<hr/></div><div id="webaceTextInput"><input id="webaceTextInputField" onKeyPress="javascript:webaceCheckForEnterKey(event,\'webaceSendNewMessage()\')" size="40"/><input id="webaceTextInputSend" type="submit" onclick="javascript:webaceSendNewMessage()" value="Send" /></div></div>';
 
 
 
@@ -132,17 +133,33 @@ function webaceOutput(text,domid){
 }
 
 
+/***************************************************
+* Set the reply-to when the user clicks a reply
+* radio button
+*/
+function webaceSetReply(url){
+  webaceReplyUrl=url;
+}
+
+
 /*************************************************
 * Format a reply read for printing. We add HTML
 * markup and whatnot here.
 */
 function webaceFormatReply(data){
-  var reply = '<div id="webaceComment"'+data['id']+'"><div class="webaceAvatar">';
+  var reply = '<div id="webaceComment"'+data['id']+'">';
+  if(data['url']){
+    //Multi-mode! We need to point out this may not have been a comment to THIS page.
+    reply+='<span class="webaceToPage" title="Not Posted To Your Current Page.">';
+    reply+='<input type="radio" name="webaceReplyUrl" onclick="webaceSetReply(\''+data['url']+'\')" title="Click to reply to this comment/page" />';
+    reply+='To: <a href="'+data['url']+'">'+data['url']+'</a></span>';
+  }
+  reply+='<div class="webaceAvatar">';
   if((data['email']!=null)&&(data['email']!="")){
     reply+=" <img class=\"webaceAvatarImg\" src=\"http://www.gravatar.com/avatar/"+data['emailmd5']+"\" width=\"80\" height=\"80\" alt=\"Avatar\" /><br/>";
   }
   reply += "<b>"+data['nick']+"</b><br/>";
-  reply+=' <span class="webaceDate">('+data['created']+')</span>';
+  reply+='<span class="webaceDate">('+data['created']+')</span>';
   reply+="</div>";
   reply+=data['content'];
   return reply;
@@ -209,6 +226,9 @@ function webaceDoCommand(wholeCommand){
         break;
       case "csrf":
         webaceOutput("Current CSRF: "+webaceCSRF);
+        break;
+      case "replyurl":
+        webaceOutput("Current Reply-Url: "+webaceReplyUrl);
         break;
       default:
         return false;
@@ -277,7 +297,11 @@ function webaceMoveOffBottom(){
 function webaceSendMessage(params){ 
   if(params==null){params={};}
   if(params['url']==null){params['url']="http://webace.dalliance.net/Comment/poll";}
-  var myurl=encodeURIComponent($(location).attr('href'));
+  myurl = webaceReplyUrl;
+  if(myurl==null){
+    //Default to the current page.
+    myurl=encodeURIComponent($(location).attr('href'));
+  }
   var data="url="+myurl+"&csrf="+webaceCSRF;
   if(params['data']!=null){
     data+=params['data'];
@@ -346,6 +370,15 @@ function commsInterval(){
 function webaceStart() {
   //Include the CSS
   $("body").prepend('<link type="text/css" rel="stylesheet" media="all" href="http://webace.dalliance.net/static/webace.css" />');
+
+  //Include the google web font...
+  WebFontConfig = { google: { families: [ 'Oleo+Script::latin' ] } };
+  var wf = document.createElement('script');
+  wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+  wf.type = 'text/javascript';
+  wf.async = 'true';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(wf, s);
 
   $("html").prepend(webaceMainDiv);                   //Add the main webace div.
   webaceAnimatePane(100);

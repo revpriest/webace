@@ -29,19 +29,22 @@ class CommentController extends Zend_Controller_Action
 
 
     public function convertUrlToDP($url){
-      if(substr($url,0,8)=="https://"){
-        $url="http://".substr($url,8);
-      }
-      if(substr($url,0,7)!="http://"){
-        return "Comment can't be attached to invalid URL: ".$url;
-      }
-      $firstslash=strpos($url,'/',7);
-      if($firstslash===false){
+      /***************************************************************
+      * Split a URL into it's domain and path. Actually we don't
+      * really care to do it properly. We just need to separate
+      * "On this website" from "On another website" so we'll just
+      * split into two at the third slash. If there aren't any
+      * slasshes, it's invalid.
+      */
+      $firstslash = strpos($url,"/");
+      $secondslash = strpos($url,"/",$firstslash+1);
+      $thirdslash = strpos($url,"/",$secondslash+1);
+      if($thirdslash===false){
         return "Comment can't be attached to this invalid URL: ".$url;
       }
       $ret = array();
-      $ret['domain']=substr($url,7,$firstslash-7);
-      $ret['path']=substr($url,$firstslash+1);
+      $ret['domain']=substr($url,0,$thirdslash);
+      $ret['path']=substr($url,$thirdslash);
       return $ret;
     }
 
@@ -230,17 +233,16 @@ class CommentController extends Zend_Controller_Action
        * very little lese.
        */
 
+       $cookie = Application_Model_DbTable_Cookie::getUserCookie();
        $this->pollForm    = new Application_Form_Comment();
        $e = $this->pollForm->getElement('csrf');
        foreach($this->pollForm as $n=>$v){        //Only seems to give us the value when we inspect it first.
          $a = "$n $v\n";
        }
-     
 
        $url = addslashes($this->getRequest()->getParam('url'));
        $max = (int)($this->getRequest()->getParam('maxCommentId'));
        $min = (int)($this->getRequest()->getParam('minCommentId'));
-
 
        //Get all the comments for this URL that are higher in ID than $max.
        $this->comments = array();
@@ -254,9 +256,17 @@ class CommentController extends Zend_Controller_Action
          }else{
            $minmax="id < $min";
          }
-         $rows = $mapper->findWhere("domain='".$dom."' and path='".$path."' and ".$minmax);
+         if($cookie->getDisplayMode()==2){
+           //All posts from the entire internet!? Are ou CRAZY!
+           $rows = $mapper->findWhere($minmax);
+         }else if($cookie->getDisplayMode()==1){
+           //All posts to any page on this domain. Sorted.
+           $rows = $mapper->findWhere("domain='".$dom."' and ".$minmax);
+         }else{
+           $rows = $mapper->findWhere("domain='".$dom."' and path='".$path."' and ".$minmax);
+         }
          foreach($rows as $r){
-           $this->comments[]=$mapper->convertRowToArray($r);
+           $this->comments[]=$mapper->convertRowToArray($r,$cookie);
          }
        }
        $sendArray = array_merge($jsonArray,array(
