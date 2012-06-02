@@ -191,13 +191,22 @@ class CommentController extends Zend_Controller_Action
          */
          case "mode":
            if(sizeof($params)==0){
-             return "Current displaymode is ".$cookie->getDisplayMode();
+             return "Current displaymode is ".$cookie->getDisplayMode()."(".$cookie->getDisplayModeName().")";
            }
+           //Some names for the modes:
+           if(strcasecmp($params[0],"page")==0){$params[0]=0;}
+           if(strcasecmp($params[0],"single-page")==0){$params[0]=0;}
+           if(strcasecmp($params[0],"domain")==0){$params[0]=1;}
+           if(strcasecmp($params[0],"whole-domain")==0){$params[0]=1;}
+           if(strcasecmp($params[0],"net")==0){$params[0]=2;}
+           if(strcasecmp($params[0],"internet")==0){$params[0]=2;}
+           if(strcasecmp($params[0],"whole-internet")==0){$params[0]=2;}
+           if(strcasecmp($params[0],"whole-net")==0){$params[0]=2;}
            $x=(int)($params[0]);
            $cookie->setDisplayMode($x);
            $mapper  = new Application_Model_CookieMapper();
            $mapper->save($cookie);
-           return "Changed displaymode changed to $x";
+           return "Changed displaymode changed to $x (".$cookie->getDisplayModeName().")";
 
       }/*endSwitch*/
       return "Unknown Command $command";

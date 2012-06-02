@@ -1,7 +1,6 @@
 
 
 TODO:
-* Set display-modes by name.
 * Website needs comments by:
   * Firehose
   * All By This-Nick

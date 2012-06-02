@@ -130,6 +130,15 @@ class Application_Model_Cookie {
     public function getDisplayMode() {
         return $this->_displaymode;
     }
+    public function getDisplayModeName() {
+        switch($this->_displaymode){
+          case null:
+          case 0: return "Single-Page";
+          case 1: return "Whole-Domain";
+          case 2: return "Whole-Internet";
+        }
+        return "Unknown";
+    }
     public function getSaveName() {
         return $this->_savename;
     }
