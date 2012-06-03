@@ -14,7 +14,6 @@ TODO:
 * Add auto-post-to-twitter
 * Add auto-post-to-facebook
 * Add avatar for those with certain nicks??
-* Post on help pages some code to auto-embed it to your website
 * Spam filters, inevitably, eventually.
 * User-lists: view all stuff by this list of users
 * View all stuff by top-rated?
