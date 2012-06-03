@@ -16,6 +16,8 @@ CREATE TABLE IF NOT EXISTS `urlcache` (
   `path` varchar(255)  NOT NULL,
   `title` text,
   `postcount` int(11) NOT NULL DEFAULT 0,
+  `hotness` int(11) NOT NULL DEFAULT 0,
+  `hottime` int(11) NOT NULL DEFAULT 0,
   `created` datetime NOT NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY (id),

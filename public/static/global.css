@@ -132,3 +132,29 @@ h1 sub{
   -khtml-border-radius: 5px;
   box-shadow: -4px 4px #abc;
 }
+
+.toPage a{
+  font-size: 20px;
+}
+
+.toPage{
+  font-size: 10px;
+  font-family: 'Pontano Sans', sans-serif; 
+  font-style: bold;
+  width: 100%;
+  display: block;
+  background-color: #fdd;
+  border: 1px solid #f88;
+  box-shadow: -2px 2px #abc;
+  padding: 2px;
+  margin-bottom: 2px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  overflow: hidden;
+  
+}
+
+.hotConversation{
+  margin-bottom: 2em;
+}

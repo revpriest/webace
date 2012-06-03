@@ -43,6 +43,8 @@ class Application_Model_UrlcacheMapper{
             'path'     => $urlcache->getPath(),
             'title'    => $urlcache->getTitle(),
             'postcount'=> $urlcache->getPostCount(),
+            'hotness'=> $urlcache->getHotness(),
+            'hottime'=> $urlcache->getHotTime(),
             'created' => date('Y-m-d H:i:s'),
             'updated' => date('Y-m-d H:i:s'),
         );
@@ -55,6 +57,33 @@ class Application_Model_UrlcacheMapper{
             $this->getDbTable()->update($data, array('id = ?' => $id));
         }
     }
+
+
+    /*************************************************
+    * Find the hottest few urls. 
+    */
+    public function findHottest($num){
+      $ret = array();
+      $where = 'title is not null';
+      $select=$this->getDbTable()->select()->where($where)->order("hotness*exp(-".Application_Model_Urlcache::HOTNESS_COOLRATE."*(UNIX_TIMESTAMP(now())-hottime)) desc")->limit($num);
+      $hottest = $this->getDbTable()->fetchAll($select);
+      foreach($hottest as $row){
+        $urlcache = new Application_Model_Urlcache();
+        $urlcache->setId($row->id)
+                 ->setDomain($row->domain)
+                 ->setPath($row->path)
+                 ->setTitle($row->title)
+                 ->setPostCount($row->postcount)
+                 ->setHotness($row->hotness)
+                 ->setHotTime($row->hottime)
+                 ->setCreated($row->created)
+                 ->setUpdated($row->updated);
+        $ret[]=$urlcache;
+      }
+      return $ret;
+    }
+
+
 
 
     /*************************************************
@@ -73,6 +102,8 @@ class Application_Model_UrlcacheMapper{
                  ->setPath($row->path)
                  ->setTitle($row->title)
                  ->setPostCount($row->postcount)
+                 ->setHotness($row->hotness)
+                 ->setHotTime($row->hottime)
                  ->setCreated($row->created)
                  ->setUpdated($row->updated);
         $ret[]=$urlcache;
@@ -97,6 +128,8 @@ class Application_Model_UrlcacheMapper{
         $urlcache->setDomain($domain);
         $urlcache->setPath($path);
         $urlcache->setPostCount(0);
+        $urlcache->setHotness(Application_Model_Urlcache::HOTNESS_INITIAL);
+        $urlcache->setHotTime(time());
       }
       return $urlcache;
     }
@@ -120,6 +153,8 @@ class Application_Model_UrlcacheMapper{
                  ->setPath($row->path)
                  ->setTitle($row->title)
                  ->setPostCount($row->postcount)
+                 ->setHotness($row->hotness)
+                 ->setHotTime($row->hottime)
                  ->setCreated($row->created)
                  ->setUpdated($row->updated);
     }
@@ -141,6 +176,8 @@ class Application_Model_UrlcacheMapper{
                   ->setPath($row->path)
                   ->setTitle($row->title)
                   ->setPostCount($row->postcount)
+                  ->setHotness($row->hotness)
+                  ->setHotTime($row->hottime)
                   ->setCreated($row->created)
                   ->setUpdated($row->updated);
             $entries[] = $entry;

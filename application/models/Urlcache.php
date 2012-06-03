@@ -13,13 +13,20 @@
 */
 
 class Application_Model_Urlcache {
+    CONST HOTNESS_INITIAL = 5000;
+    CONST HOTNESS_COOLRATE = 0.0001;
+    CONST HOTNESS_BOOST = 100;
+
     protected $_id;
     protected $_domain;
     protected $_path;
     protected $_title;
     protected $_postcount;
+    protected $_hotness;
+    protected $_hottime;
     protected $_created;
     protected $_updated;
+
 
     /**********************************************************
     * The constructor sets all the options if there are any
@@ -91,6 +98,14 @@ class Application_Model_Urlcache {
         $this->_postcount = (int) $i;
         return $this;
     }
+    public function setHotness($i) {
+        $this->_hotness = (int) $i;
+        return $this;
+    }
+    public function setHotTime($i) {
+        $this->_hottime = (int) $i;
+        return $this;
+    }
     public function setCreated($d){
         $this->_created = $d;
         return $this;
@@ -116,6 +131,15 @@ class Application_Model_Urlcache {
     public function getPostCount() {
         return $this->_postcount;
     }
+    public function getHotness() {
+        return $this->_hotness;
+    }
+    public function getCurrentHotness() {
+        return $this->_hotness * exp(-self::HOTNESS_COOLRATE * (time()-$this->_hottime));
+    }
+    public function getHotTime() {
+        return $this->_hottime;
+    }
     public function getCreated() {
         return $this->_created;
     }
@@ -124,6 +148,9 @@ class Application_Model_Urlcache {
     }
 
     public function incPostcount(){
+      /* Increment the post-count and boost the hotness */
+      $this->_hotness = $this->getCurrentHotness()+self::HOTNESS_BOOST;
+      $this->_hottime = time();
       $this->_postcount++;
     }
 }

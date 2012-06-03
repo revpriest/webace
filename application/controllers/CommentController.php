@@ -38,16 +38,21 @@ class CommentController extends Zend_Controller_Action
     public function hotconversationsAction()
     {
         /*******************************************************
-        * Hot Conversations shows the web pages which are being
-        * talked about RIGHT NOW!
+        * Hottest dozen or so conversations, each with five most
+        * recent comments.
         */
         $cookie = Application_Model_DbTable_Cookie::getUserCookie();
-        $mapper = new Application_Model_CommentMapper();
-        $rows = $mapper->findWhere("true");
+        $commentMapper = new Application_Model_CommentMapper();
+        $mapper = new Application_Model_UrlcacheMapper();
+        $this->view->urls = $mapper->findHottest(12);
         $this->view->comments = array();
-        foreach($rows as $r){
-          $this->view->comments[]=$mapper->convertRowToArray($r,$cookie);
-        } 
+        foreach($this->view->urls as $url){
+          $commentRow = $commentMapper->findWhere("domain='".$url->getDomain()."' and path='".$url->getPath()."'",5,0,"id asc");
+          $this->view->comments[$url->getId()] = array();
+          foreach($commentRow as $r){
+            $this->view->comments[$url->getId()][]=$commentMapper->convertRowToArray($r,$cookie);
+          } 
+        }
     }
 
 

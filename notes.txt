@@ -2,13 +2,12 @@
 
 TODO:
 * Re-Enable CSRF!
+* Redo CSRF for multiple-windows.
 * Website needs comments by:
-  * Firehose
   * All By This-Nick
   * All By This-Email
-  * All By This-Domain
-  * All By This-URL
-* Redo CSRF for multiple-windows.
+* Website needs 'hot conversations' page
+
 * Add ability to set save state, with password protection
 * Add auto-post-to-email
 * Add auto-post-to-twitter
