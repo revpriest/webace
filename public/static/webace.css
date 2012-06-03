@@ -53,7 +53,7 @@
 }
 
 #webace hr{
-  clear: both;
+  clear: left;
   color: black;
   background-color: black;
   height: 1px;

@@ -7,7 +7,7 @@ body{
 }
 
 hr{
-  clear: both;
+  clear: left;
   color: black;
   background-color: black;
   height: 1px;
@@ -34,15 +34,15 @@ hr{
   text-decoration: none;
 }
 #header-navigation{
-  float: left;
+  position: absolute;
   width: 180px;
   font-family: 'Pontano Sans', sans-serif; 
   overflow: hidden;
   border: 1px solid;
   margin: 2px;
   margin-bottom: 5px;
-  border-radius: 5px;
   background: #fff;
+  border-radius: 5px;
   -webkit-border-radius: 5px
   -moz-border-radius: 5px;
   -khtml-border-radius: 5px;
@@ -112,3 +112,23 @@ h1 sub{
   font-size: 0.5em;
 }
 
+.webaceCommentList{
+}
+
+.button:active{
+  background: #0f0;
+}
+.button:hover{
+  background: #8f4;
+}
+.button{
+  text-decoration: none;
+  padding: 6px;
+  background: #8f8;
+  border: 1px solid #080;
+  border-radius: 5px;
+  -webkit-border-radius: 5px
+  -moz-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  box-shadow: -4px 4px #abc;
+}
