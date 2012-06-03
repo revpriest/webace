@@ -30,7 +30,7 @@ var webaceHelpText = "Commands:<br/><dl><dt>/help</dt><dd>Show this text</dd>"+
 /**************************************************
 * Some HTML chunks
 */
-var webaceMainDiv = '<div id="webace"><div title="Click or drag handle" id="webaceHandle"><h1><a href="http://webace.dalliance.net.">webAce</a></h1></div><div id="webaceContent"><br/>Type /help for help<hr/></div><div id="webaceTextInput"><input id="webaceTextInputField" onKeyPress="javascript:webaceCheckForEnterKey(event,\'webaceSendNewMessage()\')" size="40"/><input id="webaceTextInputSend" type="submit" onclick="javascript:webaceSendNewMessage()" value="Send" /></div></div>';
+var webaceMainDiv = '<div id="webace"><div title="Click or drag handle" id="webaceHandle"><h1>&uarr;WebAce&uarr;</h1></div><div id="webaceContent"><br/><a href="http://webace.dalliance.net/">WebAce - Chat in any webpage</a><br/>Type /help for help<hr/></div><div id="webaceTextInput"><input id="webaceTextInputField" onKeyPress="javascript:webaceCheckForEnterKey(event,\'webaceSendNewMessage()\')" size="40"/><input id="webaceTextInputSend" type="submit" onclick="javascript:webaceSendNewMessage()" value="Send" /></div></div>';
 
 
 
@@ -201,7 +201,7 @@ function webaceAddComments(comments,domid){
     webaceOutput(webaceFormatReply(c),domid,true);
     if(c['id']>webaceMaxCommentID){webaceMaxCommentID=c['id'];}
   }
-  if(domid==null){
+  if((comments.length>0)&&(domid==null)){
       var dom=$("#webaceContent");
       dom.animate({scrollTop: dom.prop("scrollHeight")},500);
   }
@@ -398,7 +398,11 @@ function webaceStart() {
   s.parentNode.insertBefore(wf, s);
 
   $("html").prepend(webaceMainDiv);                   //Add the main webace div.
-  webaceAnimatePane(100);
+  if(typeof(webaceStartMinimized)==="undefined"){
+    webaceAnimatePane(100);
+  }else{
+    webaceAnimatePane($(window).height()-webaceHandleHeight);
+  }
 
   //Set up our callback functions so we know what's going on.
   $(document).mousemove(webaceMouseMove);

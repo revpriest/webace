@@ -11,7 +11,11 @@ class IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
-       $this->view->title="Welcome";
+       $this->view->page=$this->getRequest()->getParam('page');
+       if($this->view->page==null){
+         $this->view->page = "welcome";
+       }
+       $this->view->title = ucfirst($this->view->page);
     }
 
     public function logoutAction()

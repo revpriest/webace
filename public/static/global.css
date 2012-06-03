@@ -163,7 +163,15 @@ h1 sub{
 
 #footer{
   clear: both;
-  padding-top: 5em;
+  padding-top: 9em;
   text-align: center;
 }
 
+
+code{
+  border: 1px solid #88f;
+  background: black;
+  color: white;
+  display: block;
+  padding: 10px;
+}
