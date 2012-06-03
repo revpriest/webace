@@ -181,6 +181,13 @@ class CommentController extends Zend_Controller_Action
            return "Changed nick to $x";
 
          /**************************************************
+         * Log out
+         */
+         case "logout":
+           setcookie('cookieKey',"Logout",time()+(7*24*60*60),"/");
+           return "Logged out. You now have a new anonymous ID.";
+
+         /**************************************************
          * Attach email address command.
          */ 
          case "email":

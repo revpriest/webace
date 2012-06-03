@@ -22,6 +22,9 @@ var webaceHelpText = "Commands:<br/><dl><dt>/help</dt><dd>Show this text</dd>"+
                                              "0 = Show new comments to this single page.<br/>"+
                                              "1 = Show new comments to this whole site.<br/>"+
                                              "2 = Show all comments everywhere in the internet.</li>"+
+                                       "<dt>/logout</dt><dd>Ditch your login info and start a new "+
+                                             "fresh anonymous login. This will reset your nick, "+
+                                             "email, mode and everything else.</li>"+
                                         "</dl>";
 
 /**************************************************

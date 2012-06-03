@@ -48,6 +48,8 @@
   -webkit-border-radius: 10px 10px 0 0;
   -moz-border-radius: 10px 10px 0 0;
   -khtml-border-radius: 10px 10px 0 0;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 #webace hr{
@@ -121,4 +123,11 @@
 #webace dt{
   color: red;
   font-weight: bold;
+}
+#webace b{
+  font-family: 'Oleo Script', cursive,arial,helvetica,clean,sans-serif;
+  font-weight: normal;
+}
+
+#webaceHandle{
 }
