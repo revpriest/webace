@@ -2,7 +2,7 @@
 <div class="webaceCommentList">
 <?php $first=true; ?>
 <?php foreach ($this->comments as $comment): ?>
-  <?php if($first){$first=false; echo "<br style=\"clear:both\" />";}else{echo "<hr/>";} ?>
+  <?php if($first){$first=false;}else{echo "<hr/>";} ?>
   <div class="webacePageComment" id="webacePageComment<?php echo $comment['id']; ?>">
      <?php if($this->showUrl!=false): ?>
      <span class="webaceToPage" title="The page the comment was posted to">To: <a href="<?php echo $this->url(array('controller'=>'Index','action'=>'launch'),'default',true)."?url=".urlencode($comment['domain'].$comment['path']).'">.'.$comment['domain'].$comment['path'] ?></a></span>

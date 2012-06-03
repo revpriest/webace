@@ -91,7 +91,7 @@ class Application_Model_CommentMapper{
     * Find a bunch of rows based on a where clause
     * with various limts and offsets and whatnot
     */
-    public function findWhere($where,$limit=5,$offset=0,$order="id desc"){
+    public function findWhere($where,$limit=50,$offset=0,$order="id desc"){
       $select=$this->getDbTable()->select()->where($where)->order($order)->limit($limit,$offset);
       return $this->getDbTable()->fetchAll($select);
     }

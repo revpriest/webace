@@ -3,5 +3,6 @@
   <div class="hotConversation">
     <h2 class="toPage" title="Hot Conversation!"><a href="<?php echo $this->url(array('controller'=>'Index','action'=>'launch'),'default',true)."?url=".urlencode($u->getDomain().$u->getPath()).'">'.$u->getTitle()."</a><br/>at ".$u->getDomain() ?></h2>
     <?php echo $this->partial('comment/commentset.phtml', array('showurl'=>false,'comments'=>$this->comments[$u->getId()])); ?>
+    <br style="clear:both" />
   </div>
 <?php endforeach; ?>

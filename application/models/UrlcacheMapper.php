@@ -64,7 +64,7 @@ class Application_Model_UrlcacheMapper{
     */
     public function findHottest($num){
       $ret = array();
-      $where = 'title is not null';
+      $where = 'title is not null and title!=""';
       $select=$this->getDbTable()->select()->where($where)->order("hotness*exp(-".Application_Model_Urlcache::HOTNESS_COOLRATE."*(UNIX_TIMESTAMP(now())-hottime)) desc")->limit($num);
       $hottest = $this->getDbTable()->fetchAll($select);
       foreach($hottest as $row){
@@ -92,7 +92,7 @@ class Application_Model_UrlcacheMapper{
     */
     public function findAllUntitled(){
       $ret = array();
-      $where = 'title is null';
+      $where = 'title is null or title=""';
       $select=$this->getDbTable()->select()->where($where);
       $untitled = $this->getDbTable()->fetchAll($select);
       foreach($untitled as $row){

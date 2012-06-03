@@ -67,7 +67,9 @@ function getTitle($url) {
     $str2 = strtolower($str);
     $start = strpos($str2, "<title>")+7;
     $len   = strpos($str2, "</title>") - $start;
-    return substr($str, $start, $len);
+    $ret = substr($str, $start, $len);
+    if(is_string($ret)){return $ret;}
+    return null;
 }
 
 
@@ -76,6 +78,7 @@ echo "checking ".time()."\n";
 foreach($mapper->findAllUntitled() as $urlcache){
   $url = $urlcache->getDomain().$urlcache->getPath();
   $title = getTitle($url);
+  if($title==null){$title=$urlcache->getPath();}
   echo "Setting title of $url to $title...\n"; 
   $urlcache->setTitle($title);
   $mapper->save($urlcache);

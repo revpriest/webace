@@ -124,7 +124,7 @@ function webaceCheckForEnterKey(e,command){
 /*********************************************
 * Output some text to the webAce console
 */
-function webaceOutput(text,domid){
+function webaceOutput(text,domid,inhibitScroll){
   var dom;
   if(domid==null){
     dom = $("#webaceContent");
@@ -132,7 +132,9 @@ function webaceOutput(text,domid){
     dom=$('#'+domid)
   }
   dom.append(text+"<hr/>");
-  dom.animate({scrollTop: dom.prop("scrollHeight")},500);
+  if(inhibitScroll==null){
+    dom.animate({scrollTop: dom.prop("scrollHeight")},500);
+  }
 }
 
 
@@ -189,16 +191,21 @@ function webaceLoadEarlier(min,domid){
 function webaceAddComments(comments,domid){
   if((webaceFirstPoll)||(domid!=null)){
     webaceFirstPoll=false;
-    if(comments.length>=5){
+    if(comments.length>=50){
       rid = webaceGetRandomString();
-      webaceOutput('<a class="webaceActionLink" href="javascript:webaceLoadEarlier('+comments[comments.length-1]['id']+',\''+rid+'\')" id="'+rid+'">[Load Earlier Comments]</a>',domid);
+      webaceOutput('<a class="webaceActionLink" href="javascript:webaceLoadEarlier('+comments[comments.length-1]['id']+',\''+rid+'\')" id="'+rid+'">[Load Earlier Comments]</a>',domid,true);
     }
   }
   for(var n=comments.length-1;n>=0;n--){
     var c = comments[n];
-    webaceOutput(webaceFormatReply(c),domid);
+    webaceOutput(webaceFormatReply(c),domid,true);
     if(c['id']>webaceMaxCommentID){webaceMaxCommentID=c['id'];}
   }
+  if(domid==null){
+      var dom=$("#webaceContent");
+      dom.animate({scrollTop: dom.prop("scrollHeight")},500);
+  }
+  
 }
 
 /*************************************************

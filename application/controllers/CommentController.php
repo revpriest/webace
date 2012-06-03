@@ -26,6 +26,7 @@ class CommentController extends Zend_Controller_Action
         /*******************************************************
         * Index just shows some recent messages to all pages.
         */
+        $this->view->title="Latest Messages";
         $cookie = Application_Model_DbTable_Cookie::getUserCookie();
         $mapper = new Application_Model_CommentMapper();
         $rows = $mapper->findWhere("true");
@@ -41,6 +42,7 @@ class CommentController extends Zend_Controller_Action
         * Hottest dozen or so conversations, each with five most
         * recent comments.
         */
+        $this->view->title="Hot Conversations";
         $cookie = Application_Model_DbTable_Cookie::getUserCookie();
         $commentMapper = new Application_Model_CommentMapper();
         $mapper = new Application_Model_UrlcacheMapper();
@@ -120,6 +122,7 @@ class CommentController extends Zend_Controller_Action
        * We then do a poll and send back the whole lot
        * as JSON.
        */
+        $this->view->title="Submit Conversation";
         $this->allowAccessControl();
         $request = $this->getRequest();
         $form    = new Application_Form_Comment();
@@ -330,6 +333,7 @@ class CommentController extends Zend_Controller_Action
        * The poll action. We return a JSON object with data like
        * a lovely CSRF token and any new messages that popped up.
        */
+       $this->view->title="Poll";
        $this->allowAccessControl();
        $this->doPollingStuffAndOutputJSON();
     }

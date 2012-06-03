@@ -75,7 +75,7 @@ hr{
 }
 
 #header-logo h2{
-  text-shadow: #fff -1px -1px 1px;
+  text-shadow: #fff 0px 0px 2px;
   position: absolute;
   line-height: 0px;
   left: 100px;
@@ -148,7 +148,7 @@ h1 sub{
   border: 1px solid #f88;
   box-shadow: -2px 2px #abc;
   padding: 2px;
-  margin-bottom: 2px;
+  margin-bottom: 1em;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   -khtml-border-radius: 3px;
@@ -157,12 +157,13 @@ h1 sub{
 }
 
 .hotConversation{
-  margin-bottom: 4em;
+  padding-bottom: 20px;
   clear: both;
 }
 
 #footer{
-  margin-top: 5em;
+  clear: both;
+  padding-top: 5em;
   text-align: center;
 }
 

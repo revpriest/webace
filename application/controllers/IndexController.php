@@ -11,6 +11,7 @@ class IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
+       $this->view->title="Welcome";
     }
 
     public function logoutAction()
@@ -18,6 +19,7 @@ class IndexController extends Zend_Controller_Action
         /*****************************************************
         * Logout, just clear the cookie basically.
         */
+        $this->view->title="Logout";
         setcookie('cookieKey',"Logout",time()+(7*24*60*60),"/");
     }
 
@@ -26,8 +28,9 @@ class IndexController extends Zend_Controller_Action
         /*****************************************************
         * Send a URL over to the view.
         */
-       $this->_helper->layout()->disableLayout();
+        $this->_helper->layout()->disableLayout();
         $this->view->url=$this->getRequest()->getParam('url');
+        $this->view->title="Forwarding To ".$this->view->url;
     }
 
 
