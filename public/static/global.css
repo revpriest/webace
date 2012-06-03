@@ -1,5 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Oleo+Script);
-@import url(http://fonts.googleapis.com/css?family=Pontano+Sans);
+@import url(http://fonts.googleapis.com/css?family=Magra);
 @import url(http://webace.dalliance.net/static/webace.css);
 
 body{
@@ -36,7 +36,7 @@ hr{
 #header-navigation{
   position: absolute;
   width: 180px;
-  font-family: 'Pontano Sans', sans-serif; 
+  font-family: 'Magra', sans-serif; 
   overflow: hidden;
   border: 1px solid;
   margin: 2px;
@@ -135,11 +135,12 @@ h1 sub{
 
 .toPage a{
   font-size: 20px;
+  text-decoration: none;
 }
 
 .toPage{
   font-size: 10px;
-  font-family: 'Pontano Sans', sans-serif; 
+  font-family: 'Magra', sans-serif; 
   font-style: bold;
   width: 100%;
   display: block;
@@ -159,3 +160,9 @@ h1 sub{
   margin-bottom: 4em;
   clear: both;
 }
+
+#footer{
+  margin-top: 5em;
+  text-align: center;
+}
+

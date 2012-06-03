@@ -6,7 +6,6 @@ TODO:
 * Website needs comments by:
   * All By This-Nick
   * All By This-Email
-* Website needs 'hot conversations' page
 
 * Add ability to set save state, with password protection
 * Add auto-post-to-email
