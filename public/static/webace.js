@@ -162,6 +162,7 @@ function webaceFormatReply(data){
   reply+='<span class="webaceDate">('+data['created']+')</span>';
   reply+="</div>";
   reply+=data['content'];
+  reply+="</div>";
   return reply;
 }
 

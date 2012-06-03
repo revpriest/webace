@@ -23,8 +23,13 @@ class CommentController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $comment = new Application_Model_CommentMapper();
-        $this->view->comments = $comment->fetchAll();
+        $cookie = Application_Model_DbTable_Cookie::getUserCookie();
+        $mapper = new Application_Model_CommentMapper();
+        $rows = $mapper->findWhere("true");
+        $this->view->comments = array();
+         foreach($rows as $r){
+           $this->view->comments[]=$mapper->convertRowToArray($r,$cookie);
+         }
     }
 
 

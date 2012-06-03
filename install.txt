@@ -1,0 +1,18 @@
+Checkout the git repo, then:
+$ cp application/configs/applicaiton.ini.template application/configs/applicaiton.ini
+
+Then edit the new application config.ini to point at your database
+
+Now run the DB schema script:
+
+$ php scripts/load.mysql.php
+
+Set up the apache config in the usual Zend way with
+the doc-root set to the public directory here.
+
+You'll probably need to do a search/replace on
+the webace.dalliance.net URLs or something. Patches
+to stick that in the config gratefully merged.
+
+Good luck! Let me know what you make with it.
+

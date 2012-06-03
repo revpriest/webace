@@ -1,22 +1,102 @@
+@import url(http://fonts.googleapis.com/css?family=Oleo+Script);
+@import url(http://fonts.googleapis.com/css?family=Pontano+Sans);
+@import url(http://webace.dalliance.net/static/webace.css);
+
+body{
+  background-color: #def;
+}
+
+hr{
+  clear: both;
+  color: black;
+  background-color: black;
+  height: 1px;
+  width: 100%;
+}
+
 #content{
-  min-height: 200px;
-  margin-left: 14em;
+  padding-left: 200px;
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #page{
   margin-left: auto;
   margin-right: auto;
-  width: 60em;
-  border: 2px solid; 
+  width: 75%;
 }
 
 #header-navigation{
   float: left;
-  width: 14em;
-  background: #fed;
+  width: 180px;
+  font-family: 'Pontano Sans', sans-serif; 
+  overflow: hidden;
+  border: 1px solid;
+  margin: 2px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  background: #fff;
+  -webkit-border-radius: 5px
+  -moz-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  box-shadow: -4px 4px #abc;
+}
+
+#page-layout{
+  width: 600px;
+  margin: auto;
 }
 
 
+#header-logo{
+  width: 450px;
+  height: 80px;
+  position: relative;
+  margin: auto;
+  left: 80px;
+}
+#header-logo h1{
+  text-shadow: #008 -3px 3px 2px;
+  position: absolute;
+  line-height: 0px;
+  top: 0
+  left: 0;
+  color: #00f;
+  font-size: 60px;
+  font-family: 'Oleo Script', cursive,arial,helvetica,clean,sans-serif;
+  font-weight: normal;
+}
+
+#header-logo h2{
+  text-shadow: #fff -1px -1px 1px;
+  position: absolute;
+  line-height: 0px;
+  left: 100px;
+  top: 45px;
+  color: #008;
+  font-family: 'Oleo Script', cursive,arial,helvetica,clean,sans-serif;
+  font-weight: normal;
+}
+
+#header-navigation ul{
+  padding-left: 1em;
+}
+#header-navigation li{
+  list-style: none;
+}
+
+.webacePageComment{
+  width: 400px;
+}
+
 h1{
+  font-family: 'Oleo Script', cursive,arial,helvetica,clean,sans-serif;
+  font-weight: normal;
+  color: #008;
   text-align: center;
+}
+
+h1 sub{
+  font-size: 0.5em;
 }

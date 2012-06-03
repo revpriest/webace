@@ -31,12 +31,13 @@
 
 #webace h1 a{
   text-decoration: none;
-  color: black;
+  color: #00f;
 }
 #webace h1 a:hover{
-  color: #88f;
+  color: #00f;
 }
 #webace h1{
+  text-shadow: #008 -1px 1px 2px;
   font: 30px/1.231 'Oleo Script', cursive,arial,helvetica,clean,sans-serif;
   color: black;
   border-bottom: 1px solid;
@@ -44,7 +45,7 @@
   text-align: center;
   background: #def;
   border-radius: 10px 10px 0 0;
-  -webkit-border-radius: 10px 10px 0 0 ;
+  -webkit-border-radius: 10px 10px 0 0;
   -moz-border-radius: 10px 10px 0 0;
   -khtml-border-radius: 10px 10px 0 0;
 }

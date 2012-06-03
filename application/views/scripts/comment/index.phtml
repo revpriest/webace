@@ -1,14 +1,15 @@
-<div id="view-content">
-<h1>Recent Comments</h1>
-<hr/>
-  <?php foreach ($this->comments as $comment): ?>
-    <dl>
-      <dt>Date:</dt><dd><?php echo $this->escape($comment->created) ?></dd>
-      <dt>Attached To:</dt><dd>http://<?php echo $this->escape($comment->domain.$comment->path) ?></dd>
-      <dt>By:</dt><dd><?php echo $this->escape($comment->nick) ?> &lt;<?php echo $this->escape($comment->email) ?>&gt; (<?php echo $this->escape($comment->ip) ?>)</dd>
-      <dt>Content:</dt><dd><?php echo $this->escape($comment->content) ?></dd>
-    </dl>
-    <hr/>
-  <?php endforeach ?>
-</div>
-<br /><br />
+<h1>Latest Messages<sub>(most recent first)</sub></h1>
+<?php foreach ($this->comments as $comment): ?>
+  <div class="webacePageComment" id="webacePageComment<?php echo $comment['id']; ?>">
+     <span class="webaceToPage" title="The page the comment was posted to">To: <a href="<?php echo $comment['domain'].$comment['path'] ?>"><?php echo $comment['domain'].$comment['path'] ?></a></span>
+     <div class="webaceAvatar">
+       <?php if(isset($comment['emailmd5'])): ?>
+         <img class="webaceAvatarImg" src="http://www.gravatar.com/avatar/<?php echo $comment['emailmd5'] ?>" width="80" height="80" alt="Avatar" /><br/>
+       <?php endif; ?>
+       <b><?php echo $comment['nick'] ?></b><br/>
+       <span class="webaceDate"><?php echo $comment['created'] ?></span>
+     </div>
+   <?php echo $this->escape($comment['content']) ?>
+   <hr/>
+ </div>
+<?php endforeach ?>
