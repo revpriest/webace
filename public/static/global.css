@@ -27,6 +27,12 @@ hr{
   width: 75%;
 }
 
+#header-navigation a:hover{
+  font-weight: bold;
+}
+#header-navigation a{
+  text-decoration: none;
+}
 #header-navigation{
   float: left;
   width: 180px;
@@ -97,6 +103,13 @@ h1{
   text-align: center;
 }
 
+b {
+  font-family: 'Oleo Script', cursive,arial,helvetica,clean,sans-serif;
+  font-weight: normal;
+}
+
 h1 sub{
   font-size: 0.5em;
 }
+
+

@@ -23,17 +23,37 @@ class CommentController extends Zend_Controller_Action
 
     public function indexAction()
     {
+        /*******************************************************
+        * Index just shows some recent messages to all pages.
+        */
         $cookie = Application_Model_DbTable_Cookie::getUserCookie();
         $mapper = new Application_Model_CommentMapper();
         $rows = $mapper->findWhere("true");
         $this->view->comments = array();
-         foreach($rows as $r){
-           $this->view->comments[]=$mapper->convertRowToArray($r,$cookie);
-         }
+        foreach($rows as $r){
+          $this->view->comments[]=$mapper->convertRowToArray($r,$cookie);
+        } 
+    }
+
+    public function hotconversationsAction()
+    {
+        /*******************************************************
+        * Hot Conversations shows the web pages which are being
+        * talked about RIGHT NOW!
+        */
+        $cookie = Application_Model_DbTable_Cookie::getUserCookie();
+        $mapper = new Application_Model_CommentMapper();
+        $rows = $mapper->findWhere("true");
+        $this->view->comments = array();
+        foreach($rows as $r){
+          $this->view->comments[]=$mapper->convertRowToArray($r,$cookie);
+        } 
     }
 
 
-    public function convertUrlToDP($url){
+
+    public function convertUrlToDP($url)
+    {
       /***************************************************************
       * Split a URL into it's domain and path. Actually we don't
       * really care to do it properly. We just need to separate
@@ -134,8 +154,6 @@ class CommentController extends Zend_Controller_Action
         $this->view->form = $form;
     }
 
-
-
     public function processCommand($vals)
     {
       /*******************************************************
@@ -221,8 +239,8 @@ class CommentController extends Zend_Controller_Action
       return "Unknown Command $command";
     }
 
-
-    private function allowAccessControl(){ 
+    private function allowAccessControl()
+    {
       /*******************************************************************
       * Check if this is from a non-local source, and add the
       * headers to say we're okay with that if it is.
@@ -238,11 +256,11 @@ class CommentController extends Zend_Controller_Action
                               ->setHeader("Access-Control-Allow-Credentials", "true",true)
                               ->setHeader("Access-Control-Allow-Methods","POST, GET, OPTIONS",true)
                               ->setHeader("Access-Control-Allow-Headers", "Authorization, Origin, Accept, Content-Type, X-Requested-With, X-HTTP-Method-Override,Set-Cookie,Cookie",true);
-       }
+        }
+       
     }
 
-
-    public function doPollingStuffAndOutputJSON($jsonArray=array())
+    public function doPollingStuffAndOutputJSON($jsonArray = array ())
     {
        /***************************************************************
        * Every actions wants to return the polling data I reckon,
@@ -305,7 +323,10 @@ class CommentController extends Zend_Controller_Action
     }
 
 
+
 }
+
+
 
 
 

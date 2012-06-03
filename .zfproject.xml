@@ -18,6 +18,7 @@
           <actionMethod actionName="index"/>
           <actionMethod actionName="submit"/>
           <actionMethod actionName="poll"/>
+          <actionMethod actionName="hotconversations"/>
         </controllerFile>
         <controllerFile controllerName="Email">
           <actionMethod actionName="confirm"/>
@@ -72,6 +73,9 @@
           <viewControllerScriptsDirectory forControllerName="Index">
             <viewScriptFile forActionName="launch"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Comment">
+            <viewScriptFile forActionName="hotconversations"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -115,6 +119,7 @@
             <testApplicationActionMethod forActionName="index"/>
             <testApplicationActionMethod forActionName="submit"/>
             <testApplicationActionMethod forActionName="poll"/>
+            <testApplicationActionMethod forActionName="hotconversations"/>
           </testApplicationControllerFile>
           <testApplicationControllerFile forControllerName="Email">
             <testApplicationActionMethod forActionName="confirm"/>
