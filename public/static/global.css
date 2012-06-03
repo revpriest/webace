@@ -156,5 +156,6 @@ h1 sub{
 }
 
 .hotConversation{
-  margin-bottom: 2em;
+  margin-bottom: 4em;
+  clear: both;
 }
