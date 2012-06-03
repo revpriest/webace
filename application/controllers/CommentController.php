@@ -115,6 +115,10 @@ class CommentController extends Zend_Controller_Action
                   $comment = new Application_Model_Comment($initVals);
                   $mapper  = new Application_Model_CommentMapper();
                   $mapper->save($comment);
+                  $urlcachemapper = new Application_Model_UrlcacheMapper();
+                  $urlcache = $urlcachemapper->findOneWhere($comment->getDomain(),$comment->getPath());
+                  $urlcache->incPostcount();
+                  $urlcachemapper->save($urlcache);
                 }
                 $this->doPollingStuffAndOutputJSON(array("content"=>$comment->getContent(),
                                                          "nick"=>$comment->getNick(),

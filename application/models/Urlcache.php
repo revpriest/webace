@@ -122,5 +122,9 @@ class Application_Model_Urlcache {
     public function getUpdated() {
         return $this->_updated;
     }
+
+    public function incPostcount(){
+      $this->_postcount++;
+    }
 }
 

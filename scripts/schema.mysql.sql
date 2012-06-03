@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `urlcache` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `domain` varchar(255) NOT NULL,
   `path` varchar(255)  NOT NULL,
-  `title` text  NOT NULL,
+  `title` text,
   `postcount` int(11) NOT NULL DEFAULT 0,
   `created` datetime NOT NULL,
   `updated` datetime NOT NULL,

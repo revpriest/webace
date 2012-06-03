@@ -56,6 +56,52 @@ class Application_Model_UrlcacheMapper{
         }
     }
 
+
+    /*************************************************
+    * Find all the entries which have no title. These
+    * will be the ones we need to update in the cron
+    */
+    public function findAllUntitled(){
+      $ret = array();
+      $where = 'title is null';
+      $select=$this->getDbTable()->select()->where($where);
+      $untitled = $this->getDbTable()->fetchAll($select);
+      foreach($untitled as $row){
+        $urlcache = new Application_Model_Urlcache();
+        $urlcache->setId($row->id)
+                 ->setDomain($row->domain)
+                 ->setPath($row->path)
+                 ->setTitle($row->title)
+                 ->setPostCount($row->postcount)
+                 ->setCreated($row->created)
+                 ->setUpdated($row->updated);
+        $ret[]=$urlcache;
+      }
+      return $ret;
+    }
+
+
+
+    /*************************************************
+    * Find a single rows based on it's domain and path
+    */
+    public function findOneWhere($domain,$path){
+      $urlcache = new Application_Model_Urlcache();
+      $where = 'domain="'.$domain.'" and path="'.$path.'"';
+      $select=$this->getDbTable()->select()->where($where);
+      $id = $this->getDbTable()->fetchAll($select);
+      if(sizeof($id)>=1){
+        $id = $id[0]->id;
+        $this->find($id,$urlcache);
+      }else{
+        $urlcache->setDomain($domain);
+        $urlcache->setPath($path);
+        $urlcache->setPostCount(0);
+      }
+      return $urlcache;
+    }
+
+
     /*********************************************************
     * Find a database table's row and hydrate it into a
     * model object. Surprisingly we seem to be setting
