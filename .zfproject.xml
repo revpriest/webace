@@ -11,6 +11,7 @@
         <controllerFile controllerName="Index">
           <actionMethod actionName="index"/>
           <actionMethod actionName="logout"/>
+          <actionMethod actionName="launch"/>
         </controllerFile>
         <controllerFile controllerName="Error"/>
         <controllerFile controllerName="Comment">
@@ -68,6 +69,9 @@
           <viewControllerScriptsDirectory forControllerName="Email">
             <viewScriptFile forActionName="confirm"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="launch"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -105,6 +109,7 @@
           <testApplicationControllerFile forControllerName="Index">
             <testApplicationActionMethod forActionName="index"/>
             <testApplicationActionMethod forActionName="logout"/>
+            <testApplicationActionMethod forActionName="launch"/>
           </testApplicationControllerFile>
           <testApplicationControllerFile forControllerName="Comment">
             <testApplicationActionMethod forActionName="index"/>

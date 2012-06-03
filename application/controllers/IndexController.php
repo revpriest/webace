@@ -21,9 +21,19 @@ class IndexController extends Zend_Controller_Action
         setcookie('cookieKey',"Logout",time()+(7*24*60*60),"/");
     }
 
+    public function launchAction()
+    {
+        /*****************************************************
+        * Send a URL over to the view.
+        */
+       $this->_helper->layout()->disableLayout();
+        $this->view->url=$this->getRequest()->getParam('url');
+    }
 
 
 }
+
+
 
 
 

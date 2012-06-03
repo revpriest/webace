@@ -228,7 +228,11 @@ function webaceDoCommand(wholeCommand){
         webaceOutput("Current CSRF: "+webaceCSRF);
         break;
       case "replyurl":
-        webaceOutput("Current Reply-Url: "+webaceReplyUrl);
+        if(webaceReplyUrl==null){
+          webaceOutput("No replyurl set, defaulting to : "+$(location).attr('href'));
+        }else{
+          webaceOutput("Current Reply-Url: "+webaceReplyUrl);
+        }
         break;
       default:
         return false;
@@ -301,6 +305,8 @@ function webaceSendMessage(params){
   if(myurl==null){
     //Default to the current page.
     myurl=encodeURIComponent($(location).attr('href'));
+  }else{
+    myurl=encodeURIComponent(myurl);
   }
   var data="url="+myurl+"&csrf="+webaceCSRF;
   if(params['data']!=null){
