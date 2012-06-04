@@ -3,6 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>WebAce<?php if(isset($this->title)){echo " - ".$this->title;} ?></title>
+  <script type="text/javascript" src="/static/site.js"></script>
   <?php echo $this->headLink()->appendStylesheet('/static/global.css') ?>
 </head>
 <body>
@@ -20,7 +21,6 @@
             <li> <a href="<?php echo $this->url( array('controller'=>''), 'default', true) ?>?page=help">Help Page - Instructions</a></li>
             <li> <a href="<?php echo $this->url( array('controller'=>''), 'default', true) ?>?page=embed">Embed in your website</a></li>
             <li> <a href="javascript:(function(){if(undefined===window.webacePaneHeight){document.body.appendChild(document.createElement('script')).src='http://webace.dalliance.net/static/webace.js';}else{alert('Already Running')}})();">Launch WebAce</a></li>
-            <li> <a href="<?php echo $this->url( array('controller'=>'Index','action'=>'logout'), 'default', true) ?>">Log Out</a></li>
           </ul>
       </div>
       <div id="content"> 

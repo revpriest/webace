@@ -28,7 +28,9 @@ var webaceHelpText = "Commands:<br/><dl><dt>/help</dt><dd>Show this text</dd>"+
                                        "<dt>/logout</dt><dd>Ditch your login info and start a new "+
                                              "fresh anonymous login. This will reset your nick, "+
                                              "email, mode and everything else.</li>"+
-                                        "</dl>";
+                                        "</dl>"+
+                       "Visit <a href=\"http://webace.dalliance.net/?page=help\">our help page</a> for more.";
+                    
 
 /**************************************************
 * Some HTML chunks

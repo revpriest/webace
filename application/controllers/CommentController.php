@@ -188,6 +188,50 @@ class CommentController extends Zend_Controller_Action
            $mapper->save($cookie);
            return "Changed nick to $x";
 
+
+         /**************************************************
+         * Save your session to resume it later! Oooh!
+         */
+         case "password":
+         case "pass":
+         case "save":
+           $password = $params[0];
+           if(isset($params[1])){
+             if($password!=$params[1]){
+               return "Password and confirm don't match";
+             }
+           }
+           $oldPassword = $cookie->getPassword();
+           $ret="";
+           $encPassword = md5(Application_Model_Cookie::PASSWORD_SALT.$password);
+           $cookie->setPassword($encPassword);
+           $mapper  = new Application_Model_CookieMapper();
+           $mapper->save($cookie); 
+           if($oldPassword){
+             return "Changed session password, use new password in future";
+           }
+           return "Session saved, resume with /resume [email@address.com] [password]";
+
+
+         /***************************************************
+         * Resuming your session
+         */
+         case "resume":
+         case "load":
+         case "login":
+           $email = $params[0];
+           $password = $params[1];
+           $encPassword = md5(Application_Model_Cookie::PASSWORD_SALT.$password);
+           $mapper= new Application_Model_CookieMapper();
+           $cookie = $mapper->findFromPassword($email,$encPassword);
+           if($cookie==null){
+             return "Can't find session with that email/password";
+           }else{
+             setcookie('cookieKey',$cookie->getId(),time()+(7*24*60*60),"/");
+             return "Restored session, welcome back ".$cookie->getNick();
+           }
+
+
          /**************************************************
          * Log out
          */

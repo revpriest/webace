@@ -105,6 +105,19 @@ class Application_Model_CookieMapper{
 
 
     /***************************************************
+    * Find a cookie based on username and password.
+    * We're passed an already encrypted password so
+    * we just do the = compare.
+    */ 
+    public function findFromPassword($email,$encpassword) {
+        $select = $this->getdbtable()->select()->where("email='$email' and password='$encpassword'");
+        $resultset = $this->getDbTable()->fetchAll($select);
+        if(sizeof($resultset)<1){return null;}
+        return($this->hydrateFromResult($resultset[0]));
+    }
+
+
+    /***************************************************
     * Grab everything from the DB table and put it into
     * an array of model objects. This has a lot of
     * ->setX($row->X) lines which are duplicated above.

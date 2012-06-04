@@ -91,7 +91,8 @@ folder if you have one. The email will contain
 a link which you must click to confirm that
 your have supplied your own email address.</p>
 <p>Users with confirmed email addresses
-also get avatars!</p>
+also get avatars, and can load and save their
+session to preserve their identity!</p>
 
 <h1>Set your avatar</h1>
 <p><b>WebAce</b> uses the global avatar system
@@ -100,27 +101,83 @@ Gravatar you can upload an avatar to associate
 with your email address around the entire web!
 Go to gravatar.com to see how to do this.</p>
 
-<h1>Save your settings</h1>
-<p>Planned feature not yet implemented.</p>
-<code>/save PASSWORD CONFIRMPASSWORD</code>
-<p>Or, optionally, if you don't care to confirm it, this is fine too:</p>
-<code>/save PASSWORD</code>
-
-<h1>Load your settings</h1>
-<p>Planned feature not yet implemented.</p>
-<code>/load email@address.com PASSWORD</code>
-
-<h1>Advanced:<br/>View whole website's messages</h1>
-<p>Planned feature not yet implemented.</p>
+<h1>View whole website's messages</h1>
+<p>When you first launch <b>WebAce</b> you will
+see only messages posted to the web page you
+are visiting at the time you click the bookmarklet.
+There may be very few people chatting about that
+particular page, but <b>WebAce</b> has a mode
+to allow you to view messages posted to any
+page in the whole website, rather than just
+that single page. Try it, type:</p>
 <code>/mode domain</code>
+<p>Messages will now be topped by a header
+which tells you which page in the website
+the messages was posted to. If you want
+to reply, you will need to ensure your
+message goes to the correct web-page. Do
+this by clicking the little round radio-button
+in the left of the header for the message
+you want to reply to.</p>
+<p>Now you should see many more messages,
+every message for the whole internet site
+rather than just that particular page.</p>
 
-<h1>Advanced:<br/>View all messages from everywhere!</h1>
-<p>Planned feature not yet implemented.</p>
+<h1>View all messages from everywhere!</h1>
+<p>If you are <i>very</i> keen to chat, and
+don't really care which pages you are chatting
+<i>aboout</i>, you can instruct <b>WebAce</b> to
+show you every comment to every page on the
+entire internet.</p>
+<p>This may be a <i>lot</i> of messages, so
+be prepared for your <b>WebAce</b> tab to
+scroll <i>very</i> quickly. Type the following:</p>
 <code>/mode web</code>
+</p>As with 'domain' mode, each post will now
+have a header to say which web page it is
+talking about. Click that header in a message
+you wish to reply to.</p>
 
-<h1>Advanced:<br/>Reset to Single-Page mode</h1>
-<p>Planned feature not yet implemented.</p>
+<h1>Reset to Single-Page mode</h1>
+<p>If you want to get back to the original mode,
+viewing only comments to the page you are
+viewing <b>WebAce</b> from, type the following:</p>
 <code>/mode page</code>
+<p>The headers at the top of each new message
+will no longer appear, since they are all messages
+posted to the website you are currently visiting.</p>
+
+<h1>Save your session settings</h1>
+<p>If you've set up an email address and
+don't want to have to re-confirm it next time,
+don't want to have to change the mode to your
+preferred system next time you use <b>WebAce</b>
+and want to keep a consistent identity in the chat, 
+you can save your session data.</p>
+<p>You need to have confirmed your email as 
+above, then type the following, replacing
+PASSWORD with your password:</p>
+<code>/save PASSWORD</code>
+<p>Or, optionally, if you with to type it twice to confirm it:</p>
+<code>/save PASSWORD PASSWORD</code>
+<p>Passwords must not have spaces, but
+can otherwise contain pretty much any
+characters you want.</p>
+<p>Data saved includes your nickname, your email,
+the display mode which determines which
+messages your <b>WebAce</b> displays, and
+ensure the list of posts obtained by clicking
+your user-name grows in the same page rather
+than a new one.</p>
+
+<h1>Load your sesssion settings</h1>
+<p>If you have already saved a session, you can reload
+it from the same computer at a different time, from
+a different computer, from any web-page that 
+<b>WebAce</b> connects to. Type this:</p>
+<code>/load email@address.com PASSWORD</code>
+<p>Obviously using the email address and password
+you used when saving the session.</p>
 
 
 <h1>Advanced:<br/>Auto-archive to email</h1>
