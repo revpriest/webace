@@ -54,10 +54,8 @@ class CommentController extends Zend_Controller_Action
           foreach($commentRow as $r){
             $this->view->comments[$url->getId()][]=$commentMapper->convertRowToArray($r,$cookie);
           } 
-        }
+        } 
     }
-
-
 
     public function convertUrlToDP($url)
     {
@@ -338,9 +336,15 @@ class CommentController extends Zend_Controller_Action
        $this->doPollingStuffAndOutputJSON();
     }
 
+    public function userAction()
+    {
+        // action body
+    }
 
 
 }
+
+
 
 
 
