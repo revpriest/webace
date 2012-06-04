@@ -163,8 +163,9 @@ function webaceFormatReply(data){
   if((data['email']!=null)&&(data['email']!="")){
     reply+=" <img class=\"webaceAvatarImg\" src=\"http://www.gravatar.com/avatar/"+data['emailmd5']+"\" width=\"80\" height=\"80\" alt=\"Avatar\" /><br/>";
   }
-  reply += "<b>"+data['nick']+"</b><br/>";
+  reply += "<b><a href=\"http://webace.dalliance.net/Comment/user?id="+data['cookie']+"\">"+data['nick']+"</a></b><br/>";
   reply+='<span class="webaceDate">('+data['created']+')</span>';
+//  reply+='<br/><span class="webaceDate">('+data['id']+')</span>';
   reply+="</div>";
   reply+=data['content'];
   reply+="</div>";
@@ -199,7 +200,7 @@ function webaceAddComments(comments,domid){
   for(var n=comments.length-1;n>=0;n--){
     var c = comments[n];
     webaceOutput(webaceFormatReply(c),domid,true);
-    if(c['id']>webaceMaxCommentID){webaceMaxCommentID=c['id'];}
+    if(parseInt(c['id'])>webaceMaxCommentID){webaceMaxCommentID=parseInt(c['id']);}
   }
   if((comments.length>0)&&(domid==null)){
       var dom=$("#webaceContent");
@@ -237,6 +238,9 @@ function webaceDoCommand(wholeCommand){
         break;
       case "csrf":
         webaceOutput("Current CSRF: "+webaceCSRF);
+        break;
+      case "maxid":
+        webaceOutput("Current Top Post ID: "+webaceMaxCommentID);
         break;
       case "replyurl":
         if(webaceReplyUrl==null){

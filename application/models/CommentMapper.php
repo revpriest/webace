@@ -147,7 +147,7 @@ class Application_Model_CommentMapper{
       if(($cookie->getDisplayMode()!=null)&&($cookie->getDisplayMode()>0)){
         $entry['url'] = $row->domain.$row->path;
       }
-      $entry['cookie'] =$row->cookie;
+      $entry['cookie'] =substr($row->cookie,0,25);
       $entry['nick']   =$row->nick;
       $entry['email']  =$row->email;
       $entry['ip']     =$row->ip;

@@ -27,11 +27,17 @@ hr{
   width: 75%;
 }
 
+#header-navigation a:vistied{
+  color: #008;
+}
+
 #header-navigation a:hover{
   font-weight: bold;
+  color: #008;
 }
 #header-navigation a{
   text-decoration: none;
+  color: #008;
 }
 #header-navigation{
   position: absolute;
