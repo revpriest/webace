@@ -20,6 +20,7 @@
           <actionMethod actionName="poll"/>
           <actionMethod actionName="hotconversations"/>
           <actionMethod actionName="user"/>
+          <actionMethod actionName="show"/>
         </controllerFile>
         <controllerFile controllerName="Email">
           <actionMethod actionName="confirm"/>
@@ -80,6 +81,9 @@
           <viewControllerScriptsDirectory forControllerName="Comment">
             <viewScriptFile forActionName="user"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Comment">
+            <viewScriptFile forActionName="show"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -125,6 +129,7 @@
             <testApplicationActionMethod forActionName="poll"/>
             <testApplicationActionMethod forActionName="hotconversations"/>
             <testApplicationActionMethod forActionName="user"/>
+            <testApplicationActionMethod forActionName="show"/>
           </testApplicationControllerFile>
           <testApplicationControllerFile forControllerName="Email">
             <testApplicationActionMethod forActionName="confirm"/>

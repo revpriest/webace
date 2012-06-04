@@ -396,8 +396,33 @@ class CommentController extends Zend_Controller_Action
         $this->view->mid=$messageId;
     }
 
+    public function showAction()
+    {
+        /****************************************************************
+        * Show a single message, and maybe eventually replies to that
+        * message I guess (Maybe posts to this actual page, in a meta
+        * sort of way).
+        */
+        $this->view->title="Single Message";
+        $cookie = Application_Model_DbTable_Cookie::getUserCookie();
+        $cookieMapper = new Application_Model_CookieMapper();
+        $mapper = new Application_Model_CommentMapper();
+        $messageId = $this->getRequest()->getParam('id');
+        if($messageId==null){
+          print "I'll show you no message at all! Just as you asked:";
+          exit;
+        }
+        $message = $mapper->find($messageId);
+        $viewUserCookie=$message->getCookieObject();
+        $nick = $message->getNick();
+        $this->view->userDetails=$viewUserCookie;
+        $this->view->message = $message;
+    }
+
 
 }
+
+
 
 
 

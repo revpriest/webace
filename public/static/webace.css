@@ -86,8 +86,29 @@
   box-shadow: -4px 4px #abc;
 }
 
+.webaceDate a:hover{
+  color: #00f;
+  text-decoration: none;
+}
+.webaceDate a{
+  color: black;
+  text-decoration: none;
+}
 .webaceDate{
   font: 8px/1.231 arial,helvetica,clean,sans-serif;
+  font-style: italic;
+}
+.webaceNick a:hover{
+  color: #00f;
+  text-decoration: none;
+}
+.webaceNick a{
+  color: black;
+  text-decoration: none;
+}
+.webaceNick{
+  font-family: 'Oleo Script', cursive,arial,helvetica,clean,sans-serif;
+  font-size: 1.2em;
   font-style: italic;
 }
 .webaceToPage{

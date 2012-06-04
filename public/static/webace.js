@@ -166,8 +166,8 @@ function webaceFormatReply(data){
   if((data['email']!=null)&&(data['email']!="")){
     reply+=" <img class=\"webaceAvatarImg\" src=\"http://www.gravatar.com/avatar/"+data['emailmd5']+"\" width=\"80\" height=\"80\" alt=\"Avatar\" /><br/>";
   }
-  reply += "<b><a href=\"http://webace.dalliance.net/Comment/user?mid="+data['id']+"\">"+data['nick']+"</a></b><br/>";
-  reply+='<span class="webaceDate">('+data['created']+')</span>';
+  reply += '<span class="webaceNick"><a href="http://webace.dalliance.net/Comment/user?mid='+data['id']+'">'+data['nick']+'</a></span><br/>';
+  reply+='<span class="webaceDate"><a href="http://webace.dalliance.net/Comment/show?id='+data['id']+'">('+data['created']+')</a></span>';
 //  reply+='<br/><span class="webaceDate">('+data['id']+')</span>';
   reply+="</div>";
   reply+=data['content'];

@@ -1,0 +1,10 @@
+<div class="webaceAvatar">
+  <?php if($this->userDetails->getEmail()): ?>
+    <img class="webaceAvatarImg" src="http://www.gravatar.com/avatar/<?php echo $this->userDetails->getEmailMd5() ?>" width="80" height="80" alt="Avatar" />
+  <?php endif; ?>
+  <span class="webaceNick"><a href="/Comment/user?mid=<?php echo $this->message->getId() ?>"><?php echo $this->userDetails->getNick(); ?></a></span><br/>
+  <span class="webaceDate"><a href="/Comment/show?id=<?php echo $this->message->getId() ?>">(<?php echo $this->message->getCreated(); ?>)</a></span>
+</div>
+<div class="singleMessage">
+<h1>&quot;<?php echo $this->message->getContent(); ?>&quot;</h1>
+</div>

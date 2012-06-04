@@ -1,12 +1,9 @@
-<h1>User's Messages<sub>(most recent first)</sub></h1>
-<?php if($this->userDetails->getEmail()): ?>
-<?php endif; ?>
 <div class="userDetails">
   <?php if($this->userDetails->getEmail()): ?>
     <img class="userDetailsImg" src="http://www.gravatar.com/avatar/<?php echo $this->userDetails->getEmailMd5() ?>" width="80" height="80" alt="Avatar" />
   <?php endif; ?>
     <h1><?php 
-        if(isset($this->askedNick)){
+        if(isset($this->askedNick)&&($this->askedNick!="")){
           echo $this->askedNick;
         }else{
           echo $this->userDetails->getNick(); 
@@ -22,4 +19,6 @@
       </h2>
     <?php endif; ?>
 </div>
+<h1>User's Messages:<sub>(most recent first)</sub></h1>
+<br/>
 <?php echo $this->partial('comment/commentset.phtml', array('comments'=>$this->comments,'showUrl'=>true)); ?>
