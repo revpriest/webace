@@ -226,3 +226,9 @@ code{
   padding: 5px;
   float: left;
 }
+
+.nextlast{
+  padding: 2em;
+  clear: both;
+  text-align: center;
+}

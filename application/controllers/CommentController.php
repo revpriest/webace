@@ -385,12 +385,11 @@ class CommentController extends Zend_Controller_Action
     public function userAction()
     {
         /****************************************************************
-        * We're sent the first 30 chars of a cookie. We wanna list
-        * all the comments that the user made. We'll get more tricky 
-        * if the cookie has an email assigned and end up showing
-        * all comments by any cookie with that email attached.
+        * List everything by a user. Either passed a message or 
+        * a half-a-cookie. Certainly want to paginate this.
         */
-        $this->view->title="User's Messages";
+        $page = $this->getRequest()->getParam('page');
+        if(!$page){$page=0;}
         $cookie = Application_Model_DbTable_Cookie::getUserCookie();
         $cookieMapper = new Application_Model_CookieMapper();
         $mapper = new Application_Model_CommentMapper();
@@ -430,7 +429,7 @@ class CommentController extends Zend_Controller_Action
         if($nick!=null){
           $andNick=" and nick='".$nick."'";
         }
-        $rows = $mapper->findWhere("(cookie='".$viewUserCookie->getId()."' ".$orEmail.")".$andNick);
+        $rows = $mapper->findWhere("(cookie='".$viewUserCookie->getId()."' ".$orEmail.")".$andNick,50,$page*50);
         $this->view->comments = array();
         foreach($rows as $r){
           $viewUserFullCookieId = $r->cookie;
@@ -440,6 +439,8 @@ class CommentController extends Zend_Controller_Action
         $this->view->askedNick=$nick;
         $this->view->userDetails=$viewUserCookie;
         $this->view->mid=$messageId;
+        $this->view->title="Messages from $nick";
+        $this->view->page=$page;
     }
 
     public function showAction()
