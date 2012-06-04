@@ -211,7 +211,7 @@ class CommentController extends Zend_Controller_Action
               $mapper->save($hash);
 
               //What's the email look like?
-              $emailBody = "Hi there!\n\nYou (or someone pretending to be you) asked webace to confirm your email. Click here to confirm this is really you: http://webace.dalliance.net/Email/confirm?hash=".$hash->getHash()."\n\nIf it was't you, sorry. Ignore this.";
+              $emailBody = "Hi there!\n\nYou (or someone pretending to be you) asked webace to confirm your email. Click here to confirm this is really you:\nhttp://webace.dalliance.net/Email/confirm?hash=".$hash->getHash()."\n\nIf it was't you, sorry. Ignore this.";
 
               //Send off the confirmation
               $mail = new Zend_Mail();
