@@ -53,7 +53,7 @@ class Application_Model_CookieMapper{
         );
 
         if ((!isset($data['id']))||($data['id'] === 0)||($data['id']===null)||($data['id']=="")) {
-            $data['id'] = Application_Model_DbTable_Cookie::generateRandomKey();
+            $data['id'] = Application_Model_Cookie::generateRandomKey();
             $cookie->setId($data['id']);
             $this->getDbTable()->insert($data);
         } else {
@@ -133,6 +133,24 @@ class Application_Model_CookieMapper{
         return $entries;
     }
 
+    /*********************************************
+    * Make a copy of this cookie, only with a new
+    * random key. This don't save it though!
+    */
+    public function duplicate($old){
+      $new = new Application_Model_Cookie();
+      $new->setNick($old->getNick());
+      $new->setEmail($old->getEmail());
+      $new->setDisplayMode($old->getDisplayMode());
+      $new->setSaveName($old->getSaveName());
+      $new->setPassword($old->getPassword());
+      $new->setTwitter($old->getTwitter());
+      $new->setFacebook($old->getFacebook());
+      $new->setCCEmail($old->getCCEmail());
+      $new->setCreated($old->getCreated());
+      $new->setUpdated($old->getUpdated());
+      return $new;
+    }
    
     /*************************************
     * Take a DB result and build a cookie object

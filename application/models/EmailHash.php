@@ -14,7 +14,7 @@ class Application_Model_EmailHash
             $this->setOptions($options);
         }
 	#Generate new ones with random hash built it as standard sir, for your safety!
-	$this->_hash = Application_Model_DbTable_Cookie::generateRandomKey();
+	$this->_hash = Application_Model_Cookie::generateRandomKey();
     }
  
     public function __set($name, $value) {

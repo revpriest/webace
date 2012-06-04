@@ -71,6 +71,9 @@ class Application_Model_Cookie {
         return $this;
     }
 
+
+
+
     /***************************************************
     * Finally, a bunch of actual getters and setters   *
     * for the individual fields.                       *
@@ -191,5 +194,29 @@ class Application_Model_Cookie {
       }
       return $ret;
     }
+
+
+    public static function makeNewCookie(){
+      $cookie = new Application_Model_Cookie(array('id'=>null,'ip'=>$_SERVER['REMOTE_ADDR'],'nick'=>"Anon_".self::generateRandomKey(6)));
+      $mapper = new Application_Model_CookieMapper();
+      $mapper->save($cookie);
+      $cookieKey = $cookie->getId();
+      setcookie('cookieKey',$cookieKey,time()+(7*24*60*60),"/");
+      return $cookie;
+    }
+
+
+    public static function generateRandomKey($size=60,$charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"){
+      /*********************************************************
+      * Genarate a string of length $size with rnadom alphanums.
+      */
+      $str = '';
+      $count = strlen($charset);
+      while ($size--) {
+          $str .= $charset[mt_rand(0, $count-1)];
+      }
+      return $str;
+    }
+
 }
 

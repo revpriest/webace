@@ -181,10 +181,16 @@ class CommentController extends Zend_Controller_Action
          * change Nickname command.
          */
          case "nick":
+           if(sizeof($params)<=0){
+             return "Your nick is currently ".$cookie->getNick();
+           }
            $x=(implode(" ",$params));
            $x=preg_replace("/[^A-Za-z0-9\ \_\-]/","",$x);
+           if(strlen($x)<2){
+             return "Nicks must be 2 chars or more";
+           }
            $cookie->setNick($x);
-           $mapper  = new Application_Model_CookieMapper();
+           $mapper = new Application_Model_CookieMapper();
            $mapper->save($cookie);
            return "Changed nick to $x";
 
@@ -195,6 +201,12 @@ class CommentController extends Zend_Controller_Action
          case "password":
          case "pass":
          case "save":
+           if(($cookie->getEmail()==null)||($cookie->getEmail()=="")){
+             return "You must first set an email address before you can save";
+           }
+           if(sizeof($params)<=0){
+             return "You must provide a password to save with";
+           }
            $password = $params[0];
            if(isset($params[1])){
              if($password!=$params[1]){
@@ -202,15 +214,15 @@ class CommentController extends Zend_Controller_Action
              }
            }
            $oldPassword = $cookie->getPassword();
-           $ret="";
+           $mapper  = new Application_Model_CookieMapper();
+           $cookie=$mapper->duplicate($cookie);        //Save session as backup!
            $encPassword = md5(Application_Model_Cookie::PASSWORD_SALT.$password);
            $cookie->setPassword($encPassword);
-           $mapper  = new Application_Model_CookieMapper();
            $mapper->save($cookie); 
            if($oldPassword){
              return "Changed session password, use new password in future";
            }
-           return "Session saved, resume with /resume [email@address.com] [password]";
+           return "Session saved, resume with /load [email@address.com] [password]";
 
 
          /***************************************************
@@ -219,6 +231,9 @@ class CommentController extends Zend_Controller_Action
          case "resume":
          case "load":
          case "login":
+           if(sizeof($params)<2){
+             return "To load a session you need to provide an email address and password";
+           }
            $email = $params[0];
            $password = $params[1];
            $encPassword = md5(Application_Model_Cookie::PASSWORD_SALT.$password);
@@ -227,7 +242,9 @@ class CommentController extends Zend_Controller_Action
            if($cookie==null){
              return "Can't find session with that email/password";
            }else{
-             setcookie('cookieKey',$cookie->getId(),time()+(7*24*60*60),"/");
+             $newcookie = $mapper->duplicate($cookie);
+             $mapper->save($newcookie);
+             setcookie('cookieKey',$newcookie->getId(),time()+(7*24*60*60),"/");
              return "Restored session, welcome back ".$cookie->getNick();
            }
 
@@ -236,13 +253,19 @@ class CommentController extends Zend_Controller_Action
          * Log out
          */
          case "logout":
-           setcookie('cookieKey',"Logout",time()+(7*24*60*60),"/");
+           $cookie = Application_Model_Cookie::makeNewCookie();
            return "Logged out. You now have a new anonymous ID.";
 
          /**************************************************
          * Attach email address command.
          */ 
          case "email":
+            if(sizeof($params)<=0){
+              $cookie->setEmail("");
+              $mapper  = new Application_Model_CookieMapper();
+              $mapper->save($cookie);
+              return "Reset your email attachment, no longer attached to email.";
+            }
             $x=$params[0];
             $validator = new Zend_Validate_EmailAddress();
             if ($validator->isValid($x)) {
