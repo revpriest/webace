@@ -90,6 +90,20 @@ class Application_Model_CookieMapper{
         return $cookie;
     }
 
+
+
+    /***************************************************
+    * Find a cookie based on a patial, IE the user-exposed
+    * half of the login cookie.
+    */ 
+    public function findFromPartial($id) {
+        $select = $this->getdbtable()->select()->where("SUBSTR(id,1,30)='$id'");
+        $resultset = $this->getDbTable()->fetchAll($select);
+        if(sizeof($resultset)<1){return null;}
+        return($this->hydrateFromResult($resultset[0]));
+    }
+
+
     /***************************************************
     * Grab everything from the DB table and put it into
     * an array of model objects. This has a lot of
@@ -98,25 +112,32 @@ class Application_Model_CookieMapper{
     * own?
     */ 
     public function fetchAll() {
-        $resultSet = $this->getDbTable()->fetchAll();
+        $resultset = $this->getdbtable()->fetchall();
         $entries   = array();
         foreach ($resultSet as $row) {
-            $entry = new Application_Model_Cookie();
-            $entry->setId($row->id)
-                  ->setNick($row->nick)
-                  ->setEmail($row->email)
-                  ->setPassword($row->password)
-                  ->setDisplayMode($row->displaymode)
-                  ->setSaveName($row->savename)
-                  ->setTwitter($row->twitter)
-                  ->setFacebook($row->facebook)
-                  ->setCCEmail($row->ccemail)
-                  ->setCreated($row->created)
-                  ->setUpdated($row->updated);
-            $entries[] = $entry;
+            $entries[] = $this->hydrateFromResult($row);
         }
         return $entries;
     }
 
+   
+    /*************************************
+    * Take a DB result and build a cookie object
+    */
+    function hydrateFromResult($row){
+       $entry = new Application_Model_Cookie();
+       $entry->setId($row->id)
+             ->setNick($row->nick)
+             ->setEmail($row->email)
+             ->setPassword($row->password)
+             ->setDisplayMode($row->displaymode)
+             ->setSaveName($row->savename)
+             ->setTwitter($row->twitter)
+             ->setFacebook($row->facebook)
+             ->setCCEmail($row->ccemail)
+             ->setCreated($row->created)
+             ->setUpdated($row->updated);
+        return $entry;
+    } 
 }
 

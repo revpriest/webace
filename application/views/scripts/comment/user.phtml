@@ -1,4 +1,25 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Comment</b> and script/action name <b>user</b></p>
+<h1>User's Messages<sub>(most recent first)</sub></h1>
+<?php if($this->userDetails->getEmail()): ?>
+<?php endif; ?>
+<div class="userDetails">
+  <?php if($this->userDetails->getEmail()): ?>
+    <img class="userDetailsImg" src="http://www.gravatar.com/avatar/<?php echo $this->userDetails->getEmailMd5() ?>" width="80" height="80" alt="Avatar" />
+  <?php endif; ?>
+    <h1><?php 
+        if(isset($this->askedNick)){
+          echo $this->askedNick;
+        }else{
+          echo $this->userDetails->getNick(); 
+        }
+     ?></h1>
+    <?php if(sizeof($this->userNicks)>2): ?>
+      <h4>AKA:</h4>
+      <h2>
+        <?php $n=0; foreach($this->userNicks as $key=>$nick): ?>
+            <a href="/Comment/user?mid=<?php echo $this->mid; ?>&nick=<?php echo $nick ?>"><?php echo $nick; ?></a>, 
+        <?php endforeach; ?>
+        <a href="/Comment/user?mid=<?php echo $this->mid; ?>">(or show all)</a>
+      </h2>
+    <?php endif; ?>
 </div>
+<?php echo $this->partial('comment/commentset.phtml', array('comments'=>$this->comments,'showUrl'=>true)); ?>

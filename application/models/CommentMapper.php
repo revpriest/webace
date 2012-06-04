@@ -67,7 +67,10 @@ class Application_Model_CommentMapper{
     * param rather than just creating the object and
     * returning it. Wonder why that is? 
     */ 
-    public function find($id, Application_Model_Comment $comment) {
+    public function find($id, Application_Model_Comment $comment=null) {
+        if($comment==null){
+          $comment = new Application_Model_Comment();
+        }
         $result = $this->getDbTable()->find($id);
         if (0 == count($result)) {
             return;
@@ -84,6 +87,7 @@ class Application_Model_CommentMapper{
                 ->setReplyTo($row->reply_to)
                 ->setCreated($row->created)
                 ->setUpdated($row->updated);
+        return $comment;
     }
 
 
@@ -95,6 +99,7 @@ class Application_Model_CommentMapper{
       $select=$this->getDbTable()->select()->where($where)->order($order)->limit($limit,$offset);
       return $this->getDbTable()->fetchAll($select);
     }
+
 
     /***************************************************
     * Grab everything from the DB table and put it into
@@ -147,7 +152,7 @@ class Application_Model_CommentMapper{
       if(($cookie->getDisplayMode()!=null)&&($cookie->getDisplayMode()>0)){
         $entry['url'] = $row->domain.$row->path;
       }
-      $entry['cookie'] =substr($row->cookie,0,25);
+      $entry['cookie'] =substr($row->cookie,0,30);
       $entry['nick']   =$row->nick;
       $entry['email']  =$row->email;
       $entry['ip']     =$row->ip;

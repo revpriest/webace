@@ -17,7 +17,10 @@ var webaceHelpText = "Commands:<br/><dl><dt>/help</dt><dd>Show this text</dd>"+
                                        "<dt>/email X@Y</dt><dd>Change your email to X@Y. "+
                                             "You will need to confirm it with an emailed link.<br/>"+
                                              "Users with email get avatars from "+
-                                             "<a href=\"http://gravatar.com\">Gravatar.com</a></dd>"+
+                                             "<a href=\"http://gravatar.com\">Gravatar.com</a>"+
+                                             ", and can be notifed of non-contemporaneous replies "+
+                                             "to their messages."+
+                                             "</dd>"+
                                        "<dt>/mode X</dt><dd>Change display mode to X, X is:<br/>"+
                                              "0 = Show new comments to this single page.<br/>"+
                                              "1 = Show new comments to this whole site.<br/>"+
@@ -163,7 +166,7 @@ function webaceFormatReply(data){
   if((data['email']!=null)&&(data['email']!="")){
     reply+=" <img class=\"webaceAvatarImg\" src=\"http://www.gravatar.com/avatar/"+data['emailmd5']+"\" width=\"80\" height=\"80\" alt=\"Avatar\" /><br/>";
   }
-  reply += "<b><a href=\"http://webace.dalliance.net/Comment/user?id="+data['cookie']+"\">"+data['nick']+"</a></b><br/>";
+  reply += "<b><a href=\"http://webace.dalliance.net/Comment/user?mid="+data['id']+"\">"+data['nick']+"</a></b><br/>";
   reply+='<span class="webaceDate">('+data['created']+')</span>';
 //  reply+='<br/><span class="webaceDate">('+data['id']+')</span>';
   reply+="</div>";

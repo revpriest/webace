@@ -116,7 +116,7 @@ class Application_Model_Cookie {
         return $this;
     }
     public function setUpdated($d){
-        $this->_created = $d;
+        $this->_updated = $d;
         return $this;
     }
 
@@ -145,6 +145,9 @@ class Application_Model_Cookie {
     public function getEmail() {
         return $this->_email;
     }
+    public function getEmailMd5() {
+        return md5($this->_email);
+    }
     public function getPassword() {
         return $this->_password;
     }
@@ -164,5 +167,28 @@ class Application_Model_Cookie {
         return $this->_updated;
     }
 
+
+    /***************************************************
+    * Find all the nicks this user has ever used. If
+    * they have an email address registered, then
+    * that includes all the nicks posted under that
+    * email address too.
+    */
+    public function getAllNicks() {
+      $commentTable = new Application_Model_CommentMapper();
+      $commentTable = $commentTable->getDbTable();
+      if($this->getEmail()){
+        $orEmail=" or email='".$this->getEmail()."'";
+      }else{
+        $orEmail="";
+      }
+      $select=$commentTable->select()->group('nick')->where("cookie='".$this->getId()."'".$orEmail);
+      $rows = $commentTable->fetchAll($select);
+      $ret = array();
+      foreach($rows as $r){
+        $ret[]=$r->nick;
+      }
+      return $ret;
+    }
 }
 

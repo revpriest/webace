@@ -3,7 +3,44 @@
 
 
 TODO:
+* EMAIL!
+  * We are collecting email addresses, but I'm uncomfortable with
+    actually showing them. We'll forward short text-only messages
+    on for people I guess.
+  * If you have an email linked account when you change your 
+    email address then it DOES need to change or somehow reference
+    back to the new email.
+    * Cookies and Comments both have email and nick fields
+    * If a sessions sets email when email is already set,
+      it's a *change*, and we edit, what all the old cookies?
+      all the old comments? Some kind of emails-that-have-been-used
+      -and-are-so-equivalent table? 
+
+* Right, how does the PM system work? Maybe knowing the
+  answer to that will let me know what's wrong here 
+  with the email address system.
+  * Click a nick to see a profile page.
+    * IFF the profile has a persistent ID, you can PM 'em.
+    * Click "Send", type message, get thanks screen.
+    * Next time that persistent-identity polls, we return
+      the number of PMs they've got, and say "/view pms"
+      to view 'em.
+   * But why Private-message? Why have this backchanel?
+     I want to be notified if people reply to me, but
+     that's true of PUBLIC replies as well! What I really
+     want, the reason I have a persistent ID, is just
+     so I can turn on "Show replies to your comments"
+     and have a new /mode:
+     /mode page-and-replies-to-me
+     /mode domain-and-replies-to-me
+   * So it's the REPLIES system which is crucial, and
+     you can either have "Send me a mail" when someone
+     replies or "View 'em webace".
+
 * Enable reset-email
+* Hummm, the "Logout" button ought to be push, and
+  require a paramter, and probably the revamped CSRF
+  which I really must think deeply about tomorrow.
 * Re-Enable CSRF!
 * Redo CSRF for multiple-windows.
 * Website needs comments by:

@@ -140,6 +140,10 @@ class Application_Model_Comment {
     public function getCookie() {
         return $this->_cookie;
     }
+    public function getCookieObject() {
+        $mapper = new Application_Model_CookieMapper();
+        return $mapper->find($this->_cookie);
+    }
     public function getNick() {
         return $this->_nick;
     }

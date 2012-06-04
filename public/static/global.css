@@ -107,8 +107,33 @@ h1{
   font-weight: normal;
   color: #008;
   text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
 }
-
+h4{
+  font-family: 'Oleo Script', cursive,arial,helvetica,clean,sans-serif;
+  font-weight: normal;
+  color: #008;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+h2{
+  font-family: 'Oleo Script', cursive,arial,helvetica,clean,sans-serif;
+  font-weight: normal;
+  color: #008;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+h3{
+  font-family: 'Oleo Script', cursive,arial,helvetica,clean,sans-serif;
+  font-weight: normal;
+  color: #008;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
 b {
   font-family: 'Oleo Script', cursive,arial,helvetica,clean,sans-serif;
   font-weight: normal;
@@ -180,4 +205,24 @@ code{
   color: white;
   display: block;
   padding: 10px;
+}
+
+.userDetails{
+  min-height: 90px;
+  padding: 2px;
+  width: 400px;
+  border: 1px solid;
+  margin: 2px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  background: #fff;
+  -webkit-border-radius: 5px
+  -moz-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  box-shadow: -4px 4px #abc;
+}
+.userDetailsImg{
+  width: 90;
+  padding: 5px;
+  float: left;
 }

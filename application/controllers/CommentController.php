@@ -338,7 +338,62 @@ class CommentController extends Zend_Controller_Action
 
     public function userAction()
     {
-        // action body
+        /****************************************************************
+        * We're sent the first 30 chars of a cookie. We wanna list
+        * all the comments that the user made. We'll get more tricky 
+        * if the cookie has an email assigned and end up showing
+        * all comments by any cookie with that email attached.
+        */
+        $this->view->title="User's Messages";
+        $cookie = Application_Model_DbTable_Cookie::getUserCookie();
+        $cookieMapper = new Application_Model_CookieMapper();
+        $mapper = new Application_Model_CommentMapper();
+
+        //Need to grab a cookie and nick. We can do this two ways,
+        if($this->getRequest()->getParam('id')){
+          //One: Passed a partial cookie and nickname directly:
+          $partialCookie = addslashes($this->getRequest()->getParam("id"));
+          $viewUserCookie = $cookieMapper->findFromPartial($partialCookie);
+          $nick = addslashes($this->getRequest()->getParam("nick"));
+        }else if($this->getRequest()->getParam('mid')){
+          //Two: Passed a message and told "The guy who wrote this"
+          $messageId = $this->getRequest()->getParam('mid');
+          $message = $mapper->find($messageId);
+          $viewUserCookie=$message->getCookieObject();;;;
+          $nick = $message->getNick();
+          if($this->getRequest()->getParam("nick")){
+            $nick = addslashes($this->getRequest()->getParam("nick"));
+          }
+          if($nick=="-1"){
+             $nick=null;
+          }
+        }else{
+          print "Which user exactly? Which nick? You're so smart YOU TELL ME!";
+          exit;  #Neither! How rude!
+        }
+
+        //All the nicks this user ever used!
+        $this->view->userNicks = $viewUserCookie->getAllNicks();
+
+        //All the comments they ever posted!
+        if($viewUserCookie->getEmail()){
+          $orEmail=" or email='".$viewUserCookie->getEmail()."'";
+        }else{
+          $orEmail="";
+        }
+        if($nick!=null){
+          $andNick=" and nick='".$nick."'";
+        }
+        $rows = $mapper->findWhere("(cookie='".$viewUserCookie->getId()."' ".$orEmail.")".$andNick);
+        $this->view->comments = array();
+        foreach($rows as $r){
+          $viewUserFullCookieId = $r->cookie;
+          if($messageId==null){$messageId=$r->id;}
+          $this->view->comments[]=$mapper->convertRowToArray($r,$cookie);
+        } 
+        $this->view->askedNick=$nick;
+        $this->view->userDetails=$viewUserCookie;
+        $this->view->mid=$messageId;
     }
 
 
