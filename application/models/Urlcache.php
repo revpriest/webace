@@ -15,7 +15,7 @@
 class Application_Model_Urlcache {
     CONST HOTNESS_INITIAL = 5000;
     CONST HOTNESS_COOLRATE = 0.0001;
-    CONST HOTNESS_BOOST = 100;
+    CONST HOTNESS_BOOST = 2500;
 
     protected $_id;
     protected $_domain;

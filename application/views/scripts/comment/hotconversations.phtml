@@ -1,4 +1,8 @@
 <h1>Hot Conversations<sub>(hottest first)</sub></h1>
+<p>We list the hottest few <b>WebAce</b> conversations over
+the web right now, along with the last five or so comments 
+in that conversation. Click the title to join in! It'll
+work even without the bookmarklet installed.</p>
 <?php foreach($this->urls as $u): ?>
   <div class="hotConversation">
     <h2 class="toPage" title="Hot Conversation!"><a href="<?php echo $this->url(array('controller'=>'Index','action'=>'launch'),'default',true)."?url=".urlencode($u->getDomain().$u->getPath()).'">'.$u->getTitle()."</a><br/>at ".$u->getDomain() ?></h2>

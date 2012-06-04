@@ -49,10 +49,12 @@ class CommentController extends Zend_Controller_Action
         $this->view->urls = $mapper->findHottest(12);
         $this->view->comments = array();
         foreach($this->view->urls as $url){
-          $commentRow = $commentMapper->findWhere("domain='".$url->getDomain()."' and path='".$url->getPath()."'",5,0,"id asc");
+          $commentRow = $commentMapper->findWhere("domain='".$url->getDomain()."' and path='".$url->getPath()."'",5,0,"id desc");
           $this->view->comments[$url->getId()] = array();
+          for($n=sizeof($commentRow)-1;$n--;$n>=0){
+            $this->view->comments[$url->getId()][]=$commentMapper->convertRowToArray($commentRow[$n],$cookie);
+          }
           foreach($commentRow as $r){
-            $this->view->comments[$url->getId()][]=$commentMapper->convertRowToArray($r,$cookie);
           } 
         } 
     }
