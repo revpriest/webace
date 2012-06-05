@@ -1,6 +1,8 @@
-auth.salt = "vwea'fiwn'goiwng'wgergwreg2t";
-
 [production]
+//Webace application settings - change the 'salt' ones to some long random string.
+webace.csrfSalt ="Salt Used IN CSRF Protection - Put your own long random string here"
+webace.saveSessionPasswordSalt ="Walt used in Save-session passwords - Put your own long random string here"
+
 resources.view[] = 
 phpSettings.display_startup_errors = 0
 phpSettings.display_errors = 0

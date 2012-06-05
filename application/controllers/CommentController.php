@@ -214,7 +214,12 @@ class CommentController extends Zend_Controller_Action
            $oldPassword = $cookie->getPassword();
            $mapper  = new Application_Model_CookieMapper();
            $cookie=$mapper->duplicate($cookie);        //Save session as backup!
-           $encPassword = md5(Application_Model_Cookie::PASSWORD_SALT.$password);
+
+           $bootstrap = Zend_Controller_Front::getInstance()->getParam('bootstrap');
+           $opts = $bootstrap->getOptions();
+           $salt = $opts['webace']['saveSessionPasswordSalt'];
+    
+           $encPassword = md5($salt.$password);
            $cookie->setPassword($encPassword);
            $mapper->save($cookie); 
            if($oldPassword){
@@ -234,7 +239,10 @@ class CommentController extends Zend_Controller_Action
            }
            $email = $params[0];
            $password = $params[1];
-           $encPassword = md5(Application_Model_Cookie::PASSWORD_SALT.$password);
+           $bootstrap = Zend_Controller_Front::getInstance()->getParam('bootstrap');
+           $opts = $bootstrap->getOptions();
+           $salt = $opts['webace']['saveSessionPasswordSalt'];
+           $encPassword = md5($salt.$password);
            $mapper= new Application_Model_CookieMapper();
            $cookie = $mapper->findFromPassword($email,$encPassword);
            if($cookie==null){

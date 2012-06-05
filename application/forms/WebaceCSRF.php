@@ -27,11 +27,15 @@ class Webace_Form_Element_WebaceCSRF extends Zend_Form_Element_Hash
       *
       * We should add in some code to the client to handle
       * CSRF rejections more cleanly with a retry, basically.
-      */
+      */ 
+        $bootstrap = Zend_Controller_Front::getInstance()->getParam('bootstrap');
+        $opts = $bootstrap->getOptions();
+        $salt = $opts['webace']['csrfSalt'];
+
         $this->_hash = md5(
            substr(date('iYMdH'),1).
            $_COOKIE['cookieKey'].
-           "A long random salt string which needs to come from the application ini file really"
+           $salt
         );
         $this->setValue($this->_hash);
     }
