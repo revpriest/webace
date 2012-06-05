@@ -295,6 +295,7 @@ function webaceSendNewMessage(){
 * screen and move back on.
 */
 function webaceWindowResized() {
+  webaceAnimatePane(webacePaneHeight,2);
   webaceMoveOffBottom();
 }
 

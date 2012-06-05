@@ -1,7 +1,22 @@
-Checkout the git repo, then:
+Checkout the git repo.
+
+ADD THE LIBRIRIES
+====================
+$ mkdir library
+
+Symlink Zend into the library dir. Something similar to this: 
+ln -s /usr/share/php/libzend-framework-php/Zend/ library/
+
+Download and unpack HTMLPurifier into the library dir too,
+find out how here: http://htmlpurifier.org/
+
+
+MAKE THE APPLICATION SETTINGS
+=============================
 $ cp application/configs/applicaiton.ini.template application/configs/applicaiton.ini
 
-Then edit the new application config.ini to point at your database
+Then edit the new application config.ini to point at your database, and
+change the salt lines to something long and random.
 
 Now run the DB schema script:
 
