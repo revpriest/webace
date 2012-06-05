@@ -1,11 +1,5 @@
 <?php
 /*****************************************************************
-* A controller. This was auto-generated but again, with
-* basically no content at all. Every action needs to
-* be added by hand, individually, at least it was in
-* this tutorial. Perhaps having Doctrine around would
-* make it easier?
-*
 * EWWWW! NASTY, NASTY! When ever we call the zf add controller
 * action function, it CLEARS COMMENTS FROM THIS CODE.
 * My normal before-the-function description of 

@@ -142,8 +142,13 @@ b {
 h1 sub{
   font-size: 0.5em;
 }
+h2 sub{
+  font-size: 0.5em;
+}
 
-.webaceCommentList{
+h2.blogList {
+  margin-left: 2em;
+  text-align: left;
 }
 
 .button:active{
@@ -231,4 +236,15 @@ code{
   padding: 2em;
   clear: both;
   text-align: center;
+}
+
+
+a{
+  text-decoration: none;
+}
+a:hover{
+  text-decoration: underline;
+}
+a:visited{
+  color: #66f;
 }

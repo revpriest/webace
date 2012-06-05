@@ -1,12 +1,16 @@
 
+* In-built blog system of some kind?
+  Some really very very simple. I'm happy to 
+  just edit text files on the server really.
+  Webace itself gives you a commenting system.
+  So really it's just about the indexing.
+
+  Check a 'blogs' directory for *.phtml files,
+  grab the file-system created-at date and 
+  show a list. That's basically it.
 
 
-
-TODO:
-* Client code to resubmit a few seconds later on CSRF rejection.
-* Check the div for posting page when embedding external rather than other way aorund.
-* Reset amazon links to use affiliate links?
-
+Things to do later:
 * Add auto-post-to-email
 * Add auto-post-to-twitter
 * Add auto-post-to-facebook
@@ -18,35 +22,10 @@ TODO:
 * Clean up "commands" stuff, it needs a proper parser
   most likely, certainly at least each case calling a
   different function.
-
-
-
-
-
-Blog Post Stuff:
- * Creating a new action with "zf create action" zapps all my out-of-function comments!
- * CSRF system won't allow two-window operation
-   * May need to custom roll one
- * zend_db_Select for fetching rows
- * htmlpurifier
-    * This is how we include it:
-      $config = HTMLPurifier_Config::createDefault();
-      $purifier = new HTMLPurifier($config);
-      $config->set('HTML.Allowed', "a[href],b,i,strike,br,img[src|width|height]");
-      $config->set('HTML.MaxImgLength' , 250);
-      $config->set('CSS.MaxImgLength',"250px");
-      $content = $purifier->purify( $content );
-    * We allow links, CR etc, and images with max sizes.
-      * Takes care of href=script attacks, images too
-	large are removed in CSS, image-tag widths and
-	heights are limited. 
-  * Cross Origin Resource Sharing.
-    When you launch webace from another domain, all the requests are send
-    with Origin: headers, which we need to echo back with "Access-Control-Allow-Origin" headers
-    There's a OPTIONS call before the POST call too.
-    * Also need to add "WithCredentials" to the Ajax post.
-  * CSRF overriding
-    * Generate a CSRF that'll work for multiple tabs.
+* Make a version that will allow a website owner
+  to embed something so ve, and only ve (or ver
+  minions) can reply in one-on-one chats with
+  visitors? Probably a paid b2b service I guess?
 
 
 

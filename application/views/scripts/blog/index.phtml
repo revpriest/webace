@@ -1,0 +1,7 @@
+<h1>News<sub>(most recent fist)</sub></h1>
+<dl>
+<?php foreach($this->blogs as $b): ?>
+  <h2 class="blogList"><a href="/Blog/show?id=<?php echo urlencode($b['file']) ?>"><?php echo $b['title'] ?></a><sub>
+  <?php echo $b['year'].'/'.$b['month'].'/'.$b['day'] ?></h2>
+<?php endforeach; ?>
+</dl>

@@ -25,6 +25,10 @@
         <controllerFile controllerName="Email">
           <actionMethod actionName="confirm"/>
         </controllerFile>
+        <controllerFile controllerName="Blog">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="show"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false">
         <formFile formName="Comment"/>
@@ -84,6 +88,12 @@
           <viewControllerScriptsDirectory forControllerName="Comment">
             <viewScriptFile forActionName="show"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Blog">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Blog">
+            <viewScriptFile forActionName="show"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -133,6 +143,10 @@
           </testApplicationControllerFile>
           <testApplicationControllerFile forControllerName="Email">
             <testApplicationActionMethod forActionName="confirm"/>
+          </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Blog">
+            <testApplicationActionMethod forActionName="index"/>
+            <testApplicationActionMethod forActionName="show"/>
           </testApplicationControllerFile>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>

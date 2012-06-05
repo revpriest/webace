@@ -248,11 +248,7 @@ function webaceDoCommand(wholeCommand){
         webaceOutput("Current Top Post ID: "+webaceMaxCommentID);
         break;
       case "replyurl":
-        if(webaceReplyUrl==null){
-          webaceOutput("No replyurl set, defaulting to : "+$(location).attr('href'));
-        }else{
-          webaceOutput("Current Reply-Url: "+webaceReplyUrl);
-        }
+          webaceOutput("Current Reply-Url: "+webaceGetReplyUrl());
         break;
       default:
         return false;
@@ -312,6 +308,28 @@ function webaceMoveOffBottom(){
 }
 
 
+/******************************************
+* Find which page to reply to, should work
+* with bookmarklet, with /mode replies
+* with the launch-in-page and everywhere
+*/
+function webaceGetReplyUrl(){
+  var myurl = webaceReplyUrl;
+  if(myurl==null){
+    //Default to the current page.
+    var externalDom = $("#webaceLaunchContent");
+    if(externalDom.length>0){
+      //Current page is the iframe the launcher pushed us to.
+      myurl=externalDom.attr("src");
+    }else{
+      //Current page is just this page
+      myurl=$(location).attr('href');
+    }
+  }else{
+    myurl=myurl;
+  }
+  return myurl;
+}
 
 /***************************************************
 * Function to send a message to the server, we
@@ -322,13 +340,7 @@ function webaceMoveOffBottom(){
 function webaceSendMessage(params){ 
   if(params==null){params={};}
   if(params['url']==null){params['url']="http://webace.dalliance.net/Comment/poll";}
-  myurl = webaceReplyUrl;
-  if(myurl==null){
-    //Default to the current page.
-    myurl=encodeURIComponent($(location).attr('href'));
-  }else{
-    myurl=encodeURIComponent(myurl);
-  }
+  myurl = encodeURIComponent(webaceGetReplyUrl());
   var data="url="+myurl+"&csrf="+webaceCSRF;
   if(params['data']!=null){
     data+=params['data'];
