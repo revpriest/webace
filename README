@@ -1,3 +1,6 @@
+See it running live at http://webace.dalliance.net/
+
+
 In my last job, which regrettably closed down last week making me redundant, we were building a community for kids. It was based on careful moderation, with tight rules about knowing who was who, what people were allowed to say, who they were allowed to say it too and who was allowed to hear it.
 
 Having found myself redundant, I took a quick glance at web programming roles and found lots of people asking for Zend experience, so I decided to make a quick project to learn Zend.
@@ -14,4 +17,4 @@ Just drag this bookmarklet to your tool-bar, visit a site, and click the bookmar
 
 The code is all PHP and Javascript with Jquery and Zend. You'll like it.
 
-The system is running at <a href="http://webace.dalliance.net/">Webace.dalliance.net</a>
+The system is running at http://webace.dalliance.net/
