@@ -45,7 +45,7 @@ class CommentController extends Zend_Controller_Action
         foreach($this->view->urls as $url){
           $commentRow = $commentMapper->findWhere("domain='".$url->getDomain()."' and path='".$url->getPath()."'",5,0,"id desc");
           $this->view->comments[$url->getId()] = array();
-          for($n=sizeof($commentRow)-1;$n--;$n>=0){
+          for($n=sizeof($commentRow);$n--;$n>=0){
             $this->view->comments[$url->getId()][]=$commentMapper->convertRowToArray($commentRow[$n],$cookie);
           }
           foreach($commentRow as $r){
