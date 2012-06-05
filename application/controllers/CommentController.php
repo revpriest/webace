@@ -129,8 +129,6 @@ class CommentController extends Zend_Controller_Action
  
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($request->getPost())) {
-            }
-            if(true){       //Disable the CSRF for now.
                 $initVals = $form->getValues();
                 $initVals = $this->formDataToObjectData($initVals);
                 if(!is_array($initVals)){

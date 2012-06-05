@@ -3,10 +3,9 @@
 
 
 TODO:
+* Client code to resubmit a few seconds later on CSRF rejection.
+* Check the div for posting page when embedding external rather than other way aorund.
 * Resizing window bug.
-* Enable reset-email
-* Re-Enable CSRF!
-* Redo CSRF for multiple-windows.
 * Reset amazon links to use affiliate links?
 
 * Add auto-post-to-email
@@ -47,6 +46,8 @@ Blog Post Stuff:
     with Origin: headers, which we need to echo back with "Access-Control-Allow-Origin" headers
     There's a OPTIONS call before the POST call too.
     * Also need to add "WithCredentials" to the Ajax post.
+  * CSRF overriding
+    * Generate a CSRF that'll work for multiple tabs.
 
 
 

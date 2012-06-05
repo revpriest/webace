@@ -38,9 +38,8 @@ class Application_Form_Comment extends Zend_Form {
         ));
 
         // Add some CSRF protection
-        $this->addElement('hash', 'csrf', array(
-            'ignore' => true,
-        ));
+        $this->addPrefixPath("Webace_Form_Element_","../application/forms/",'element')
+             ->addElement('WebaceCSRF', 'csrf', array( 'ignore' => true,));
 
         // Add the submit button
         $this->addElement('submit', 'submit', array(
