@@ -1,0 +1,17 @@
+In my last job, which regrettably closed down last week making me redundant, we were building a community for kids. It was based on careful moderation, with tight rules about knowing who was who, what people were allowed to say, who they were allowed to say it too and who was allowed to hear it.
+
+Having found myself redundant, I took a quick glance at web programming roles and found lots of people asking for Zend experience, so I decided to make a quick project to learn Zend.
+
+I spent the Queen's extra-long bank holiday weekend (and the last few days of last week) doing something that was the antithesis of the moderated, locked-down, carefully controlled system I've been working with for the last few years.
+
+Thus, WebAce was born!
+
+Using it's ultra super powers, WebAce has dedicated it's life to letting anonymous people scrawl junk all over other people's websites with no particular aim.
+
+The system allows anyone, registered or not, logged-in or not, anonymous or nonymous, at whatever age, to write anything they like* on top of any website they like.
+
+Just drag this bookmarklet to your tool-bar, visit a site, and click the bookmarklet to write messages about it.
+
+The code is all PHP and Javascript with Jquery and Zend. You'll like it.
+
+The system is running at <a href="http://webace.dalliance.net/">Webace.dalliance.net</a>
