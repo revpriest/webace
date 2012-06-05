@@ -14,7 +14,7 @@
        <span class="webaceNick"><a href="/Comment/user?mid=<?php echo $comment['id'] ?>"><?php echo $comment['nick'] ?></a></span><br/>
        <span class="webaceDate"><a href="/comment/show?id=<?php echo $comment['id'] ?>"><?php echo $comment['created'] ?></a></span>
      </div>
-   <?php echo $this->escape($comment['content']) ?>
+   <?php echo $comment['content'] ?>
  </div>
 <?php endforeach ?>
 </div>
