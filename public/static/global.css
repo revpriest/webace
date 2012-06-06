@@ -62,7 +62,7 @@ hr{
 
 
 #header-logo{
-  width: 450px;
+  width: 550px;
   height: 80px;
   position: relative;
   margin: auto;
@@ -85,7 +85,7 @@ hr{
   position: absolute;
   line-height: 0px;
   left: 100px;
-  top: 55px;
+  top: 59px;
   color: #008;
   font-family: 'Oleo Script', cursive,arial,helvetica,clean,sans-serif;
   font-weight: normal;
