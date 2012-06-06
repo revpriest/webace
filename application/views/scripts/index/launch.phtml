@@ -13,7 +13,7 @@
 </html>
 <script type="text/javascript">
 (function(){
-   document.body.appendChild(document.createElement('script')).src='http://webace.dalliance.net/static/webace.js';
+   document.body.appendChild(document.createElement('script')).src='http://<?php echo $_SERVER['HTTP_HOST'];$_SERVER['SERVER_NAME']; ?>/static/webace.js';
    setTimeout(function(){
         $("#webaceLaunchContent").attr("src",'<?php echo $this->url; ?>');
    },1000);

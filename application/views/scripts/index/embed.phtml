@@ -9,7 +9,7 @@ and it will make the <b>WebAce</b> tap appear, minimized,
 at the bottom of that web page</p>
 <code>
 &lt;script type="text/javascript"&gt;
-(function(){webaceStartMinimized=true; document.body.appendChild( document.createElement('script') ).src='http://webace.dalliance.net/static/webace.js';})()
+(function(){webaceStartMinimized=true; document.body.appendChild( document.createElement('script') ).src='http://<?php echo $_SERVER['HTTP_HOST'];$_SERVER['SERVER_NAME']; ?>/static/webace.js';})()
 &lt;/script&gt;
 </code>
 
@@ -18,4 +18,4 @@ see what happens when you do: the <b>WebAce</b> tab
 appears minimized on the page as soon as the
 page has loaded.</p>
 
-<script type="text/javascript"> (function(){webaceStartMinimized=true; document.body.appendChild( document.createElement('script') ).src='http://webace.dalliance.net/static/webace.js';})() </script> 
+<script type="text/javascript"> (function(){webaceStartMinimized=true; document.body.appendChild( document.createElement('script') ).src='http://<?php echo $_SERVER['HTTP_HOST'];$_SERVER['SERVER_NAME']; ?>';})() </script> 

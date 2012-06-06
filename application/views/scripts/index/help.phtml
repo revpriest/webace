@@ -8,7 +8,7 @@ be able to read and respond to your messages</p>
 <h1>Install</h1>
 <p>To Install <b>WebAce</b>, drag the bookmarklet
 into your favourites or bookmarks</p>
-<p>Here's the bookmarklet:&nbsp;&nbsp;&nbsp;&nbsp; <a class="button" href="javascript:(function(){if(undefined===window.webacePaneHeight){document.body.appendChild(document.createElement('script')).src='http://webace.dalliance.net/static/webace.js';}else{alert('Already Running')}})();">Launch WebAce</a></p>
+<p>Here's the bookmarklet:&nbsp;&nbsp;&nbsp;&nbsp; <a class="button" href="javascript:(function(){if(undefined===window.webacePaneHeight){document.body.appendChild(document.createElement('script')).src='http://<?php echo $_SERVER['HTTP_HOST'];$_SERVER['SERVER_NAME']; ?>/static/webace.js';}else{alert('Already Running')}})();">Launch WebAce</a></p>
 
 <h1>Launch</h1>
 <p>When you are viewing a web page which you
