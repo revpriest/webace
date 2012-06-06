@@ -342,6 +342,7 @@ function webaceGetReplyUrl(){
 * for the posting form..
 */
 function webaceSendMessage(params){ 
+  jQuery.support.cors = true; // force cross-site scripting (as of jQuery 1.5)
   if(params==null){params={};}
   if(params['url']==null){params['url']="http://"+webaceServerDomain+"/Comment/poll";}
   myurl = encodeURIComponent(webaceGetReplyUrl());
