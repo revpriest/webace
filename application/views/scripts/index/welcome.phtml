@@ -8,7 +8,7 @@
    and then visit a web-page anywhere on the internet. If you
    want to chat about that page, click the bookmarklet in your
    toolbar.</p>
-<p>Here's the bookmarklet:&nbsp;&nbsp;&nbsp;&nbsp; <a class="button" href="javascript:(function(){if(undefined===window.webacePaneHeight){document.body.appendChild(document.createElement('script')).src='http://<?php echo $_SERVER['HTTP_HOST'];$_SERVER['SERVER_NAME']; ?>/static/webace.js';}else{alert('Already Running')}})();">Launch WebAce</a></p>
+<p>Here's the bookmarklet:&nbsp;&nbsp;&nbsp;&nbsp; <a class="button" href="javascript:(function(){if(undefined===window.webacePaneHeight){webaceServerDomainOverride='<?php echo $_SERVER['HTTP_HOST'];$_SERVER['SERVER_NAME']; ?>';webaceServerDomainOverride='<?php echo $_SERVER['HTTP_HOST'];$_SERVER['SERVER_NAME']; ?>';document.body.appendChild(document.createElement('script')).src='http://<?php echo $_SERVER['HTTP_HOST'];$_SERVER['SERVER_NAME']; ?>/static/webace.js';}else{alert('Already Running')}})();">Launch WebAce</a></p>
 
 <h1>Try it now</h1>
 <p>Clicking the bookmarklet now, rather than dragging it

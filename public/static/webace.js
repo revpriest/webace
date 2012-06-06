@@ -11,6 +11,10 @@ var webaceCSRF = "";
 var webaceMaxCommentID = 0;
 var webaceFirstPoll=true;
 var webaceReplyUrl=null;
+var webaceServerDomain = "webace.dalliance.net";
+if(webaceServerDomainOverride!==undefined){
+  var webaceServerDomain = webaceServerDomainOverride;
+}
 
 var webaceHelpText = "Commands:<br/><dl><dt>/help</dt><dd>Show this text</dd>"+
                                        "<dt>/nick X</dt><dd>Change nickname to X</li>"+
@@ -29,13 +33,13 @@ var webaceHelpText = "Commands:<br/><dl><dt>/help</dt><dd>Show this text</dd>"+
                                              "fresh anonymous login. This will reset your nick, "+
                                              "email, mode and everything else.</li>"+
                                         "</dl>"+
-                       "Visit <a href=\"http://webace.dalliance.net/?page=help\">our help page</a> for more.";
+                       "Visit <a href=\"http://"+webaceServerDomain+"/?page=help\">our help page</a> for more.";
                     
 
 /**************************************************
 * Some HTML chunks
 */
-var webaceMainDiv = '<div id="webace"><div title="Click or drag handle" id="webaceHandle"><h1>&uarr;WebAce&uarr;</h1></div><div id="webaceContent"><br/><a href="http://webace.dalliance.net/">WebAce - Chat in any webpage</a><br/>Type /help for help<hr/></div><div id="webaceTextInput"><input id="webaceTextInputField" onKeyPress="javascript:webaceCheckForEnterKey(event,\'webaceSendNewMessage()\')" size="40"/><input id="webaceTextInputSend" type="submit" onclick="javascript:webaceSendNewMessage()" value="Send" /></div></div>';
+var webaceMainDiv = '<div id="webace"><div title="Click or drag handle" id="webaceHandle"><h1>&uarr;WebAce&uarr;</h1></div><div id="webaceContent"><br/><a href="http://'+webaceServerDomain+'/">WebAce - Chat in any webpage</a><br/>Type /help for help<hr/></div><div id="webaceTextInput"><input id="webaceTextInputField" onKeyPress="javascript:webaceCheckForEnterKey(event,\'webaceSendNewMessage()\')" size="40"/><input id="webaceTextInputSend" type="submit" onclick="javascript:webaceSendNewMessage()" value="Send" /></div></div>';
 
 
 
@@ -168,8 +172,8 @@ function webaceFormatReply(data){
   if((data['email']!=null)&&(data['email']!="")){
     reply+=" <img class=\"webaceAvatarImg\" src=\"http://www.gravatar.com/avatar/"+data['emailmd5']+"\" width=\"80\" height=\"80\" alt=\"Avatar\" /><br/>";
   }
-  reply += '<span class="webaceNick"><a href="http://webace.dalliance.net/Comment/user?mid='+data['id']+'">'+data['nick']+'</a></span><br/>';
-  reply+='<span class="webaceDate"><a href="http://webace.dalliance.net/Comment/show?id='+data['id']+'">('+data['created']+')</a></span>';
+  reply += '<span class="webaceNick"><a href="http://'+webaceServerDomain+'/Comment/user?mid='+data['id']+'">'+data['nick']+'</a></span><br/>';
+  reply+='<span class="webaceDate"><a href="http://'+webaceServerDomain+'/Comment/show?id='+data['id']+'">('+data['created']+')</a></span>';
 //  reply+='<br/><span class="webaceDate">('+data['id']+')</span>';
   reply+="</div>";
   reply+=data['content'];
@@ -221,7 +225,7 @@ function webaceAddComments(comments,domid){
 * get it
 */
 function webacePostToServer(text){
-  webaceSendMessage({url:"http://webace.dalliance.net/Comment/submit",data:'&content='+text});
+  webaceSendMessage({url:"http://"+webaceServerDomain+"/Comment/submit",data:'&content='+text});
 }
 
 
@@ -339,7 +343,7 @@ function webaceGetReplyUrl(){
 */
 function webaceSendMessage(params){ 
   if(params==null){params={};}
-  if(params['url']==null){params['url']="http://webace.dalliance.net/Comment/poll";}
+  if(params['url']==null){params['url']="http://"+webaceServerDomain+"/Comment/poll";}
   myurl = encodeURIComponent(webaceGetReplyUrl());
   var data="url="+myurl+"&csrf="+webaceCSRF;
   if(params['data']!=null){
@@ -408,7 +412,7 @@ function commsInterval(){
 */
 function webaceStart() {
   //Include the CSS
-  $("body").prepend('<link type="text/css" rel="stylesheet" media="all" href="http://webace.dalliance.net/static/webace.css" />');
+  $("body").prepend('<link type="text/css" rel="stylesheet" media="all" href="http://'+webaceServerDomain+'/static/webace.css" />');
 
   //Include the google web font...
   WebFontConfig = { google: { families: [ 'Oleo+Script::latin' ] } };

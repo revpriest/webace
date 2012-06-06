@@ -1,16 +1,8 @@
 
-* In-built blog system of some kind?
-  Some really very very simple. I'm happy to 
-  just edit text files on the server really.
-  Webace itself gives you a commenting system.
-  So really it's just about the indexing.
-
-  Check a 'blogs' directory for *.phtml files,
-  grab the file-system created-at date and 
-  show a list. That's basically it.
-
 
 Things to do later:
+* Private chat.
+  * 
 * Add auto-post-to-email
 * Add auto-post-to-twitter
 * Add auto-post-to-facebook
@@ -26,6 +18,9 @@ Things to do later:
   to embed something so ve, and only ve (or ver
   minions) can reply in one-on-one chats with
   visitors? Probably a paid b2b service I guess?
-
+  * Can already direct WebAce to post to a given URL.
+    * Force it to lock into mode 1, and lock to a random non-url URL.
+    * Need a way to make the messages private to all but Webmaster and Minions
+    * Yeah, comes after, and using, some kinda Private Chat function.
 
 
