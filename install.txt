@@ -23,11 +23,25 @@ Now run the DB schema script:
 $ php scripts/load.mysql.php
 
 Set up the apache config in the usual Zend way with
-the doc-root set to the public directory here.
+the doc-root set to the 'public' directory.
 
-You'll probably need to do a search/replace on
-the webace.dalliance.net URLs or something. Patches
-to stick that in the config gratefully merged.
+
+It should all work by taking the domain-name it
+needs to post to from your _SERVER variable hopefully,
+and so be serving messages from your server right
+away. You'll need to edit the email body text though.
+
+
+News/Blog section
+==================
+
+$mkdir application/views/scripts/blogs
+
+Edit files in that directory with filenames like
+"20121229-Title.phtml" and write pretty much
+arbitrary PHP in 'em. I know *most* people won't
+find that the easiest way to add new blog
+entries but *I* do.
 
 Good luck! Let me know what you make with it.
 
