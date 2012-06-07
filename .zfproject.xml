@@ -40,6 +40,7 @@
           <dbTableFile dbTableName="Cookie"/>
           <dbTableFile dbTableName="Urlcache"/>
           <dbTableFile dbTableName="EmailHash"/>
+          <dbTableFile dbTableName="Csrfhash"/>
         </dbTableDirectory>
         <modelFile modelName="CommentMapper"/>
         <modelFile modelName="CookieMapper"/>
@@ -50,6 +51,8 @@
         <modelFile modelName="Cookie"/>
         <modelFile modelName="EmailHashMapper"/>
         <modelFile modelName="EmailHash"/>
+        <modelFile modelName="CsrfhashMapper"/>
+        <modelFile modelName="Csrfhash"/>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <viewsDirectory>

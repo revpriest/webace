@@ -10,7 +10,6 @@
 * empty class. We'll have to add all the DB
 * fields ourselves.
 */
-
 class Application_Form_Comment extends Zend_Form {
 
     /******************************************

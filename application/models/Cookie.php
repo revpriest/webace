@@ -1,5 +1,4 @@
-<?php
-/********************************************************
+<?php /********************************************************
 * The actual model class. Coming from Symfony it's weird
 * to me that I had to actually create the content of this
 * file by hand. What's the point of the "zf create model"
@@ -13,7 +12,6 @@
 */
 
 class Application_Model_Cookie {
-    CONST PASSWORD_SALT = "p'oa498jwfoi;jt;49qa8u5t-]fsliv2'-0fe/ikvsdg9se98f";
     protected $_id;
     protected $_nick;
     protected $_email;

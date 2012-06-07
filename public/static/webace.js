@@ -12,7 +12,7 @@ var webaceMaxCommentID = 0;
 var webaceFirstPoll=true;
 var webaceReplyUrl=null;
 var webaceServerDomain = "webace.dalliance.net";
-if(webaceServerDomainOverride!==undefined){
+if(typeof(webaceServerDomainOverride)!='undefined'){
   var webaceServerDomain = webaceServerDomainOverride;
 }
 
@@ -126,6 +126,22 @@ function webaceCheckForEnterKey(e,command){
   if(e.keyCode==13){
     eval(command);
   } 
+}
+
+/*****************************************
+* Get the cookie. We need this coz IE is
+* silly and won't send the cookie in a 
+* X site ajax request.
+*/
+function webaceGetCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
 }
 
 
@@ -248,6 +264,12 @@ function webaceDoCommand(wholeCommand){
       case "csrf":
         webaceOutput("Current CSRF: "+webaceCSRF);
         break;
+      case "cookie":
+        webaceOutput("Current Auth Cookie: "+webaceGetCookie('cookieKey'));
+        break;
+      case "sessid":
+        webaceOutput("Current SessID Cookie: "+webaceGetCookie('PHPSESSID'));
+        break;
       case "maxid":
         webaceOutput("Current Top Post ID: "+webaceMaxCommentID);
         break;
@@ -335,6 +357,16 @@ function webaceGetReplyUrl(){
   return myurl;
 }
 
+function webacePollResult(params,json){
+  webaceTicksSincePoll=0;
+  if(json['csrf']){ webaceCSRF=json['csrf'] };
+  if(json['comments']){webaceAddComments(json['comments'],params['domid']); }
+  if(json['command']){
+     webaceOutput("<i>System</i>: "+json['content']);
+  }
+}
+
+
 /***************************************************
 * Function to send a message to the server, we
 * always include a poll to check for new messages
@@ -357,38 +389,55 @@ function webaceSendMessage(params){
   }else{
      data += "&maxCommentId="+webaceMaxCommentID;
   }
-  $.ajax({
-    type: "POST",
-    url: params['url'],
-    xhrFields: {
-       withCredentials: true
-    },
-    crossDomain: true,
-    dataType: "json",
-    cache: false,
-    data: data,
-    error:function(a,b,c){
-            webaceTicksSincePoll=0;
-            var error = "";
-            for(i in a){
-                try{ error+="<b>"+i+"</b> => "+a[i]+"<br/>\n"; }catch(e){ }
-            }
-            webaceOutput("Server communication error:<br/><b>"+b+"</b><br/>"+error+"\n"+params['url']+":"+data);
-    },
-    success: function(json) {
-      //Got the submit form, need to update our CSRF
-      webaceTicksSincePoll=0;
-      if(json['success']=='true'){
-        if(json['csrf']){webaceCSRF=json['csrf']};
-        if(json['comments']){webaceAddComments(json['comments'],params['domid']);}
-        if(json['command']){
-           webaceOutput("<i>System</i>: "+json['content']);
-	    }
-      }else{ 
-        webaceOutput("ERROR:"+json);
+
+  //Right. *sigh*
+  //IE deliberately refuses to send any cookie data, and 
+  //as far as I can tell accidentally fails to send any
+  //POST data either. It's ALL gotta go in the GET part.
+  if ($.browser.msie && window.XDomainRequest) {
+      // Use Microsoft XDR
+      var xdr = new XDomainRequest();
+      xdr.open("POST", params['url']+"?"+data+'&cookie='+webaceGetCookie('cookieKey')+"&phpsessid="+webaceGetCookie('PHPSESSID'));
+      xdr.onload = function() {
+	  try{
+            json = jQuery.parseJSON(xdr.responseText);
+	    webacePollResult(params,json);
+	  }catch(e){
+	    webaceOutput("Reply:"+xdr.responseText);
+	  }
+      };
+      xdr.send(data);
+  } else {
+    //Normal sensible way to do pre-fight and x domain requests.
+    $.ajax({
+      type: "GET",
+      url: params['url']+"?"+data+'&cookie='+webaceGetCookie('cookieKey')+"&phpsessid="+webaceGetCookie('PHPSESSID'),
+      xhrFields: {
+         withCredentials: true
+      },
+      crossDomain: true,
+      dataType: "json",
+      cache: false,
+//      data: data,
+      error:function(a,b,c){
+              webaceTicksSincePoll=0;
+              var error = "";
+              for(i in a){
+                  try{ error+="<b>"+i+"</b> => "+a[i]+"<br/>\n"; }catch(e){ }
+              }
+              webaceOutput("Server communication error:<br/><b>"+b+"</b><br/>"+error+"\n"+params['url']+":"+data);
+      },
+      success: function(json) {
+        //Got the submit form, need to update our CSRF
+        webaceTicksSincePoll=0;
+        if(json['success']=='true'){
+	  webacePollResult(params,json);
+        }else{ 
+          webaceOutput("ERROR:"+json);
+        }
       }
-    }
-  });
+    });
+  }
 }
 
 

@@ -120,9 +120,45 @@ class CommentController extends Zend_Controller_Action
         $this->allowAccessControl();
         $request = $this->getRequest();
         $form    = new Application_Form_Comment();
- 
-        if ($this->getRequest()->isPost()) {
-            if ($form->isValid($request->getPost())) {
+
+	//*sigh*. Appologies for this....
+        //IE deliberately refuses to send any cookie data, and 
+        //as far as I can tell accidentally fails to send any
+        //POST data either. It's ALL gotta go in the GET part.
+	//
+	//We'll then have to FAKE a $_POST array, and bypass the
+	//isPost() function if it's IE coming in through the back
+	//door. Heh. Like the classic "Hippies use back door"
+	//sign, here IE will shuffle in the back while the
+	//presentable people can come in the front door as always.
+	//
+	//CSRF protection ought to take care of any nasty security
+	//bugs introducted here, and forcing the user to supply
+	//the cookie as a GET parameter too.
+        //
+        //Why you always end up having do to these horrible hacks with IE?
+        //I hate it. I don't even have a windows machine to test on, I'm
+        //having to run across the room to my girlfriend's computer to
+        //test and then run back to hack more every time it fails again.
+        //I was SO gonna release today. I was. I really was. Bah.
+	$fakePostArray = $request->getPost();
+    $isFakePost=false;
+	if($this->getRequest()->getParam('cookie')){
+	  $fakePostArray = array(); $isFakePost=false;
+	  //We'll fake a $_POST array, at least of the usual
+	  //parameters.
+	  $fakePostArray['cookie']=$this->getRequest()->getParam('cookie');
+	  $fakePostArray['content']=$this->getRequest()->getParam('content');
+	  $fakePostArray['csrf']=$this->getRequest()->getParam('csrf');
+	  $fakePostArray['url']=$this->getRequest()->getParam('url');
+	  $fakePostArray['submit']=$this->getRequest()->getParam('submit');
+	  $fakePostArray['phpsessid']=$this->getRequest()->getParam('phpsessid');
+	  $isFakePost=true;
+	}
+
+
+        if ($this->getRequest()->isPost() || $isFakePost) {
+            if ($form->isValid($fakePostArray)) {
                 $initVals = $form->getValues();
                 $initVals = $this->formDataToObjectData($initVals);
                 if(!is_array($initVals)){
@@ -351,7 +387,7 @@ class CommentController extends Zend_Controller_Action
        * very little lese.
        */
 
-       $cookie = Application_Model_DbTable_Cookie::getUserCookie();
+       $cookie = Application_Model_DbTable_Cookie::getUserCookie($this->getRequest()->getParam('cookie'));
        $this->pollForm    = new Application_Form_Comment();
        $e = $this->pollForm->getElement('csrf');
        foreach($this->pollForm as $n=>$v){        //Only seems to give us the value when we inspect it first.
@@ -390,6 +426,7 @@ class CommentController extends Zend_Controller_Action
        $sendArray = array_merge($jsonArray,array(
                                           "comments"=>$this->comments,
                                           "success"=>"true",
+                                          "url"=>$url,
                                           "csrf"=>$this->pollForm->getValue('csrf')));
        $this->getHelper('json')->sendJSON($sendArray);
     }
@@ -427,7 +464,7 @@ class CommentController extends Zend_Controller_Action
           //Two: Passed a message and told "The guy who wrote this"
           $messageId = $this->getRequest()->getParam('mid');
           $message = $mapper->find($messageId);
-          $viewUserCookie=$message->getCookieObject();;;;
+          $viewUserCookie=$message->getCookieObject();
           $nick = $message->getNick();
           if($this->getRequest()->getParam("nick")){
             $nick = addslashes($this->getRequest()->getParam("nick"));

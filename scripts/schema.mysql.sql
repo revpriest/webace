@@ -1,3 +1,11 @@
+CREATE TABLE IF NOT EXISTS `csrfhash` (
+   `cookie` varchar(64) NOT NULL,
+   `csrf` varchar(64) NOT NULL,
+   `created` datetime NOT NULL,
+   PRIMARY KEY (`cookie`,`csrf`),
+   KEY `cookie_index` (`cookie`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
 CREATE TABLE IF NOT EXISTS `emailhash` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cookie` varchar(64) NOT NULL,
