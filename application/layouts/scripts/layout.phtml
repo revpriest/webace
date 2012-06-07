@@ -20,7 +20,8 @@
             <li> <a href="<?php echo $this->url( array('controller'=>'Comment'), 'default', true) ?>">Latest Messages</a></li>
             <li> <a href="<?php echo $this->url( array('controller'=>'Comment', 'action'=>'hotconversations'), 'default', true) ?>">Hot Conversations</a></li>
             <li> <a href="<?php echo $this->url( array('controller'=>''), 'default', true) ?>?page=help">Help Page - Instructions</a></li>
-            <li> <a href="<?php echo $this->url( array('controller'=>''), 'default', true) ?>?page=embed">Embed in your website</a></li>
+            <li> <a href="/?page=browser">Browser Compatibility</a></li>
+            <li> <a href="/?page=embed">Embed in your website</a></li>
             <li> <a href="javascript:(function(){if(undefined===window.webacePaneHeight){webaceServerDomainOverride='<?php echo $_SERVER['HTTP_HOST'];$_SERVER['SERVER_NAME']; ?>';document.body.appendChild(document.createElement('script')).src='http://<?php echo $_SERVER['HTTP_HOST'];$_SERVER['SERVER_NAME']; ?>/static/webace.js';}else{alert('Already Running')}})();">Launch WebAce</a></li>
           </ul>
       </div>

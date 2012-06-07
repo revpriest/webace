@@ -1,0 +1,27 @@
+<h1>Browser Compatibility</h1>
+<p><b>WebAce</b> does some fairly fancy stuff with
+cross domain ajax calls from Java-script, and these
+things aren't all supported well on all browsers.</p>
+<dl>
+  <dt>Firefox</dt>
+     <dd>Should all work!</dd>
+  <dt>Chrome</dt>
+     <dd>Should all work!</dd>
+  <dt>Safari</dt>
+     <dd>Should all work!</dd>
+  <dt>Internet Explorer</dt>
+     <dd>Internet Explorer does not allow cookies to be sent
+         over a cross-site ajax request. We do what we can with
+         a session ID.<br/>
+         This means that in IE you'll have to reset your
+         nickname/email/session stuff in general each time
+         you launch <b>WebAce</b> from any site other than
+         <b>WebAce</b> itself. You can do this quite quickly
+         with /save and /load session. Check the <a href="/?page=help">help
+         page</a> to learn how.</dd>
+  <dt>Opera</dt>
+     <dd>Opera bans all cross-domain javascript calls entirely.
+         Webace sill still work if launched on a webace page
+         itself, but will throw security errors if you launch
+         it on other web pages elsewhere.</dd>
+         </dd>

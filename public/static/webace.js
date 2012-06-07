@@ -424,11 +424,12 @@ function webaceSendMessage(params){
       data: data,
       error:function(a,b,c){
               webaceTicksSincePoll=0;
-              var error = "";
-              for(i in a){
-                  try{ error+="<b>"+i+"</b> => "+a[i]+"<br/>\n"; }catch(e){ }
-              }
-              webaceOutput("Server communication error:<br/><b>"+b+"</b><br/>"+error+"\n"+params['url']+":"+data);
+              //var error = "";
+              // for(i in a){
+              //    try{ error+="<b>"+i+"</b> => "+a[i]+"<br/>\n"; }catch(e){ }
+              //}
+              //webaceOutput("Server communication error:<br/><b>"+b+"</b><br/>"+error+"\n"+params['url']+":"+data);
+              webaceOutput("Communication error: "+a['statusText']);
       },
       success: function(json) {
         //Got the submit form, need to update our CSRF
