@@ -386,14 +386,17 @@ class CommentController extends Zend_Controller_Action
        * so they all call this. Even the pollAction, which does
        * very little lese.
        */
-
        $cookie = Application_Model_DbTable_Cookie::getUserCookie($this->getRequest()->getParam('cookie'));
-       $this->pollForm    = new Application_Form_Comment();
-       $e = $this->pollForm->getElement('csrf');
-       foreach($this->pollForm as $n=>$v){        //Only seems to give us the value when we inspect it first.
-         $a = "$n $v\n";
-       }
 
+       //Generate a new CSRF if this one is too old and tired.
+       $csrf = $this->getRequest()->getParam('csrf');
+       $csrfmapper = new Application_Model_CsrfhashMapper();
+       $age = $csrfmapper->findAge($cookie->getId(),$csrf);
+       if(($age==null)||($age>30)){
+         //Either no or old CSR, give a new one.
+         $csrf = Application_Model_Cookie::generateRandomKey();
+         $csrfObj=$csrfmapper->findOrCreate($cookie->getId(),$csrf);
+       }
        $url = addslashes($this->getRequest()->getParam('url'));
        $max = (int)($this->getRequest()->getParam('maxCommentId'));
        $min = (int)($this->getRequest()->getParam('minCommentId'));
@@ -427,7 +430,7 @@ class CommentController extends Zend_Controller_Action
                                           "comments"=>$this->comments,
                                           "success"=>"true",
                                           "url"=>$url,
-                                          "csrf"=>$this->pollForm->getValue('csrf')));
+                                          "csrf"=>$csrf));
        $this->getHelper('json')->sendJSON($sendArray);
     }
 

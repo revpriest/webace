@@ -14,6 +14,10 @@
   * bit may have to wait, it's complex, probably needs
   * some kinda X drivers or external API. For now
   * just grab the titles.
+  *
+  * I see this is likely to become a general
+  * clean-up type cron. Adding something to delete
+  * old unused CSRF hashes
   */
 
 defined('APPLICATION_PATH') || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
@@ -72,18 +76,29 @@ function getTitle($url) {
     return null;
 }
 
-
-$mapper = new Application_Model_UrlcacheMapper();
-echo "checking ".time()."\n";
-foreach($mapper->findAllUntitled() as $urlcache){
-  $url = $urlcache->getDomain().$urlcache->getPath();
-  $title = getTitle($url);
-  if($title==null){$title=$urlcache->getPath();}
-  echo "Setting title of $url to $title...\n"; 
-  $urlcache->setTitle($title);
-  $mapper->save($urlcache);
+/*******************************************
+* Delete unused CSRF hashes
+*/
+function deleteOldCsrf(){
+  $mapper = new Application_Model_CsrfhashMapper();
+  $delete = $mapper->getdbtable()->delete("created<date_sub(now(),interval 1 minute)");
 }
 
+function fillUrlCache(){
+  $mapper = new Application_Model_UrlcacheMapper();
+  echo "checking ".time()."\n";
+  foreach($mapper->findAllUntitled() as $urlcache){
+    $url = $urlcache->getDomain().$urlcache->getPath();
+    $title = getTitle($url);
+    if($title==null){$title=$urlcache->getPath();}
+    echo "Setting title of $url to $title...\n"; 
+    $urlcache->setTitle($title);
+    $mapper->save($urlcache);
+  }
+}
+
+fillUrlCache();
+deleteOldCsrf();
 
 
 

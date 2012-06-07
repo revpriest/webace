@@ -51,20 +51,47 @@ class Application_Model_CsrfhashMapper
     }
 
 
+
     /***************************************************
-    * Find a given hash, or if it's not there create it!
+    * Find Age - Find the age of a given hash.
     */ 
-    public function findOrCreate($cookie,$csrf) {
+    public function findAge($cookie,$csrf) {
+       $select = $this->getdbtable()->select()->from($this->getdbtable())->columns("(UNIX_TIMESTAMP(now())-UNIX_TIMESTAMP(created)) as age")->where("cookie='$cookie' and csrf='$csrf'");
+       $resultset = $this->getDbTable()->fetchAll($select);
+       if(sizeof($resultset)>0){
+          return $resultset[0]->age;
+       }
+       return null;
+    }
+
+
+    /***************************************************
+    * Find a given hash
+    */ 
+    public function find($cookie,$csrf) {
        $select = $this->getdbtable()->select()->where("cookie='$cookie' and csrf='$csrf'");
        $resultset = $this->getDbTable()->fetchAll($select);
        if(sizeof($resultset)>0){
           $csrfhash = $this->hydrateFromResult($resultset[0]);
+          return $csrfhash;
        }else{
+          return null;
+       }
+    }
+
+
+
+
+    /***************************************************
+    * Find a given hash, or if it's not there create it!
+    */ 
+    public function findOrCreate($cookie,$csrf) {
+       $csrfhash=$this->find($cookie,$csrf);
+       if($csrfhash==null){
           $csrfhash = new Application_Model_Csrfhash(array("cookie"=>$cookie,"csrf"=>$csrf));
           $this->save($csrfhash);
        }
        return $csrfhash;
-       
     }
 
     /***************************************************
@@ -119,7 +146,7 @@ class Application_Model_CsrfhashMapper
     * Take a DB result and build an object
     */
     function hydrateFromResult($row){
-       $entry = new Application_Model_Cookie();
+       $entry = new Application_Model_Csrfhash();
        $entry->setCookie($row->cookie)
              ->setCsrf($row->csrf)
              ->setCreated($row->created);
