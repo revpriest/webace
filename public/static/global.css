@@ -247,3 +247,10 @@ a:hover{
 a:visited{
   color: #66f;
 }
+dt{
+  color: red;
+  font-weight: bold;
+}
+dd{
+  padding-bottom: 1em;
+}
