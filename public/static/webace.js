@@ -410,15 +410,15 @@ function webaceSendMessage(params){
   } else {
     //Normal sensible way to do pre-fight and x domain requests.
     $.ajax({
-      type: "GET",
-      url: params['url']+"?"+data+'&cookie='+webaceGetCookie('cookieKey')+"&phpsessid="+webaceGetCookie('PHPSESSID'),
+      type: "POST",
+      url: params['url'],
       xhrFields: {
          withCredentials: true
       },
       crossDomain: true,
       dataType: "json",
       cache: false,
-//      data: data,
+      data: data,
       error:function(a,b,c){
               webaceTicksSincePoll=0;
               var error = "";

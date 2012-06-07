@@ -80,13 +80,14 @@ function getTitle($url) {
 * Delete unused CSRF hashes
 */
 function deleteOldCsrf(){
+  echo "  Deleting old stale CSRFs.";
   $mapper = new Application_Model_CsrfhashMapper();
   $delete = $mapper->getdbtable()->delete("created<date_sub(now(),interval 1 minute)");
 }
 
 function fillUrlCache(){
+  echo "  Filling URL Cache...";
   $mapper = new Application_Model_UrlcacheMapper();
-  echo "checking ".time()."\n";
   foreach($mapper->findAllUntitled() as $urlcache){
     $url = $urlcache->getDomain().$urlcache->getPath();
     $title = getTitle($url);
@@ -97,6 +98,7 @@ function fillUrlCache(){
   }
 }
 
+echo "checking ".time()."\n";
 fillUrlCache();
 deleteOldCsrf();
 
