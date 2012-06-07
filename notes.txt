@@ -1,10 +1,7 @@
-* Bloody IE!
-  * Right, IE can now send messages BUT there's still
-    a x site problem: Setting cookies doesn't work and
-    the already-set cookie is inaccessible when offsite.
-  * Need to run a fake cookie in IE's javascript
-   
-     
+* FINALLY! IE is working, as much as it can. It can't
+  do persistent identity across sites in which we pop
+  up the thing, but it can load a persistent ID so
+  that's just IE's lookout I guess. Get a better browser.
 
 
 
