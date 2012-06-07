@@ -11,6 +11,7 @@ var webaceCSRF = "";
 var webaceMaxCommentID = 0;
 var webaceFirstPoll=true;
 var webaceReplyUrl=null;
+var webaceFakeCookie = "EmptyFakeCookie";    //IE won't send session cookies, we have to keep track ourselves.
 var webaceServerDomain = "webace.dalliance.net";
 if(typeof(webaceServerDomainOverride)!='undefined'){
   var webaceServerDomain = webaceServerDomainOverride;
@@ -141,6 +142,7 @@ function webaceGetCookie(name) {
         while (c.charAt(0)==' ') c = c.substring(1,c.length);
         if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
     }
+    return webaceFakeCookie;
     return null;
 }
 
@@ -360,6 +362,7 @@ function webaceGetReplyUrl(){
 function webacePollResult(params,json){
   webaceTicksSincePoll=0;
   if(json['csrf']){ webaceCSRF=json['csrf'] };
+  if(json['setCookie']){ webaceFakeCookie=json['setCookie'] };
   if(json['comments']){webaceAddComments(json['comments'],params['domid']); }
   if(json['command']){
      webaceOutput("<i>System</i>: "+json['content']);
@@ -397,16 +400,16 @@ function webaceSendMessage(params){
   if ($.browser.msie && window.XDomainRequest) {
       // Use Microsoft XDR
       var xdr = new XDomainRequest();
-      xdr.open("POST", params['url']+"?"+data+'&cookie='+webaceGetCookie('cookieKey')+"&phpsessid="+webaceGetCookie('PHPSESSID'));
+      xdr.open("POST", params['url']);
       xdr.onload = function() {
-	  try{
-            json = jQuery.parseJSON(xdr.responseText);
-	    webacePollResult(params,json);
-	  }catch(e){
-	    webaceOutput("Reply:"+xdr.responseText);
-	  }
+	    try{
+          json = jQuery.parseJSON(xdr.responseText);
+	      webacePollResult(params,json);
+	    }catch(e){
+	      webaceOutput("Reply:"+xdr.responseText);
+	    }
       };
-      xdr.send(data);
+      xdr.send(data+'&cookieKey='+webaceGetCookie('cookieKey'));
   } else {
     //Normal sensible way to do pre-fight and x domain requests.
     $.ajax({

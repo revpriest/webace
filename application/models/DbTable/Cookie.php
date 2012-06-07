@@ -4,7 +4,7 @@ class Application_Model_DbTable_Cookie extends Zend_Db_Table_Abstract
 {
     protected $_name = 'cookie';
 
-    public static function getUserCookie($passedCookie=null){
+    public static function getUserCookie(){
       /******************************************************************
       * Get the cookie object for the current user. If they
       * didn't send us a cookie then we make a new one for 'em.
@@ -12,11 +12,10 @@ class Application_Model_DbTable_Cookie extends Zend_Db_Table_Abstract
       * we re-set the cookie to last another week!
       */
       $cookieKey=null;
-      if(isset($_COOKIE['cookieKey'])){
+      if(isset($_POST['cookieKey'])){
+        $cookieKey = $_POST['cookieKey'];
+      }else if(isset($_COOKIE['cookieKey'])){
         $cookieKey = $_COOKIE['cookieKey'];
-      }
-      if($passedCookie!=null){
-	$cookieKey=$passedCookie;
       }
       if((is_string($cookieKey))&&(strlen($cookieKey)>30)){
         //Look up a hopefully existing cookie.

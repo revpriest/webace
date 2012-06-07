@@ -1,38 +1,9 @@
-CURRENTLY:
-
-  * JS is sending through GET, even for good browsers
-  * CSRF hashes are insecure
-  * Session data is used so can't scale properly
-
-PLAN:
-  * Rebuild CSRF to use our own cookies, and multiple random hashes in the DB 
-  * Turn JS POST back on, it'll be ignoring Php Sess ID after that.
-
-
 * Bloody IE!
-  * Having faked enough of the IE stuff to get it to
-    actually send messages, we realize the crux of the
-    IE problem: CSRF was all bolloxed in the first place.
-    * Current system uses php sessions, which are bad, mkay,
-      coz they won't work once you go past a single headed
-      setup. Scaling up to a dozen Apache boxes? Not if
-      you use php sessions you aint. Not without fiddling
-      at any rate.
-    * So we need to rewrite the CSRF system, which means
-      storing CSRF tokens in the DB, attached to a cookie.
-    * CREATE TABLE IF NOT EXISTS `emailhash` (
-         `cookie` varchar(64) NOT NULL,
-         `csrf` varchar(64) NOT NULL,
-         `created` datetime NOT NULL,
-         PRIMARY KEY (`cookie`)
-       ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-    * Override the initCsrfValidatior:
-      * get rightHash from DB based on OUR session cookie!
-      * Change 'identical' to 'is any one of these that are less than two minutes old' or some such.
-    * Override initCsrfToken:
-      * Remove session stuff.
-    * Override generateHash:
-      * generate random and store that hash in the DB as well as $this->setValue();
+  * Right, IE can now send messages BUT there's still
+    a x site problem: Setting cookies doesn't work and
+    the already-set cookie is inaccessible when offsite.
+  * Need to run a fake cookie in IE's javascript
+   
      
 
 

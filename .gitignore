@@ -4,3 +4,4 @@ library/*
 application/configs/application.ini
 application/views/scripts/blogs
 application/views/scripts/blogs/*
+log.txt

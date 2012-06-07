@@ -37,8 +37,8 @@ class Webace_Form_Element_WebaceCSRF extends Zend_Form_Element_Hash
     {
         $cookieKey = $this->getCookieKey();
         if($cookieKey==null){
-            $this->addValidator('Identical', true, array(null));  //No CSRF even sent!
-            return $this;
+            print "No cookie provided";
+            exit;
         }
         $mapper = new Application_Model_CsrfhashMapper();
         $rightHashes = $mapper->findAllCsrfForUser($cookieKey);

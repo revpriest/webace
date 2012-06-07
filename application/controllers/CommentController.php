@@ -116,49 +116,18 @@ class CommentController extends Zend_Controller_Action
        * We then do a poll and send back the whole lot
        * as JSON.
        */
+        //IE doesn't sent a content-type header with X site requests,
+        //And PHP doesn't fill in $_POST if that happens. Fix it:
+        $request_body = urldecode(file_get_contents("php://input"));
+        parse_str($request_body, $_POST);
+
         $this->view->title="Submit Conversation";
         $this->allowAccessControl();
         $request = $this->getRequest();
         $form    = new Application_Form_Comment();
 
-	//*sigh*. Appologies for this....
-        //IE deliberately refuses to send any cookie data, and 
-        //as far as I can tell accidentally fails to send any
-        //POST data either. It's ALL gotta go in the GET part.
-	//
-	//We'll then have to FAKE a $_POST array, and bypass the
-	//isPost() function if it's IE coming in through the back
-	//door. Heh. Like the classic "Hippies use back door"
-	//sign, here IE will shuffle in the back while the
-	//presentable people can come in the front door as always.
-	//
-	//CSRF protection ought to take care of any nasty security
-	//bugs introducted here, and forcing the user to supply
-	//the cookie as a GET parameter too.
-        //
-        //Why you always end up having do to these horrible hacks with IE?
-        //I hate it. I don't even have a windows machine to test on, I'm
-        //having to run across the room to my girlfriend's computer to
-        //test and then run back to hack more every time it fails again.
-        //I was SO gonna release today. I was. I really was. Bah.
-	$fakePostArray = $request->getPost();
-    $isFakePost=false;
-	if($this->getRequest()->getParam('cookie')){
-	  $fakePostArray = array(); $isFakePost=false;
-	  //We'll fake a $_POST array, at least of the usual
-	  //parameters.
-	  $fakePostArray['cookie']=$this->getRequest()->getParam('cookie');
-	  $fakePostArray['content']=$this->getRequest()->getParam('content');
-	  $fakePostArray['csrf']=$this->getRequest()->getParam('csrf');
-	  $fakePostArray['url']=$this->getRequest()->getParam('url');
-	  $fakePostArray['submit']=$this->getRequest()->getParam('submit');
-	  $fakePostArray['phpsessid']=$this->getRequest()->getParam('phpsessid');
-	  $isFakePost=true;
-	}
-
-
-        if ($this->getRequest()->isPost() || $isFakePost) {
-            if ($form->isValid($fakePostArray)) {
+        if ($this->getRequest()->isPost()) {
+            if ($form->isValid($_POST)) {
                 $initVals = $form->getValues();
                 $initVals = $this->formDataToObjectData($initVals);
                 if(!is_array($initVals)){
@@ -281,6 +250,7 @@ class CommentController extends Zend_Controller_Action
              $newcookie = $mapper->duplicate($cookie);
              $mapper->save($newcookie);
              setcookie('cookieKey',$newcookie->getId(),time()+(7*24*60*60),"/");
+             $_POST['cookieKey']=$newcookie->getId();
              return "Restored session, welcome back ".$cookie->getNick();
            }
 
@@ -386,7 +356,7 @@ class CommentController extends Zend_Controller_Action
        * so they all call this. Even the pollAction, which does
        * very little lese.
        */
-       $cookie = Application_Model_DbTable_Cookie::getUserCookie($this->getRequest()->getParam('cookie'));
+       $cookie = Application_Model_DbTable_Cookie::getUserCookie();
 
        //Generate a new CSRF if this one is too old and tired.
        $csrf = $this->getRequest()->getParam('csrf');
@@ -429,6 +399,7 @@ class CommentController extends Zend_Controller_Action
        $sendArray = array_merge($jsonArray,array(
                                           "comments"=>$this->comments,
                                           "success"=>"true",
+                                          "setCookie"=>$cookie->getId(),
                                           "url"=>$url,
                                           "csrf"=>$csrf));
        $this->getHelper('json')->sendJSON($sendArray);
@@ -440,6 +411,11 @@ class CommentController extends Zend_Controller_Action
        * The poll action. We return a JSON object with data like
        * a lovely CSRF token and any new messages that popped up.
        */
+       //IE doesn't sent a content-type header with X site requests,
+       //And PHP doesn't fill in $_POST if that happens. Fix it:
+       $request_body = urldecode(file_get_contents("php://input"));
+       parse_str($request_body, $_POST);
+
        $this->view->title="Poll";
        $this->allowAccessControl();
        $this->doPollingStuffAndOutputJSON();
