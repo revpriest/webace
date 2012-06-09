@@ -1,16 +1,87 @@
-* FINALLY! IE is working, as much as it can. It can't
-  do persistent identity across sites in which we pop
-  up the thing, but it can load a persistent ID so
-  that's just IE's lookout I guess. Get a better browser.
+/*************************************************************
+* Oh, I just realized, my notes.txt file is on Githut these
+* days. Welcome!... I keep a file in lots of different
+* directories to remind me of stuff. Notes, on a directory.
+* The stuff in here is notes on the coding either coming
+* up or planned or recently done in the project WebAce.
+*
+* Patches to this file will be accepted only if they
+* meet the stringent and completely unwritten spec
+* that lives nowhere other than in my head. But if
+* you really do have something that should be written
+* here, then do so, I'll either edit it to the right
+* arbitrary format or refuse it.
+*/
+
+
+
+* People are saying they're getting double-messages.
+  I guess we can keep an array of all messages ID
+  in the jquery part and only actually add things
+  if they're not already there.
+
+* Things learned from day one:
+  * Blog topic: Percent of first day messages that look like attacks
+  * Really a MASSIVE time-suck!
+  * Double-messages
+  * iPad not doing scrolly divs
+  * That dude what said "add line-breaks" was right. 
+    * Multi-line posts are needed. Which means shifting
+      the interface to a text-area I guess? Which
+      I don't like.
+      * Maybe shift-return TURNS it into a textarea?
+  * "it looks 90s" 
+    * That's a weird one, since it's using so many naughties
+      CSS things: drop-shadows, web-fonts, animating divs,
+      no graphics files.
+    * May just be the colour scheme. Perhaps we used up all
+      4096 3-digit colours in the 90s?
+    * Better .css file would be good though. A competition?
+      Need popularity first.
+    * Select the .css files from a set? Make it themeable?
+      * Adding a twitter-bootstrap one should should most people up.
+    ***
+      * Well how SHOULD it look? I admit the colour was chosen
+        for it's hex representation rather than it's response
+        in the eyeball.
+        * Pallet from a .jpeg photo?
+        * I mean it needs to match EVERY WEBSITE! Is that possible?
+          * Black/white? 
+            * Monochrome based on current CSS? Is that possible?
+    * Mostly just THEMES. Certainly THEMES.
+
+
+  * I wanted to click URLS to see what had been posted to
+    that URL rather than to 'everywhere' as I had the main 
+    window set to. 
+    * Maybe have 'mode' tracked in client? 
+     * If we had client-mode=-0, when would that get changed?
+    * Launch URL starts with client-mode=0, but still gets
+      changed by /load or /mode etc.
+      * TICK!
+    * AHAH! It shows only PREVIOUS posts from the
+      current page but ALL posts from future pages!
+      Yes!
+  
+
+
+* 
 
 
 
 Things to do later:
+* Fix big images
+* Scroll only when at bottom already?
+  * Or only when option turned on.
 * Private chat.
   * 
+* Alert when new messages
+  * Audio
+  * Visible in top-bar
 * Add auto-post-to-email
 * Add auto-post-to-twitter
 * Add auto-post-to-facebook
+* Auto-notification (to email?) with replies
 * Add avatar for those with certain nicks??
 * Spam filters, inevitably, eventually.
 * User-lists: view all stuff by this list of users
@@ -27,5 +98,4 @@ Things to do later:
     * Force it to lock into mode 1, and lock to a random non-url URL.
     * Need a way to make the messages private to all but Webmaster and Minions
     * Yeah, comes after, and using, some kinda Private Chat function.
-
 

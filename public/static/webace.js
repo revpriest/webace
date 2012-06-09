@@ -11,6 +11,7 @@ var webaceCSRF = "";
 var webaceMaxCommentID = 0;
 var webaceFirstPoll=true;
 var webaceReplyUrl=null;
+var webacePrintedComments={};
 var webaceFakeCookie = "EmptyFakeCookie";    //IE won't send session cookies, we have to keep track ourselves.
 var webaceServerDomain = "webace.dalliance.net";
 if(typeof(webaceServerDomainOverride)!='undefined'){
@@ -226,7 +227,10 @@ function webaceAddComments(comments,domid){
   }
   for(var n=comments.length-1;n>=0;n--){
     var c = comments[n];
-    webaceOutput(webaceFormatReply(c),domid,true);
+    if(webacePrintedComments[c['id']]!=1){
+      webacePrintedComments[c['id']]=1
+      webaceOutput(webaceFormatReply(c),domid,true);
+    }
     if(parseInt(c['id'])>webaceMaxCommentID){webaceMaxCommentID=parseInt(c['id']);}
   }
   if((comments.length>0)&&(domid==null)){
