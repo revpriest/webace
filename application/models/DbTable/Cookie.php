@@ -26,8 +26,7 @@ class Application_Model_DbTable_Cookie extends Zend_Db_Table_Abstract
         }
       }
       //For one reason or another we can't trace their
-      //Cookie. Best make a new one, so we send 'null' to
-      //let the model make one up.
+      //Cookie. Make up a new one.
       return Application_Model_Cookie::makeNewCookie();
     }
 

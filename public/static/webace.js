@@ -11,6 +11,7 @@ var webaceCSRF = "";
 var webaceMaxCommentID = 0;
 var webaceFirstPoll=true;
 var webaceReplyUrl=null;
+var webaceAutoScroll=true;
 var webacePrintedComments={};
 var webaceFakeCookie = "EmptyFakeCookie";    //IE won't send session cookies, we have to keep track ourselves.
 var webaceServerDomain = "webace.dalliance.net";
@@ -161,9 +162,21 @@ function webaceOutput(text,domid,inhibitScroll){
   }
   dom.append(text+"<hr/>");
   if(inhibitScroll==null){
+    webaceScrollToBottom(dom);
+  }
+}
+
+
+/********************************************
+* We scroll to the bottom if auto-scroll is
+* turned on.
+*/
+function webaceScrollToBottom(dom){
+  if(webaceAutoScroll){
     dom.animate({scrollTop: dom.prop("scrollHeight")},500);
   }
 }
+
 
 
 /***************************************************
@@ -235,7 +248,7 @@ function webaceAddComments(comments,domid){
   }
   if((comments.length>0)&&(domid==null)){
       var dom=$("#webaceContent");
-      dom.animate({scrollTop: dom.prop("scrollHeight")},500);
+      webaceScrollToBottom(dom);
   }
   
 }
@@ -270,6 +283,10 @@ function webaceDoCommand(wholeCommand){
       case "csrf":
         webaceOutput("Current CSRF: "+webaceCSRF);
         break;
+      case "autoscroll":
+        webaceAutoScroll=!webaceAutoScroll;
+        webaceOutput("Toggled Autoscroll To: "+webaceAutoScroll);
+        break;
       case "cookie":
         webaceOutput("Current Auth Cookie: "+webaceGetCookie('cookieKey'));
         break;
@@ -280,7 +297,7 @@ function webaceDoCommand(wholeCommand){
         webaceOutput("Current Top Post ID: "+webaceMaxCommentID);
         break;
       case "replyurl":
-          webaceOutput("Current Reply-Url: "+webaceGetReplyUrl());
+        webaceOutput("Current Reply-Url: "+webaceGetReplyUrl());
         break;
       default:
         return false;

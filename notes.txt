@@ -14,11 +14,9 @@
 */
 
 
+* Notification image (and noise?)
+* Scroll only when at bottom.
 
-* People are saying they're getting double-messages.
-  I guess we can keep an array of all messages ID
-  in the jquery part and only actually add things
-  if they're not already there.
 
 * Things learned from day one:
   * Blog topic: Percent of first day messages that look like attacks

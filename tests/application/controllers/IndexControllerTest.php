@@ -19,7 +19,7 @@ class IndexControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertModule($params['module']);
         $this->assertController($params['controller']);
         $this->assertAction($params['action']);
-        $this->assertQueryContentContains("div#welcome h3", "This is your project's main page");
+        $this->assertQueryContentContains("div#content h1", "Welcome");
     }
 
     public function testLogoutAction()
@@ -33,42 +33,12 @@ class IndexControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertController($params['controller']);
         $this->assertAction($params['action']);
         $this->assertQueryContentContains(
-            'div#view-content p',
-            'View script for controller <b>' . $params['controller'] . '</b> and script/action name <b>' . $params['action'] . '</b>'
+            'div#content h1',
+            'Logged Out'
             );
     }
 
-    public function testShowMessageAction()
-    {
-        $params = array('action' => 'showMessage', 'controller' => 'Index', 'module' => 'default');
-        $url = $this->url($this->urlizeOptions($params));
-        $this->dispatch($url);
-        
-        // assertions
-        $this->assertModule($params['module']);
-        $this->assertController($params['controller']);
-        $this->assertAction($params['action']);
-        $this->assertQueryContentContains(
-            'div#view-content p',
-            'View script for controller <b>' . $params['controller'] . '</b> and script/action name <b>' . $params['action'] . '</b>'
-            );
-    }
 
-    public function testPollAction()
-    {
-        $params = array('action' => 'poll', 'controller' => 'Index', 'module' => 'default');
-        $url = $this->url($this->urlizeOptions($params));
-        $this->dispatch($url);
-        
-        // assertions
-        $this->assertModule($params['module']);
-        $this->assertController($params['controller']);
-        $this->assertAction($params['action']);
-        $this->assertQueryContentContains(
-            'div#view-content p',
-            'View script for controller <b>' . $params['controller'] . '</b> and script/action name <b>' . $params['action'] . '</b>'
-            );
-    }
 
     public function testLaunchAction()
     {
@@ -80,10 +50,7 @@ class IndexControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertModule($params['module']);
         $this->assertController($params['controller']);
         $this->assertAction($params['action']);
-        $this->assertQueryContentContains(
-            'div#view-content p',
-            'View script for controller <b>' . $params['controller'] . '</b> and script/action name <b>' . $params['action'] . '</b>'
-            );
+        $this->assertQueryCount( 'iframe#webaceLaunchContent',1);
     }
 
 

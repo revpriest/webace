@@ -37,8 +37,7 @@ class Webace_Form_Element_WebaceCSRF extends Zend_Form_Element_Hash
     {
         $cookieKey = $this->getCookieKey();
         if($cookieKey==null){
-            print "No cookie provided";
-            exit;
+          $cookieKey = Application_Model_Cookie::generateRandomKey();
         }
         $mapper = new Application_Model_CsrfhashMapper();
         $rightHashes = $mapper->findAllCsrfForUser($cookieKey);

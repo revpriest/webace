@@ -6,7 +6,7 @@ defined('APPLICATION_PATH')
 
 // Define application environment
 defined('APPLICATION_ENV')
-    || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'testing'));
+    || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'development'));
 
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
@@ -20,3 +20,4 @@ Zend_Loader_Autoloader::getInstance();
 //Pre - Add something to make the 'get host' work in test env.
 $_SERVER['HTTP_HOST'] = "webacedevdev.dalliance.net";
 $_SERVER['SERVER_NAME'] = "webacedevdev.dalliance.net";
+$_SERVER['REMOTE_ADDR'] = "127.0.0.1";

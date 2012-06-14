@@ -165,5 +165,15 @@ class Application_Model_CommentMapper{
       }
        return $entry;
     }
+
+    /************************************************
+    * Get the number of messages in the whole database.
+    */
+    public function getMaxMessageId(){
+      $select=$this->getDbTable()->select()->from($this->getdbtable())->columns("max(id)")->limit(1);
+      $res = $this->getDbTable()->fetchAll($select);
+      if(sizeof($res)<0){return 0;}
+      return $res[0]->id;
+    }
 }
 

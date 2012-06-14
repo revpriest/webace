@@ -52,6 +52,8 @@ class Application_Model_CookieMapper{
             'updated'  => date('Y-m-d H:i:s'),
         );
 
+
+
         if ((!isset($data['id']))||($data['id'] === 0)||($data['id']===null)||($data['id']=="")) {
             $data['id'] = Application_Model_Cookie::generateRandomKey();
             $cookie->setId($data['id']);

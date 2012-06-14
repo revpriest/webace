@@ -43,22 +43,7 @@ class BlogController extends Zend_Controller_Action
       /***************************************************************
       * Fetch an array with all the blogs in it.
       */
-       $blogs = array();
-       $handler = opendir("../application/views/scripts/blogs");
-       while ($file = readdir($handler)) {
-         if(preg_match("/^(\d\d\d\d)(\d\d)(\d\d)\-(.*)\.phtml$/",$file,&$reg)){
-            $blog = array();
-            $blog['fulldate']=$reg[1].$reg[2].$reg[3];
-            $blog['year']=$reg[1];
-            $blog['month']=$reg[2];
-            $blog['day']=$reg[3];
-            $blog['title']=$reg[4];
-            $blog['file']=$file;
-            $blogs[] = $blog;
-         }
-       }
-       closedir($handler);
-       usort($blogs,function($b1,$b2){return -strcmp($b1['fulldate'],$b2['fulldate']);});
+       $blogs = Application_Model_Blog::getBlogList();
        return $blogs;
     }
 

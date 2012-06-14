@@ -20,8 +20,8 @@ class CommentControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertController($params['controller']);
         $this->assertAction($params['action']);
         $this->assertQueryContentContains(
-            'div#view-content p',
-            'View script for controller <b>' . $params['controller'] . '</b> and script/action name <b>' . $params['action'] . '</b>'
+            'div#content h1',
+            'Latest Messages'
             );
     }
 
@@ -36,26 +36,11 @@ class CommentControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertController($params['controller']);
         $this->assertAction($params['action']);
         $this->assertQueryContentContains(
-            'div#view-content p',
-            'View script for controller <b>' . $params['controller'] . '</b> and script/action name <b>' . $params['action'] . '</b>'
+            'dt#url-label',
+            'The URL of the page you are commenting on:'
             );
     }
 
-    public function testSubmit2Action()
-    {
-        $params = array('action' => 'submit2', 'controller' => 'Comment', 'module' => 'default');
-        $url = $this->url($this->urlizeOptions($params));
-        $this->dispatch($url);
-        
-        // assertions
-        $this->assertModule($params['module']);
-        $this->assertController($params['controller']);
-        $this->assertAction($params['action']);
-        $this->assertQueryContentContains(
-            'div#view-content p',
-            'View script for controller <b>' . $params['controller'] . '</b> and script/action name <b>' . $params['action'] . '</b>'
-            );
-    }
 
     public function testPollAction()
     {
@@ -67,10 +52,10 @@ class CommentControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertModule($params['module']);
         $this->assertController($params['controller']);
         $this->assertAction($params['action']);
-        $this->assertQueryContentContains(
-            'div#view-content p',
-            'View script for controller <b>' . $params['controller'] . '</b> and script/action name <b>' . $params['action'] . '</b>'
-            );
+        $json = $this->getResponse()->getBody();
+        if(!preg_match("/comments.*success.*setCookie.*url/",$json)){
+           $this->fail("Poll system failing to return JSON.");
+        }
     }
 
     public function testHotconversationsAction()
@@ -84,14 +69,17 @@ class CommentControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertController($params['controller']);
         $this->assertAction($params['action']);
         $this->assertQueryContentContains(
-            'div#view-content p',
-            'View script for controller <b>' . $params['controller'] . '</b> and script/action name <b>' . $params['action'] . '</b>'
+            'div#content h1',
+            'Hot Conversations'
             );
     }
 
     public function testUserAction()
     {
-        $params = array('action' => 'user', 'controller' => 'Comment', 'module' => 'default');
+        $m = new Application_Model_CommentMapper();
+        $mid = $m->getMaxMessageId();
+        
+        $params = array('action' => 'user', 'controller' => 'Comment', 'module' => 'default', 'mid'=>$mid);
         $url = $this->url($this->urlizeOptions($params));
         $this->dispatch($url);
         
@@ -100,14 +88,16 @@ class CommentControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertController($params['controller']);
         $this->assertAction($params['action']);
         $this->assertQueryContentContains(
-            'div#view-content p',
-            'View script for controller <b>' . $params['controller'] . '</b> and script/action name <b>' . $params['action'] . '</b>'
+            'h1#userTitle',
+            "User's Messages:"
             );
     }
 
     public function testShowAction()
     {
-        $params = array('action' => 'show', 'controller' => 'Comment', 'module' => 'default');
+        $m = new Application_Model_CommentMapper();
+        $id = $m->getMaxMessageId();
+        $params = array('action' => 'show', 'controller' => 'Comment', 'module' => 'default', 'id'=> $id);
         $url = $this->url($this->urlizeOptions($params));
         $this->dispatch($url);
         
@@ -116,8 +106,8 @@ class CommentControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertController($params['controller']);
         $this->assertAction($params['action']);
         $this->assertQueryContentContains(
-            'div#view-content p',
-            'View script for controller <b>' . $params['controller'] . '</b> and script/action name <b>' . $params['action'] . '</b>'
+            'div#content h3',
+            'Single Message'
             );
     }
 

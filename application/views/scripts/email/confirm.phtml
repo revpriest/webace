@@ -1,7 +1,6 @@
-<div id="view-content">
+ <h1>Email Confirmation</h1> 
   <?php if($this->hash===false): ?>
 	 <p>Sorry, that's not a valid confirmation link.</p>
   <?php else: ?>
 	 <p>Thanks for confirming the email <?php echo $this->hash->getEmail() ?>.<br/>That session is no longer anonymous.</p>
   <?php endif; ?>
-</div>

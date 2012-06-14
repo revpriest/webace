@@ -24,7 +24,12 @@ class IndexController extends Zend_Controller_Action
         * Logout, just clear the cookie basically.
         */
         $this->view->title="Logout";
-        setcookie('cookieKey',"Logout",time()+(7*24*60*60),"/");
+        try{
+          setcookie('cookieKey',"Logout",time()+(7*24*60*60),"/");
+        }catch(Exception $e){
+          //Can't set cookie? probably coz we're not in a browser,
+          //we're just running a unit test. Ignore that.
+        }
     }
 
     public function launchAction()

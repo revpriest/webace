@@ -63,8 +63,11 @@ class CommentController extends Zend_Controller_Action
       * slasshes, it's invalid.
       */
       $firstslash = strpos($url,"/");
+      if($firstslash===false){return "Not a valid URL";}
       $secondslash = strpos($url,"/",$firstslash+1);
+      if($secondslash===false){return "Not a valid URL";}
       $thirdslash = strpos($url,"/",$secondslash+1);
+      if($thirdslash===false){return "Not a valid URL";}
       if($thirdslash===false){
         return "Comment can't be attached to this invalid URL: ".$url;
       }
@@ -131,8 +134,7 @@ class CommentController extends Zend_Controller_Action
                 $initVals = $form->getValues();
                 $initVals = $this->formDataToObjectData($initVals);
                 if(!is_array($initVals)){
-                    print "Error: $initVals";
-                    exit;
+                    throw new Exception("Can't initialize form data");
                 }
 
                 if(substr($initVals['content'],0,1)=="/"){
@@ -443,6 +445,9 @@ class CommentController extends Zend_Controller_Action
           //Two: Passed a message and told "The guy who wrote this"
           $messageId = $this->getRequest()->getParam('mid');
           $message = $mapper->find($messageId);
+          if($message==null){
+            throw new Exception("Can't find that message");
+          }
           $viewUserCookie=$message->getCookieObject();
           $nick = $message->getNick();
           if($this->getRequest()->getParam("nick")){
@@ -452,8 +457,7 @@ class CommentController extends Zend_Controller_Action
              $nick=null;
           }
         }else{
-          print "Which user exactly? Which nick? You're so smart YOU TELL ME!";
-          exit;  #Neither! How rude!
+          throw new Exception("User not specified");
         }
 
         //All the nicks this user ever used!
@@ -495,8 +499,7 @@ class CommentController extends Zend_Controller_Action
         $mapper = new Application_Model_CommentMapper();
         $messageId = $this->getRequest()->getParam('id');
         if($messageId==null){
-          print "I'll show you no message at all! Just as you asked:";
-          exit;
+          throw new Exception("No Message Specified");
         }
         $message = $mapper->find($messageId);
         $viewUserCookie=$message->getCookieObject();

@@ -27,7 +27,13 @@ class BlogControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
 
     public function testShowAction()
     {
-        $params = array('action' => 'show', 'controller' => 'Blog', 'module' => 'default');
+        //Grab a blog file to test with, any old random one.
+        $blogs = Application_Model_Blog::getBlogList();
+        if(sizeof($blogs)<0){
+          return;
+        }
+    
+        $params = array('action' => 'show', 'controller' => 'Blog', 'module' => 'default', 'id'=>$blogs[0]['file']);
         $url = $this->url($this->urlizeOptions($params));
         $this->dispatch($url);
         
@@ -36,8 +42,8 @@ class BlogControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertController($params['controller']);
         $this->assertAction($params['action']);
         $this->assertQueryContentContains(
-            'div#view-content p',
-            'View script for controller <b>' . $params['controller'] . '</b> and script/action name <b>' . $params['action'] . '</b>'
+            'div#header-logo h1',
+            'WebAce'
             );
     }
 

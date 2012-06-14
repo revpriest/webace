@@ -1,4 +1,5 @@
-<?php /********************************************************
+<?php
+ /********************************************************
 * The actual model class. Coming from Symfony it's weird
 * to me that I had to actually create the content of this
 * file by hand. What's the point of the "zf create model"
@@ -199,7 +200,12 @@ class Application_Model_Cookie {
       $mapper = new Application_Model_CookieMapper();
       $mapper->save($cookie);
       $cookieKey = $cookie->getId();
-      setcookie('cookieKey',$cookieKey,time()+(7*24*60*60),"/");
+      try{
+        setcookie('cookieKey',$cookieKey,time()+(7*24*60*60),"/");
+      }catch(Exception $e){
+        //If we're running tests we can't set cookies. Ignore
+        //errors here I guess.
+      }
       return $cookie;
     }
 
