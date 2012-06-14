@@ -16,3 +16,7 @@ set_include_path(implode(PATH_SEPARATOR, array(
 
 require_once 'Zend/Loader/Autoloader.php';
 Zend_Loader_Autoloader::getInstance();
+
+//Pre - Add something to make the 'get host' work in test env.
+$_SERVER['HTTP_HOST'] = "webacedevdev.dalliance.net";
+$_SERVER['SERVER_NAME'] = "webacedevdev.dalliance.net";
