@@ -171,6 +171,14 @@ class Application_Model_CookieMapper{
              ->setCreated($row->created)
              ->setUpdated($row->updated);
         return $entry;
-    } 
+    }
+
+ 
+    /***************************************************
+    * Delete a given cookie from the DB.
+    */ 
+    public function delete($cookie) {
+      $delete = $this->getdbtable()->delete("id='".$cookie->getId()."'");
+    }
 }
 
